@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="luis">
+        <createTable tableName="component_types">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="luis">
+        <createTable tableName="component_types_subtypes">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="component_type_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="component_type_id"
+                                 baseTableName="component_types_subtypes"
+                                 constraintName="fk_component_type_subtype_component_type"
+                                 referencedColumnNames="id"
+                                 referencedTableName="component_types"/>
+    </changeSet>
+
+    <changeSet id="3" author="luis">
+        <createTable tableName="salary">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="correlation_id" type="VARCHAR(255)"/>
+            <column name="acceptance_date" type="DATE"/>
+            <column name="implementation_date" type="DATE"/>
+            <column name="salary_state" type="VARCHAR(50)"/>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="luis">
+        <createTable tableName="salary_components">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="component_type_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="component_type_subtype_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="DOUBLE"/>
+            <column name="present_on_receipt" type="BOOLEAN"/>
+            <column name="salary_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="component_type_id"
+                                 baseTableName="salary_components"
+                                 constraintName="fk_salary_component_component_type"
+                                 referencedColumnNames="id"
+                                 referencedTableName="component_types"/>
+
+        <addForeignKeyConstraint baseColumnNames="component_type_subtype_id"
+                                 baseTableName="salary_components"
+                                 constraintName="fk_salary_component_component_type_subtype"
+                                 referencedColumnNames="id"
+                                 referencedTableName="component_types_subtypes"/>
+
+        <addForeignKeyConstraint baseColumnNames="salary_id"
+                                 baseTableName="salary_components"
+                                 constraintName="fk_salary_component_salary"
+                                 referencedColumnNames="id"
+                                 referencedTableName="salary"/>
+    </changeSet>
+
+    <changeSet id="5" author="luis">
+        <createSequence sequenceName="revinfo_seq" minValue="1" startValue="1" incrementBy="50"/>
+
+        <createTable tableName="revinfo">
+            <column name="rev" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revtstmp" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6" author="luis">
+        <createTable tableName="component_types_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="REV" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REVTYPE" type="SMALLINT"/>
+        </createTable>
+        <addPrimaryKey columnNames="id, REV" tableName="component_types_aud" constraintName="pk_component_types_aud"/>
+
+        <addForeignKeyConstraint baseTableName="component_types_aud"
+                                 baseColumnNames="REV"
+                                 referencedTableName="revinfo"
+                                 referencedColumnNames="rev"
+                                 constraintName="fk_component_types_aud_revinfo"/>
+    </changeSet>
+
+    <changeSet id="7" author="luis">
+        <createTable tableName="component_types_subtypes_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="TINYINT"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="component_type_id" type="BIGINT"/>
+        </createTable>
+        <addPrimaryKey columnNames="id, rev" tableName="component_types_subtypes_aud"/>
+
+        <addForeignKeyConstraint baseColumnNames="rev"
+                                 baseTableName="component_types_subtypes_aud"
+                                 constraintName="fk_component_types_subtypes_aud_rev"
+                                 referencedColumnNames="rev"
+                                 referencedTableName="revinfo"/>
+    </changeSet>
+
+    <changeSet id="8" author="luis">
+        <createTable tableName="salary_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="TINYINT"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="correlation_id" type="VARCHAR(255)"/>
+            <column name="acceptance_date" type="DATE"/>
+            <column name="implementation_date" type="DATE"/>
+            <column name="salary_state" type="VARCHAR(50)"/>
+        </createTable>
+        <addPrimaryKey columnNames="id, rev" tableName="salary_aud"/>
+
+        <addForeignKeyConstraint baseColumnNames="rev"
+                                 baseTableName="salary_aud"
+                                 constraintName="fk_salary_aud_rev"
+                                 referencedColumnNames="rev"
+                                 referencedTableName="revinfo"/>
+    </changeSet>
+
+    <changeSet id="9" author="luis">
+        <createTable tableName="salary_components_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="TINYINT"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="component_type_id" type="BIGINT"/>
+            <column name="component_type_subtype_id" type="BIGINT"/>
+            <column name="value" type="DOUBLE"/>
+            <column name="present_on_receipt" type="BOOLEAN"/>
+            <column name="salary_id" type="BIGINT"/>
+        </createTable>
+        <addPrimaryKey columnNames="id, rev" tableName="salary_components_aud"/>
+
+        <addForeignKeyConstraint baseColumnNames="rev"
+                                 baseTableName="salary_components_aud"
+                                 constraintName="fk_salary_components_aud_rev"
+                                 referencedColumnNames="rev"
+                                 referencedTableName="revinfo"/>
+    </changeSet>
+
+</databaseChangeLog>

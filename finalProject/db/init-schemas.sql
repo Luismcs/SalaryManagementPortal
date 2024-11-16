@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS authentication;
+CREATE SCHEMA IF NOT EXISTS collaborator;
+CREATE SCHEMA IF NOT EXISTS salarymanagement;
