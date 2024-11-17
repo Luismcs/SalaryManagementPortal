@@ -2,6 +2,7 @@ package com.finalproject.salarymanagement.service.impl;
 
 import com.finalproject.salarymanagement.model.Salary;
 import com.finalproject.salarymanagement.model.SalaryComponent;
+import com.finalproject.salarymanagement.publisher.SalaryReportExportPublisher;
 import com.finalproject.salarymanagement.repository.SalaryRepository;
 import com.finalproject.salarymanagement.service.ReportService;
 import jakarta.servlet.ServletOutputStream;
@@ -21,9 +22,11 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
 
     private final SalaryRepository salaryRepository;
+    private final SalaryReportExportPublisher salaryReportExportPublisher;
 
-    public ReportServiceImpl(SalaryRepository salaryRepository) {
+    public ReportServiceImpl(SalaryRepository salaryRepository, SalaryReportExportPublisher salaryReportExportPublisher) {
         this.salaryRepository = salaryRepository;
+        this.salaryReportExportPublisher = salaryReportExportPublisher;
     }
 
     private HSSFFont getArialBoldFont(HSSFWorkbook workbook) {
@@ -165,6 +168,8 @@ public class ReportServiceImpl implements ReportService {
         } finally {
             workbook.close();
         }
+
+        salaryReportExportPublisher.publishExportEvent(fileName);
 
     }
 

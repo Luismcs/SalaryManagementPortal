@@ -1,4 +1,13 @@
 services:
+  rabbitmq:
+    image: rabbitmq:4.0.3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
   postgres:
     image: postgres:latest
     environment:
@@ -13,7 +22,7 @@ services:
 
   authentication:
     build: ./authentication/authentication
-    container_name: authentication-service-final
+    container_name: authentication-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finalproject
       SPRING_DATASOURCE_USERNAME: postgres
@@ -42,16 +51,36 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finalproject
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: post123
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
     ports:
       - "8083:8083"
     volumes:
       - shared-files:/app/shared
     depends_on:
       - postgres
+      - rabbitmq
+
+  mail-gateway:
+    build: ./mail-gateway/mail-gateway
+    container_name: mail-gateway-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finalproject
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: post123
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+    ports:
+      - "8084:8084"
+    volumes:
+      - shared-files:/app/shared
+    depends_on:
+      - postgres
+      - rabbitmq
 
   portal:
     build: ./portal/portal
-    container_name: portal-service-final
+    container_name: portal-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finalproject
       SPRING_DATASOURCE_USERNAME: postgres
@@ -63,6 +92,7 @@ services:
       - authentication
       - collaborator-information
       - salary-management
+      - mail-gateway
 
 volumes:
   postgres_data:

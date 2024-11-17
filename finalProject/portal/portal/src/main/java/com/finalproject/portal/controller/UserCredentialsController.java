@@ -1,7 +1,5 @@
 package com.finalproject.portal.controller;
 
-
-import com.finalproject.portal.dto.CollaboratorDTO;
 import com.finalproject.portal.dto.UserCredentialsDTO;
 import com.finalproject.portal.service.UserCredentialsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;

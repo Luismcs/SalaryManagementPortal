@@ -9,7 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "authentication-service", url = "${authentication.service.url}", configuration = AuthenticationClientErrorDecoder.class)
+@FeignClient(name = "authentication-service-final", url = "${authentication.service.url}", configuration =
+        AuthenticationClientErrorDecoder.class)
 public interface AuthenticationClient {
 
     @PostMapping("/sign-in")
