@@ -66,6 +66,14 @@ Provides CRUD operations for managing salary components, including endpoints to 
 
 ---
 
+#### `Salaries`
+Provides CRUD operations for managing salaries, including endpoints to create, read, update, and delete salary records. Additionally, it includes an endpoint to approve salaries:
+
+- **Approval**: Approves a salary by its ID, ensuring it meets the required conditions.
+
+---
+
+
 ## Project Setup
 
 ### Prerequisites
