@@ -82,6 +82,23 @@ Provides endpoints for generating and exporting salary reports. The generated re
 
 ---
 
+### MailGateway Microservice
+
+#### `Salary Export Listener`
+- Listens to messages from the `export-salaries-queue` RabbitMQ queue.
+- Sends an email with the attached salary report file to the specified recipient.
+
+#### `Salary Filtered Export Listener`
+- Listens to messages from the `export-filtered-salaries-queue` RabbitMQ queue.
+- Sends an email with the attached filtered salary report file to the specified recipient.
+
+#### `Email Service`
+- Manages email creation and sending with support for file attachments.
+- Retrieves the file from the configured file path, attaches it, and sends the email to the specified recipient.
+- Stores email metadata, including subject, recipient, and body, in the database for tracking and auditing.
+
+---
+
 
 ## Project Setup
 
