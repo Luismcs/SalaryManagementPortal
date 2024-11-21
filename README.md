@@ -53,6 +53,19 @@ Provides CRUD operations for managing collaborators, including endpoints to crea
 
 ---
 
+### SalaryManagement Client (FeignClient)
+
+#### `Component Types`
+Provides CRUD operations for managing component types, allowing users to create, read, update, and delete component type records.
+
+#### `Component Type Subtypes`
+Provides CRUD operations for managing component type subtypes, enabling users to create, read, update, and delete component type subtype records.
+
+#### `Salary Components`
+Provides CRUD operations for managing salary components, including endpoints to create, read, update, and delete salary component records.
+
+---
+
 ## Project Setup
 
 ### Prerequisites
