@@ -8,11 +8,12 @@ import com.finalproject.salarymanagement.mapper.ComponentTypeMapper;
 import com.finalproject.salarymanagement.model.ComponentType;
 import com.finalproject.salarymanagement.repository.ComponentTypeRepository;
 import com.finalproject.salarymanagement.service.ComponentTypeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 public class ComponentTypeServiceImpl implements ComponentTypeService {
 
@@ -33,6 +34,9 @@ public class ComponentTypeServiceImpl implements ComponentTypeService {
         ComponentType componentType =
                 componentTypeRepository.findById(id).orElseThrow(() -> new ComponentTypeNotFoundException
                         (ErrorResponseCode.COMPONENT_TYPE_NOT_FOUND, 404, ErrorMessage.COMPONENT_TYPE_NOT_FOUND, id));
+
+        log.info("Component Type with id {} returned successfully", id);
+
         return componentTypeMapper.toDto(componentType);
     }
 
@@ -48,6 +52,9 @@ public class ComponentTypeServiceImpl implements ComponentTypeService {
                         , 404, ErrorMessage.COMPONENT_TYPE_NOT_FOUND, componentTypeDTO.getId()));
         ComponentType updated = componentTypeMapper.toEntity(componentTypeDTO);
         ComponentType saved = componentTypeRepository.save(updated);
+
+        log.info("Component Type with id {} created successfully", saved.getId());
+
         return componentTypeMapper.toDto(saved);
     }
 
@@ -57,6 +64,8 @@ public class ComponentTypeServiceImpl implements ComponentTypeService {
                         new ComponentTypeNotFoundException(ErrorResponseCode.COMPONENT_TYPE_NOT_FOUND
                                 , 404, ErrorMessage.COMPONENT_TYPE_NOT_FOUND, id));
         componentTypeRepository.delete(componentType);
+
+        log.info("Component Type with id {} deleted successfully", id);
     }
 
 }

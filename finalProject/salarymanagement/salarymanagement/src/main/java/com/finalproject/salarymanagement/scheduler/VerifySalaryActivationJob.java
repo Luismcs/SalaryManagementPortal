@@ -19,5 +19,4 @@ public class VerifySalaryActivationJob implements Job {
         salaryService.verifySalaryImplementation();
     }
 
-
 }

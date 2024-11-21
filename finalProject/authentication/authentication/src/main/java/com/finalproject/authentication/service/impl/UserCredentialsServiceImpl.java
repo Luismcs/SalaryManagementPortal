@@ -14,6 +14,7 @@ import com.finalproject.authentication.repository.RoleRepository;
 import com.finalproject.authentication.repository.UserCredentialsRepository;
 import com.finalproject.authentication.service.UserCredentialsService;
 import com.finalproject.authentication.utils.PasswordUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service
 public class UserCredentialsServiceImpl implements UserCredentialsService {
 
@@ -58,6 +60,8 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
         setUserCredentialsDTORoles(userCredentials, userCredentialsDTO);
 
+        log.info("UserCredentials {} returned successfully", id);
+
         return userCredentialsDTO;
     }
 
@@ -77,6 +81,8 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
         setUserCredentialsRoles(userCredentialsDTO, userCredentials);
         userCredentials.setPassword(passwordUtils.hash(userCredentials.getPassword()));
         UserCredentials savedUserCredentials = userCredentialsRepository.save(userCredentials);
+
+        log.info("User credentials with id {} created successfully", savedUserCredentials.getId());
 
         return userCredentialsMapper.toDTO(savedUserCredentials);
     }
@@ -116,6 +122,9 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
                 new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
                         404, ErrorMessage.USER_CREDENTIALS_NOT_FOUND, id));
         userCredentialsRepository.deleteById(id);
+
+        log.info("User credentials with id {} deleted successfully", id);
+
     }
 
 

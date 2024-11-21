@@ -11,11 +11,12 @@ import com.finalproject.collaborator.model.Collaborator;
 import com.finalproject.collaborator.repository.AddressRepository;
 import com.finalproject.collaborator.repository.CollaboratorRepository;
 import com.finalproject.collaborator.service.AddressService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 public class AddressServiceImpl implements AddressService {
 
@@ -42,6 +43,8 @@ public class AddressServiceImpl implements AddressService {
                 addressRepository.findById(id).orElseThrow(() ->
                         new AddressNotFoundException(ErrorResponseCode.ADDRESS_NOT_FOUND,
                                 404, ErrorMessage.ADDRESS_NOT_FOUND, id));
+
+        log.info("Address with id {} returned successfully", id);
 
         return addressMapper.toDTO(address);
     }
@@ -82,6 +85,8 @@ public class AddressServiceImpl implements AddressService {
                         404, ErrorMessage.ADDRESS_NOT_FOUND, id));
 
         addressRepository.deleteById(id);
+        log.info("Address with id {} deleted successfully", id);
+
     }
 
 }

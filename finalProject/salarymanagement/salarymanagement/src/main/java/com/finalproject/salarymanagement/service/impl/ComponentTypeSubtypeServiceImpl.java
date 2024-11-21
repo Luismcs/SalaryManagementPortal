@@ -11,10 +11,12 @@ import com.finalproject.salarymanagement.model.ComponentTypeSubtype;
 import com.finalproject.salarymanagement.repository.ComponentTypeRepository;
 import com.finalproject.salarymanagement.repository.ComponentTypeSubtypeRepository;
 import com.finalproject.salarymanagement.service.ComponentTypeSubtypeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ComponentTypeSubtypeServiceImpl implements ComponentTypeSubtypeService {
 
@@ -42,6 +44,8 @@ public class ComponentTypeSubtypeServiceImpl implements ComponentTypeSubtypeServ
                         (ErrorResponseCode.COMPONENT_TYPE_SUBTYPE_NOT_FOUND,
                                 404, ErrorMessage.COMPONENT_TYPE_SUBTYPE_NOT_FOUND, id));
 
+        log.info("Component Type Subtype with id {} returned successfully", id);
+
         return componentTypeSubtypeMapper.toDto(componentTypeSubtype);
     }
 
@@ -56,6 +60,8 @@ public class ComponentTypeSubtypeServiceImpl implements ComponentTypeSubtypeServ
         ComponentTypeSubtype componentTypeSubtype = componentTypeSubtypeMapper.toEntity(componentTypeSubtypeDTO);
         componentTypeSubtype.setComponentType(componentType);
         ComponentTypeSubtype savedComponentTypeSubtype = componentTypeSubtypeRepository.save(componentTypeSubtype);
+
+        log.info("Component Type Subtype with id {} created successfully", savedComponentTypeSubtype.getId());
 
         return componentTypeSubtypeMapper.toDto(savedComponentTypeSubtype);
     }
@@ -73,6 +79,8 @@ public class ComponentTypeSubtypeServiceImpl implements ComponentTypeSubtypeServ
         componentTypeSubtype.setComponentType(componentType);
         ComponentTypeSubtype savedComponentTypeSubtype = componentTypeSubtypeRepository.save(componentTypeSubtype);
 
+        log.info("Component Type Subtype with id {} updated successfully", savedComponentTypeSubtype.getId());
+
         return componentTypeSubtypeMapper.toDto(savedComponentTypeSubtype);
     }
 
@@ -83,6 +91,9 @@ public class ComponentTypeSubtypeServiceImpl implements ComponentTypeSubtypeServ
                                 404, ErrorMessage.COMPONENT_TYPE_SUBTYPE_NOT_FOUND, id));
 
         componentTypeSubtypeRepository.delete(componentTypeSubtype);
+
+        log.info("Component Type Subtype with id {} deleted successfully", id);
+
     }
 
 }

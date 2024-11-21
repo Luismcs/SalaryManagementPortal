@@ -12,11 +12,18 @@ public class ConfigProperties {
     @Value("${verify-salary-implementation-minute}")
     public int verifySalaryImplementationMinute;
 
+    @Value("${salary-report-folder-path}")
+    public String salaryReportFolderPath;
+
     public int getVerifySalaryImplementationHour() {
         return verifySalaryImplementationHour;
     }
 
     public int getVerifySalaryImplementationMinute() {
         return verifySalaryImplementationMinute;
+    }
+
+    public String getSalaryReportFolderPath() {
+        return salaryReportFolderPath;
     }
 }

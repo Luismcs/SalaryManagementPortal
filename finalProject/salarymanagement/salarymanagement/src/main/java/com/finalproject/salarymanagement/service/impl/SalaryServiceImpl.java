@@ -10,6 +10,7 @@ import com.finalproject.salarymanagement.repository.ComponentTypeRepository;
 import com.finalproject.salarymanagement.repository.ComponentTypeSubtypeRepository;
 import com.finalproject.salarymanagement.repository.SalaryRepository;
 import com.finalproject.salarymanagement.service.SalaryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class SalaryServiceImpl implements SalaryService {
 
@@ -50,12 +52,14 @@ public class SalaryServiceImpl implements SalaryService {
                         new SalaryNotFoundException(ErrorResponseCode.SALARY_NOT_FOUND,
                                 404, ErrorMessage.SALARY_NOT_FOUND, id));
 
+        log.info("Salary with id {} returned successfully", id);
+
         return salaryMapper.toDto(salary);
     }
 
     public SalaryDTO approve(Long id) throws SalaryNotFoundException,
             SalaryAlreadyApprovedException,
-            SalaryAlreadyActiveException {
+            SalaryAlreadyActiveException, SalaryCannotBeApprovedException {
 
         Salary salary =
                 salaryRepository.findById(id).orElseThrow(() ->
@@ -72,15 +76,15 @@ public class SalaryServiceImpl implements SalaryService {
                     ErrorMessage.SALARY_IS_ALREADY_APPROVED, salary.getId());
         }
 
-        /*
         if (salary.getSalaryState() == SalaryState.INACTIVE && !salary.getImplementationDate().isAfter(LocalDate.now())) {
             throw new SalaryCannotBeApprovedException(ErrorResponseCode.SALARY_CANNOT_BE_APPROVED_ANYMORE, 409,
                     ErrorMessage.SALARY_CANNOT_BE_APPROVED_ANYMORE, salary.getId());
         }
-        */
 
         salary.setAcceptanceDate(LocalDate.now());
         salaryRepository.save(salary);
+
+        log.info("Salary with id {} approved successfully", id);
 
         return salaryMapper.toDto(salary);
     }
@@ -100,6 +104,8 @@ public class SalaryServiceImpl implements SalaryService {
 
         Salary salary = salaryMapper.toEntity(salaryDTO, componentTypeRepository, componentTypeSubtypeRepository);
         Salary createdSalary = salaryRepository.save(salary);
+
+        log.info("Salary with id {} created successfully", createdSalary.getId());
 
         return salaryMapper.toDto(createdSalary);
     }
@@ -143,6 +149,8 @@ public class SalaryServiceImpl implements SalaryService {
                 componentTypeRepository, componentTypeSubtypeRepository);
         Salary updated = salaryRepository.save(updatedSalary);
 
+        log.info("Salary with id {} updated successfully", updated.getId());
+
         return salaryMapper.toDto(updated);
 
     }
@@ -152,6 +160,8 @@ public class SalaryServiceImpl implements SalaryService {
                 new SalaryNotFoundException(ErrorResponseCode.SALARY_NOT_FOUND, 404, ErrorMessage.SALARY_NOT_FOUND, id));
 
         salaryRepository.delete(salary);
+
+        log.info("Salary with id {} deleted successfully", id);
     }
 
     public void verifySalaryImplementation() {

@@ -1,0 +1,27 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finalproject
+    username: postgres
+    password: post123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.default_schema: collaborator
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    default-schema: collaborator
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+        springframework: INFO

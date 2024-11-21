@@ -1,0 +1,38 @@
+verify-salary-implementation-hour: 15
+verify-salary-implementation-minute: 51
+salary-report-folder-path: "/app/shared"
+server:
+  servlet:
+    context-path: /api
+  port: 8083
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finalproject
+    username: postgres
+    password: post123
+    driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.default_schema: salarymanagement
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    default-schema: salarymanagement
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+        springframework: INFO
+queue:
+  export: export-salaries-queue
+  export-filtered: export-filtered-salaries-queue

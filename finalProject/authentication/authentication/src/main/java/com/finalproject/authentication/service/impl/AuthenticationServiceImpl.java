@@ -15,6 +15,7 @@ import com.finalproject.authentication.repository.RefreshTokenRepository;
 import com.finalproject.authentication.repository.UserCredentialsRepository;
 import com.finalproject.authentication.service.AuthenticationService;
 import com.finalproject.authentication.utils.PasswordUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserCredentialsRepository userCredentialsRepository;
@@ -52,6 +54,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String refreshToken = jwtServiceImpl.generateRefreshToken(signInDTO.getUsername(), getRoles(userCredentials.get()));
 
         saveRefreshToken(refreshToken, userCredentials.get());
+
+        log.info("{} logged in successfully", userCredentials.get().getUsername());
 
         return new JWTResponseDTO(jwtServiceImpl.generateToken(signInDTO.getUsername(), getRoles(userCredentials.get())),
                 refreshToken);

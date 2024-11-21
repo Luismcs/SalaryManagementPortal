@@ -8,11 +8,12 @@ import com.finalproject.collaborator.mapper.CollaboratorMapper;
 import com.finalproject.collaborator.model.Collaborator;
 import com.finalproject.collaborator.repository.CollaboratorRepository;
 import com.finalproject.collaborator.service.CollaboratorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
 
@@ -44,6 +45,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                         new CollaboratorNotFoundException(ErrorResponseCode.COLLABORATOR_NOT_FOUND
                                 , 404, ErrorMessage.COLLABORATOR_NOT_FOUND, id));
 
+        log.info("Collaborator with id {} returned successfully", id);
+
         return collaboratorMapper.toDTO(collaborator);
     }
 
@@ -64,6 +67,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 CollaboratorNotFoundException(ErrorResponseCode.COLLABORATOR_NOT_FOUND,
                 404, ErrorMessage.COLLABORATOR_NOT_FOUND, id));
         collaboratorRepository.deleteById(id);
+
+        log.info("Collaborator with id {} deleted successfully", id);
+
     }
 
 }

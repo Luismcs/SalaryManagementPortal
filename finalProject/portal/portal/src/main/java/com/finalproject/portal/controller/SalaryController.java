@@ -1,13 +1,12 @@
 package com.finalproject.portal.controller;
 
-import com.finalproject.portal.dto.SalaryComponentDTO;
 import com.finalproject.portal.dto.SalaryDTO;
-import com.finalproject.portal.service.SalaryComponentServiceImpl;
 import com.finalproject.portal.service.SalaryServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Portal Salary", description = "Salary Management Endpoints")
 @RestController
 @RequestMapping("/salaries")
+@SecurityRequirement(name = "bearerAuth")
 public class SalaryController {
 
     private final SalaryServiceImpl salaryService;

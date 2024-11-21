@@ -1,0 +1,57 @@
+secret-key:
+  value: "5b56922fe298dda484c28ac6f50faedf129ebfcb0d7a0929a3644d35ac0f3280"
+app:
+  base-url: "http://localhost:8082"
+collaborator:
+  service:
+    url: "http://collaborator-information-service:8080/api/collaborators"
+address:
+  service:
+    url: "http://collaborator-information-service:8080/api/addresses"
+user-credentials:
+  service:
+    url: "http://authentication-service:8081/api/user-credentials"
+authentication:
+  service:
+    url: "http://authentication-service:8081/api/authentication"
+component-type-service:
+  service:
+    url: "http://salary-management-service:8083/api/component-types"
+component-type-subtype-service:
+  service:
+    url: "http://salary-management-service:8083/api/component-type-subtypes"
+salary-component-service:
+  service:
+    url: "http://salary-management-service:8083/api/salary-components"
+salary-service:
+  service:
+    url: "http://salary-management-service:8083/api/salaries"
+report-service:
+  service:
+    url: "http://salary-management-service:8083/api/report"
+server:
+  servlet:
+    context-path: /api
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finalproject
+    username: postgres
+    password: post123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  liquibase:
+    enabled: false
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+        springframework: INFO

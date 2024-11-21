@@ -16,12 +16,14 @@ import com.finalproject.salarymanagement.repository.ComponentTypeSubtypeReposito
 import com.finalproject.salarymanagement.repository.SalaryComponentRepository;
 import com.finalproject.salarymanagement.repository.SalaryRepository;
 import com.finalproject.salarymanagement.service.SalaryComponentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class SalaryComponentServiceImpl implements SalaryComponentService {
 
@@ -54,6 +56,8 @@ public class SalaryComponentServiceImpl implements SalaryComponentService {
                 salaryComponentRepository.findById(id).orElseThrow(() -> new SalaryComponentNotFoundException
                         (ErrorResponseCode.SALARY_COMPONENT_NOT_FOUND, 404, ErrorMessage.SALARY_COMPONENT_NOT_FOUND,
                                 id));
+
+        log.info("Salary Component with id {} returned successfully", id);
 
         return salaryComponentMapper.toDto(salaryComponent);
     }
@@ -92,7 +96,9 @@ public class SalaryComponentServiceImpl implements SalaryComponentService {
         salaryComponent.setComponentType(componentType.get());
         salaryComponent.setComponentTypeSubtype(componentTypeSubtype.get());
         salaryComponent.setSalary(salary.get());
-        salaryComponentRepository.save(salaryComponent);
+        SalaryComponent savedSalaryComponent = salaryComponentRepository.save(salaryComponent);
+
+        log.info("Salary Component with id {} created successfully", savedSalaryComponent.getId());
 
         return salaryComponentMapper.toDto(salaryComponent);
     }
@@ -135,6 +141,8 @@ public class SalaryComponentServiceImpl implements SalaryComponentService {
         salaryComponent.setSalary(salary.get());
         SalaryComponent updatedSalaryComponent = salaryComponentRepository.save(salaryComponent);
 
+        log.info("Salary Component with id {} updated successfully", updatedSalaryComponent.getId());
+
         return salaryComponentMapper.toDto(updatedSalaryComponent);
     }
 
@@ -145,6 +153,8 @@ public class SalaryComponentServiceImpl implements SalaryComponentService {
                                 id));
 
         salaryComponentRepository.delete(salaryComponent);
+
+        log.info("Salary Component with id {} deleted successfully", id);
     }
 
 }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Portal User Credentials", description = "User Credentials Management Endpoints")
 @RestController
 @RequestMapping("/user-credentials")
+@SecurityRequirement(name = "bearerAuth")
 public class UserCredentialsController {
 
     private final UserCredentialsServiceImpl userCredentialsService;

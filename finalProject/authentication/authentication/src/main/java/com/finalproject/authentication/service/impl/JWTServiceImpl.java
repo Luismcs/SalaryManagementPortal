@@ -1,6 +1,8 @@
 package com.finalproject.authentication.service.impl;
 
 import com.finalproject.authentication.config.ConfigProperties;
+import com.finalproject.authentication.model.UserCredentials;
+import com.finalproject.authentication.repository.UserCredentialsRepository;
 import com.finalproject.authentication.service.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -13,14 +15,17 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class JWTServiceImpl implements JWTService {
 
     private final ConfigProperties configProperties;
+    private final UserCredentialsRepository userCredentialsRepository;
 
-    public JWTServiceImpl(ConfigProperties configProperties) {
+    public JWTServiceImpl(ConfigProperties configProperties, UserCredentialsRepository userCredentialsRepository) {
         this.configProperties = configProperties;
+        this.userCredentialsRepository = userCredentialsRepository;
     }
 
     public String generateToken(String username, String[] roles) {
@@ -55,6 +60,9 @@ public class JWTServiceImpl implements JWTService {
 
         extraClaims.put("username", username);
         extraClaims.put("roles", roles);
+
+        Optional<UserCredentials> userCredentials = userCredentialsRepository.findByUsername(username);
+        userCredentials.ifPresent(credentials -> extraClaims.put("correlation_id", credentials.getCorrelationId()));
 
         return extraClaims;
     }

@@ -1,12 +1,13 @@
 package com.finalproject.salarymanagement.service.impl;
 
+import com.finalproject.salarymanagement.config.ConfigProperties;
+import com.finalproject.salarymanagement.dto.FilteredExportRequestDTO;
 import com.finalproject.salarymanagement.model.Salary;
 import com.finalproject.salarymanagement.model.SalaryComponent;
-import com.finalproject.salarymanagement.publisher.SalaryReportExportPublisher;
+import com.finalproject.salarymanagement.rabbitmq.publisher.SalaryReportExportPublisher;
+import com.finalproject.salarymanagement.rabbitmq.publisher.SalaryReportFilteredExportPublisher;
 import com.finalproject.salarymanagement.repository.SalaryRepository;
 import com.finalproject.salarymanagement.service.ReportService;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -23,10 +24,16 @@ public class ReportServiceImpl implements ReportService {
 
     private final SalaryRepository salaryRepository;
     private final SalaryReportExportPublisher salaryReportExportPublisher;
+    private final SalaryReportFilteredExportPublisher salaryReportFilteredExportPublisher;
+    private final String salaryReportFolderPath;
 
-    public ReportServiceImpl(SalaryRepository salaryRepository, SalaryReportExportPublisher salaryReportExportPublisher) {
+    public ReportServiceImpl(SalaryRepository salaryRepository,
+                             SalaryReportExportPublisher salaryReportExportPublisher,
+                             ConfigProperties configProperties, SalaryReportFilteredExportPublisher salaryReportFilteredExportPublisher) {
         this.salaryRepository = salaryRepository;
         this.salaryReportExportPublisher = salaryReportExportPublisher;
+        this.salaryReportFolderPath = configProperties.getSalaryReportFolderPath();
+        this.salaryReportFilteredExportPublisher = salaryReportFilteredExportPublisher;
     }
 
     private HSSFFont getArialBoldFont(HSSFWorkbook workbook) {
@@ -115,10 +122,7 @@ public class ReportServiceImpl implements ReportService {
         salaryComponentInfoRow.createCell(column).setCellValue(text);
     }
 
-    private HSSFWorkbook generateWorkbook() {
-        List<Salary> salaries = salaryRepository.findAll();
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("Salaries Info");
+    private void workBookBuilder(List<Salary> salaries, HSSFWorkbook workbook, HSSFSheet sheet) {
         int dataRowIndex = 1;
 
         for (Salary salary : salaries) {
@@ -142,15 +146,32 @@ public class ReportServiceImpl implements ReportService {
 
             dataRowIndex++;
         }
+    }
 
+    private HSSFWorkbook generateWorkbook() {
+        List<Salary> salaries = salaryRepository.findAll();
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("Salaries Info");
+        workBookBuilder(salaries, workbook, sheet);
         return workbook;
     }
 
-    public void generateExcel(HttpServletResponse response) throws IOException {
+    private HSSFWorkbook generateFilteredWorkbook(FilteredExportRequestDTO filteredExportRequestDTO) {
+        List<Salary> salaries =
+                salaryRepository.findByCorrelationIdAndImplementationDateBetweenAndSalaryState(
+                        filteredExportRequestDTO.getCorrelationId(),
+                        filteredExportRequestDTO.getStartDate(), filteredExportRequestDTO.getEndDate(),
+                        filteredExportRequestDTO.getSalaryState());
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("Salaries Info");
+        workBookBuilder(salaries, workbook, sheet);
+        return workbook;
+    }
+
+    public void generateExcel(List<String> emails) throws IOException {
         HSSFWorkbook workbook = generateWorkbook();
-        String sharedFolderPath = "/app/shared";
         String fileName = "report" + LocalDateTime.now() + ".xls";
-        File file = new File(sharedFolderPath, fileName);
+        File file = new File(salaryReportFolderPath, fileName);
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             workbook.write(fileOutputStream);
@@ -158,18 +179,27 @@ public class ReportServiceImpl implements ReportService {
             System.err.println("Error saving file: " + e.getMessage());
         }
 
-        response.setContentType("application/vnd.ms-excel");
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=salaryReport.xls";
-        response.setHeader(headerKey, headerValue);
+        workbook.close();
 
-        try (ServletOutputStream outputStream = response.getOutputStream()) {
-            workbook.write(outputStream);
-        } finally {
-            workbook.close();
+        salaryReportExportPublisher.publishExportEvent(fileName, emails);
+
+    }
+
+    public void generateFilteredExcel(FilteredExportRequestDTO filteredExportRequestDTO) throws IOException {
+        HSSFWorkbook workbook = generateFilteredWorkbook(filteredExportRequestDTO);
+        String fileName = "reportFiltered" + LocalDateTime.now() + ".xls";
+        File file = new File(salaryReportFolderPath, fileName);
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            workbook.write(fileOutputStream);
+        } catch (IOException e) {
+            System.err.println("Error saving file: " + e.getMessage());
         }
 
-        salaryReportExportPublisher.publishExportEvent(fileName);
+        workbook.close();
+
+        salaryReportFilteredExportPublisher.publishFilteredExportEvent(fileName, filteredExportRequestDTO.getEmail());
+
 
     }
 

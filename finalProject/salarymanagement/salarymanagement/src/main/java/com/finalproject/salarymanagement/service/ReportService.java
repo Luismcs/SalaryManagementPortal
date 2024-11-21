@@ -1,11 +1,10 @@
 package com.finalproject.salarymanagement.service;
 
-import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
+import java.util.List;
 
 public interface ReportService {
 
-    void generateExcel(HttpServletResponse response) throws IOException;
+    void generateExcel(List<String> emails) throws IOException, InterruptedException;
 
 }

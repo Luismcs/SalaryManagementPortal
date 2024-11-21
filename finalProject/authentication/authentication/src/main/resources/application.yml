@@ -1,0 +1,33 @@
+secret-key:
+  value: "5b56922fe298dda484c28ac6f50faedf129ebfcb0d7a0929a3644d35ac0f3280"
+access-token-expiration-time:
+  value: 86_400_000
+refresh-token-expiration-time:
+  value: 60000
+server:
+  servlet:
+    context-path: /api
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finalproject
+    username: postgres
+    password: post123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.default_schema: authentication
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    default-schema: authentication
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+        springframework: INFO
