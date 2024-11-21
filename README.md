@@ -73,6 +73,15 @@ Provides CRUD operations for managing salaries, including endpoints to create, r
 
 ---
 
+#### `Reports`
+Provides endpoints for generating and exporting salary reports. The generated reports are sent to RabbitMQ queues for further processing and communication with the Mail Gateway.
+
+- **Export Salaries**: Builds an Excel file with salary data and sends it to the `export-salaries-queue` RabbitMQ queue.
+
+- **Export Own Salaries**: Builds a filtered Excel file with user-specific salary data and sends it to the `export-filtered-salaries-queue` RabbitMQ queue.
+
+---
+
 
 ## Project Setup
 
