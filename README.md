@@ -43,6 +43,16 @@ Refreshes the JWT token for an authenticated user.
 
 ---
 
+### CollaboratorInfo Client (FeignClient)
+
+#### Addresses
+Provides CRUD operations for managing addresses, including endpoints to create, read, update, and delete address records.
+
+#### Collaborators
+Provides CRUD operations for managing collaborators, including endpoints to create, read, update, and delete collaborator records.
+
+---
+
 ## Project Setup
 
 ### Prerequisites
