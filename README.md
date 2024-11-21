@@ -13,7 +13,7 @@ The **Portal** microservice serves as the central point for incoming requests an
 ## Project Structure
 
 The project is divided into three main components:
-- **Portal**: Uses Feign, RestTemplate, and ApacheHttpClient to communicate with other services.
+- **Portal**: Uses FeignClient to communicate with other services.
 - **CollaboratorInfo**: Provides endpoints for managing collaborator information.
 - **Authentication**: Handles user authentication, including sign-in, sign-up, and token refresh operations.
 - **SalaryManagement** - Manages collaborator salaries.
