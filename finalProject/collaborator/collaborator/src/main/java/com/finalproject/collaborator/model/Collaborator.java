@@ -2,6 +2,7 @@ package com.finalproject.collaborator.model;
 
 import com.finalproject.collaborator.enums.Gender;
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDate;

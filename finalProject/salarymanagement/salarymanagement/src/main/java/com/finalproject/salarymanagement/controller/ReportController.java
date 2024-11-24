@@ -6,12 +6,14 @@ import com.finalproject.salarymanagement.service.impl.ReportServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+@Tag(name = "Reports", description = "Report Endpoints")
 @RestController
 @RequestMapping("/report")
 public class ReportController {

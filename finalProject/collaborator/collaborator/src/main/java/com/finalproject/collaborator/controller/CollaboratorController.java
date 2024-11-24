@@ -45,22 +45,6 @@ public class CollaboratorController {
     }
 
     @Operation(
-            summary = "Creates a collaborator",
-            description = "Returns the created collaborator",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Collaborator created successfully",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Page.class))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            }
-    )
-    @PostMapping()
-    public ResponseEntity<CollaboratorDTO> create(@Valid @RequestBody CollaboratorDTO collaboratorDTO){
-        CollaboratorDTO savedCollaboratorDTO = collaboratorService.addCollaborator(collaboratorDTO);
-        return ResponseEntity.ok(savedCollaboratorDTO);
-    }
-
-    @Operation(
             summary = "Gets a collaborator by id",
             description = "Returns a collaborator ",
             responses = {
@@ -75,6 +59,22 @@ public class CollaboratorController {
     public ResponseEntity<CollaboratorDTO> getById(@PathVariable long id) throws CollaboratorNotFoundException {
         CollaboratorDTO foundCollaboratorDTO = collaboratorService.getById(id);
         return ResponseEntity.ok(foundCollaboratorDTO);
+    }
+
+    @Operation(
+            summary = "Creates a collaborator",
+            description = "Returns the created collaborator",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Collaborator created successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
+    @PostMapping()
+    public ResponseEntity<CollaboratorDTO> create(@Valid @RequestBody CollaboratorDTO collaboratorDTO){
+        CollaboratorDTO savedCollaboratorDTO = collaboratorService.addCollaborator(collaboratorDTO);
+        return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
 

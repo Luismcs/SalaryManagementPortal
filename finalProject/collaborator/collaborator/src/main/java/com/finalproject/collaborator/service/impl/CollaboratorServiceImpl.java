@@ -32,13 +32,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         return collaborators.map(collaboratorMapper::toDTO);
     }
 
-    public CollaboratorDTO addCollaborator(CollaboratorDTO collaboratorDTO) {
-        Collaborator collaborator = collaboratorMapper.toEntity(collaboratorDTO);
-        Collaborator savedCollaborator = collaboratorRepository.save(collaborator);
-
-        return collaboratorMapper.toDTO(savedCollaborator);
-    }
-
     public CollaboratorDTO getById(Long id) throws CollaboratorNotFoundException {
         Collaborator collaborator =
                 collaboratorRepository.findById(id).orElseThrow(() ->
@@ -48,6 +41,13 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         log.info("Collaborator with id {} returned successfully", id);
 
         return collaboratorMapper.toDTO(collaborator);
+    }
+
+    public CollaboratorDTO addCollaborator(CollaboratorDTO collaboratorDTO) {
+        Collaborator collaborator = collaboratorMapper.toEntity(collaboratorDTO);
+        Collaborator savedCollaborator = collaboratorRepository.save(collaborator);
+
+        return collaboratorMapper.toDTO(savedCollaborator);
     }
 
     public CollaboratorDTO updateCollaborator(CollaboratorDTO collaboratorDTO) throws

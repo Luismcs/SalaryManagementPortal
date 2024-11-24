@@ -148,28 +148,18 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-    private HSSFWorkbook generateWorkbook() {
-        List<Salary> salaries = salaryRepository.findAll();
+    private HSSFWorkbook generateWorkbook(List<Salary> salaries) {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Salaries Info");
-        workBookBuilder(salaries, workbook, sheet);
-        return workbook;
-    }
 
-    private HSSFWorkbook generateFilteredWorkbook(FilteredExportRequestDTO filteredExportRequestDTO) {
-        List<Salary> salaries =
-                salaryRepository.findByCorrelationIdAndImplementationDateBetweenAndSalaryState(
-                        filteredExportRequestDTO.getCorrelationId(),
-                        filteredExportRequestDTO.getStartDate(), filteredExportRequestDTO.getEndDate(),
-                        filteredExportRequestDTO.getSalaryState());
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("Salaries Info");
         workBookBuilder(salaries, workbook, sheet);
+
         return workbook;
     }
 
     public void generateExcel(List<String> emails) throws IOException {
-        HSSFWorkbook workbook = generateWorkbook();
+        List<Salary> salaries = salaryRepository.findAll();
+        HSSFWorkbook workbook = generateWorkbook(salaries);
         String fileName = "report" + LocalDateTime.now() + ".xls";
         File file = new File(salaryReportFolderPath, fileName);
 
@@ -186,7 +176,12 @@ public class ReportServiceImpl implements ReportService {
     }
 
     public void generateFilteredExcel(FilteredExportRequestDTO filteredExportRequestDTO) throws IOException {
-        HSSFWorkbook workbook = generateFilteredWorkbook(filteredExportRequestDTO);
+        List<Salary> salaries =
+                salaryRepository.findByCorrelationIdAndImplementationDateBetweenAndSalaryState(
+                        filteredExportRequestDTO.getCorrelationId(),
+                        filteredExportRequestDTO.getStartDate(), filteredExportRequestDTO.getEndDate(),
+                        filteredExportRequestDTO.getSalaryState());
+        HSSFWorkbook workbook = generateWorkbook(salaries);
         String fileName = "reportFiltered" + LocalDateTime.now() + ".xls";
         File file = new File(salaryReportFolderPath, fileName);
 

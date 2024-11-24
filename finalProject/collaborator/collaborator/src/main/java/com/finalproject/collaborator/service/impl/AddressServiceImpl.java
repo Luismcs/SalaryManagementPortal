@@ -76,7 +76,6 @@ public class AddressServiceImpl implements AddressService {
         updatedAddress.setCollaborator(collaborator);
 
         return addressMapper.toDTO(addressRepository.save(updatedAddress));
-
     }
 
     public void deleteAddress(Long id) throws AddressNotFoundException {
@@ -86,7 +85,6 @@ public class AddressServiceImpl implements AddressService {
 
         addressRepository.deleteById(id);
         log.info("Address with id {} deleted successfully", id);
-
     }
 
 }

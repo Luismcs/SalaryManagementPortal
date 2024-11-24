@@ -1,9 +1,11 @@
 package com.finalproject.collaborator.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.hibernate.envers.Audited;
 
 @Entity(name = "addresses")
+@Builder
 @Audited
 public class Address extends AbstractEntity {
 
@@ -23,6 +25,17 @@ public class Address extends AbstractEntity {
     @JoinColumn(name = "collaborator_id")
     private Collaborator collaborator;
 
+    public Address() {
+
+    }
+
+    public Address(String street, String postalCode, String city, String country, Collaborator collaborator) {
+        this.street = street;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.country = country;
+        this.collaborator = collaborator;
+    }
 
     public String getStreet() {
         return street;
