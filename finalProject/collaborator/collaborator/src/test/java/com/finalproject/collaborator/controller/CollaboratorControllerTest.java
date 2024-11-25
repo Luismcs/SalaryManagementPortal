@@ -72,17 +72,19 @@ public class CollaboratorControllerTest {
 
     @Test
     public void CollaboratorController_GetAll_ReturnCollaboratorDtoPage() throws Exception {
+
+        //Arrange
         Pageable pageable = PageRequest.of(0, 2);
         Page<CollaboratorDTO> collaboratorPage = new PageImpl<>(List.of(collaboratorDTO), pageable, 1);
 
-        // Act
+        //Act
         when(collaboratorService.getAll(pageable)).thenReturn(collaboratorPage);
         ResultActions response = mockMvc.perform(get("/collaborators")
                 .param("page", "0")
                 .param("size", "2")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        // Assert
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].fullName", CoreMatchers.is(collaboratorDTO.getFullName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].email", CoreMatchers.is(collaboratorDTO.getEmail())))
@@ -93,12 +95,13 @@ public class CollaboratorControllerTest {
     @Test
     public void CollaboratorController_FindById_ReturnCollaboratorDto() throws Exception {
 
+        //Act
         when(collaboratorService.getById(collaboratorId)).thenReturn(collaboratorDTO);
-
         ResultActions response = mockMvc.perform(get("/collaborators/1", collaboratorId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(collaboratorDTO)));
 
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.fullName", CoreMatchers.is(collaboratorDTO.getFullName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(collaboratorDTO.getEmail())));
@@ -107,14 +110,13 @@ public class CollaboratorControllerTest {
     @Test
     public void CollaboratorController_AddCollaborator_ReturnCollaboratorDto() throws Exception {
 
-        //Action
+        //Act
         given(collaboratorService.addCollaborator(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
-
         ResultActions response = mockMvc.perform(post("/collaborators", collaboratorDTO)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(collaboratorDTO)));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.fullName", CoreMatchers.is(collaboratorDTO.getFullName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(collaboratorDTO.getEmail())));
@@ -123,14 +125,13 @@ public class CollaboratorControllerTest {
     @Test
     public void CollaboratorController_UpdateCollaborator_ReturnCollaboratorDto() throws Exception {
 
-        //Action
+        //Act
         given(collaboratorService.updateCollaborator(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
-
         ResultActions response = mockMvc.perform(put("/collaborators", collaboratorDTO)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(collaboratorDTO)));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.fullName", CoreMatchers.is(collaboratorDTO.getFullName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(collaboratorDTO.getEmail())));
@@ -139,13 +140,12 @@ public class CollaboratorControllerTest {
     @Test
     public void CollaboratorController_Delete_ReturnNothing() throws Exception {
 
+        //Act
         doNothing().when(collaboratorService).deleteCollaborator(collaboratorId);
-
-        //Action
         ResultActions response = mockMvc.perform(delete("/collaborators/1", collaboratorId)
                 .contentType(MediaType.APPLICATION_JSON));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().isOk());
 
     }

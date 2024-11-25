@@ -55,7 +55,6 @@ public class CollaboratorServiceTest {
         collaborator1.setGender(Gender.M);
         collaborator1.setBirthDate(LocalDate.now());
         collaborator1.setNif("123123123");
-
         collaborator2 = new Collaborator();
         collaborator2.setId(2L);
         collaborator2.setFullName("Jane Smith");
@@ -63,7 +62,6 @@ public class CollaboratorServiceTest {
         collaborator2.setGender(Gender.F);
         collaborator2.setBirthDate(LocalDate.now());
         collaborator2.setNif("456456456");
-
         collaboratorDTO1 = new CollaboratorDTO();
         collaboratorDTO1.setId(1L);
         collaboratorDTO1.setFullName("John Doe");
@@ -71,7 +69,6 @@ public class CollaboratorServiceTest {
         collaboratorDTO1.setGender("M");
         collaboratorDTO1.setBirthDate(LocalDate.now());
         collaboratorDTO1.setNif("123123123");
-
         collaboratorDTO2 = new CollaboratorDTO();
         collaboratorDTO2.setId(2L);
         collaboratorDTO2.setFullName("Jane Smith");
@@ -79,39 +76,37 @@ public class CollaboratorServiceTest {
         collaboratorDTO2.setGender("F");
         collaboratorDTO2.setBirthDate(LocalDate.now());
         collaboratorDTO2.setNif("456456456");
-
         collaboratorId = 1L;
 
     }
 
-
     @Test
-    void collaboratorService_GetAll_ReturnsCollaboratorDtoPage() {
+    void collaboratorService_getAll_returnsCollaboratorDtoPage() {
 
+        //Arrange
         List<Collaborator> collaboratorList = List.of(collaborator1, collaborator2);
         Page<Collaborator> collaboratorsPage = new PageImpl<>(collaboratorList);
+        Pageable pageable = PageRequest.of(0, 2);
 
-        // Mock repository and mapper behavior
+        //Act
         when(collaboratorRepository.findAll(Mockito.any(Pageable.class))).thenReturn(collaboratorsPage);
         when(collaboratorMapper.toDTO(collaborator1)).thenReturn(collaboratorDTO1);
         when(collaboratorMapper.toDTO(collaborator2)).thenReturn(collaboratorDTO2);
-
-        // Execute the service method
-        Pageable pageable = PageRequest.of(0, 2);
         Page<CollaboratorDTO> result = collaboratorService.getAll(pageable);
 
-        // Assertions
+        //Assert
         assertThat(result).isNotNull();
 
     }
 
 
     @Test
-    void collaboratorService_GetById_ReturnsCollaboratorDto() throws CollaboratorNotFoundException {
+    void collaboratorService_getById_returnsCollaboratorDto() throws CollaboratorNotFoundException {
 
         //Act
         when(collaboratorRepository.findById(collaboratorId)).thenReturn(Optional.of(collaborator1));
         when(collaboratorMapper.toDTO(collaborator1)).thenReturn(collaboratorDTO1);
+
         CollaboratorDTO foundCollaborator = collaboratorService.getById(collaboratorId);
 
         //Assert
@@ -119,7 +114,7 @@ public class CollaboratorServiceTest {
     }
 
     @Test
-    void collaboratorService_Create_ReturnsCollaboratorDto() {
+    void collaboratorService_create_returnsCollaboratorDto() {
 
         //Act
         when(collaboratorMapper.toEntity(collaboratorDTO1)).thenReturn(collaborator1);
@@ -132,7 +127,7 @@ public class CollaboratorServiceTest {
     }
 
     @Test
-    void collaboratorService_UpdateCollaborator_ReturnsCollaboratorDto() throws CollaboratorNotFoundException {
+    void collaboratorService_update_returnsCollaboratorDto() throws CollaboratorNotFoundException {
 
         //Act
         when(collaboratorRepository.findById(collaboratorId)).thenReturn(Optional.of(collaborator1));
@@ -141,13 +136,12 @@ public class CollaboratorServiceTest {
         when(collaboratorMapper.toDTO(collaborator1)).thenReturn(collaboratorDTO1);
         CollaboratorDTO foundCollaborator = collaboratorService.updateCollaborator(collaboratorDTO1);
 
-
         //Assert
         assertThat(foundCollaborator).isNotNull();
     }
 
     @Test
-    void collaboratorService_DeleteCollaborator_ReturnsVoid() {
+    void collaboratorService_delete_returnsNothing() {
 
         //Act
         when(collaboratorRepository.findById(collaboratorId)).thenReturn(Optional.of(collaborator1));

@@ -58,7 +58,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void AddressController_GetAll_ReturnAddressDtoPage() throws Exception {
+    public void addressController_getAll_returnsAddressDtoPage() throws Exception {
 
         //Arrange
         Pageable pageable = PageRequest.of(0, 2);
@@ -72,7 +72,7 @@ public class AddressControllerTest {
                 .param("size", "2")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].city", CoreMatchers.is(addressDTO.getCity())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].country",
@@ -80,64 +80,60 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void AddressController_FindById_ReturnAddressDto() throws Exception {
+    public void addressController_findById_returnsAddressDto() throws Exception {
 
-        //Action
+        //Act
         when(addressService.getById(addressId)).thenReturn(addressDTO);
-
         ResultActions response = mockMvc.perform(get("/addresses/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(addressDTO)));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.city", CoreMatchers.is(addressDTO.getCity())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.country", CoreMatchers.is(addressDTO.getCountry())));
     }
 
     @Test
-    public void AddressController_AddCollaborator_ReturnAddressDto() throws Exception {
+    public void addressController_addCollaborator_ReturnAddressDto() throws Exception {
 
-        //Action
+        //Act
         given(addressService.addAddress(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
-
         ResultActions response = mockMvc.perform(post("/addresses")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(addressDTO)));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.city", CoreMatchers.is(addressDTO.getCity())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.country", CoreMatchers.is(addressDTO.getCountry())));
     }
 
     @Test
-    public void AddressController_UpdateAddress_ReturnAddressDto() throws Exception {
+    public void addressController_updateAddress_ReturnAddressDto() throws Exception {
 
-        //Action
+        //Act
         given(addressService.updateAddress(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
 
         ResultActions response = mockMvc.perform(put("/addresses")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(addressDTO)));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.city", CoreMatchers.is(addressDTO.getCity())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.country", CoreMatchers.is(addressDTO.getCountry())));
     }
 
     @Test
-    public void AddressController_Delete_ReturnNothing() throws Exception {
+    public void addressController_delete_ReturnsNothing() throws Exception {
 
-        //Arrange
+        //Act
         doNothing().when(addressService).deleteAddress(addressId);
-
-        //Action
         ResultActions response = mockMvc.perform(delete("/addresses/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        //Asserts
+        //Assert
         response.andExpect(MockMvcResultMatchers.status().isOk());
 
     }

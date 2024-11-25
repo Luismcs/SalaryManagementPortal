@@ -37,9 +37,7 @@ public class AddressRepositoryTest {
         collaborator.setGender(Gender.M);
         collaborator.setBirthDate(LocalDate.now());
         collaborator.setNif("123123123");
-
         collaboratorRepository.save(collaborator);
-
         address1 = new Address();
         address1.setStreet("Rua nova");
         address1.setPostalCode("4450-450");
@@ -55,12 +53,16 @@ public class AddressRepositoryTest {
     }
 
     @Test
-    void AddressRepository_GetAll_ReturnsMoreThanOneCollaborator() {
+    void addressRepository_GetAll_ReturnsMoreThanOneCollaborator() {
 
+        //Arrange
         addressRepository.save(address1);
         addressRepository.save(address2);
+
+        //Act
         List<Address> addresses = addressRepository.findAll();
 
+        //Assert
         assertThat(addresses).isNotNull();
         assertThat(addresses.size()).isEqualTo(2);
 
@@ -69,18 +71,26 @@ public class AddressRepositoryTest {
     @Test
     void collaboratorRepository_GetById_ReturnsOneCollaborator() {
 
+        //Arrange
         Address savedAddress = addressRepository.save(address1);
+
+        //Act
         Optional<Address> foundAddress = addressRepository.findById(savedAddress.getId());
 
+        //Assert
         assertThat(foundAddress).isNotNull();
     }
 
     @Test
     void collaboratorRepository_Add_ReturnsCollaboratorNotNull() {
 
+        //Arrange
         Address savedAddress = addressRepository.save(address1);
+
+        //Act
         Optional<Address> fetchedCollaborator = addressRepository.findById(savedAddress.getId());
 
+        //Assert
         assertThat(fetchedCollaborator).isPresent();
         assertThat(addressRepository.findById(fetchedCollaborator.get().getId())).isNotNull();
     }
@@ -88,21 +98,29 @@ public class AddressRepositoryTest {
     @Test
     void collaboratorRepository_Update_ReturnsCollaboratorNotNull() {
 
+        //Arrange
         Address savedAddress = addressRepository.save(address1);
+
+        //Act
         Optional<Address> foundAddress = addressRepository.findById(savedAddress.getId());
         foundAddress.get().setCity("Braga");
         Address updatedAddress = addressRepository.save(foundAddress.get());
 
+        //Assert
         assertThat(updatedAddress.getCity()).isEqualTo("Braga");
     }
 
     @Test
     void collaboratorRepository_Delete_ReturnsOneCollaborator() {
 
+        //Arrange
         Address savedAddress = addressRepository.save(address1);
+
+        //Act
         addressRepository.deleteById(savedAddress.getId());
         Optional<Address> foundAddress = addressRepository.findById(savedAddress.getId());
 
+        //Assert
         assertThat(foundAddress).isEmpty();
     }
 

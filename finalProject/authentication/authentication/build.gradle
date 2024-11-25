@@ -53,6 +53,9 @@ dependencies {
     //Envers
     implementation 'org.hibernate.orm:hibernate-envers:6.3.1.Final'
 
+    //H2
+    testImplementation 'com.h2database:h2'
+
 }
 
 tasks.named('test') {

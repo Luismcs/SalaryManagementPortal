@@ -81,6 +81,16 @@ public class UserCredentialsController {
         return ResponseEntity.ok(updatedCollaboratorDTO);
     }
 
+    @Operation(
+            summary = "Deletes user credentials",
+            description = "Returns nothing",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User Credentials deleted successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) throws UserCredentialsNotFound {
         userCredentialsServiceImpl.delete(id);

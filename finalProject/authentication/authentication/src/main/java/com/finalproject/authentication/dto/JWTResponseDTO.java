@@ -20,6 +20,10 @@ public class JWTResponseDTO {
         this.refreshToken = refreshToken;
     }
 
+    public JWTResponseDTO() {
+
+    }
+
     public String getAccessToken() {
         return accessToken;
     }

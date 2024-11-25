@@ -78,8 +78,9 @@ public class AddressServiceTest {
 
 
     @Test
-    void addressService_GetAll_ReturnsAddressDtoPage() {
+    void addressService_getAll_returnsAddressDtoPage() {
 
+        //Arrange
         Pageable pageable = PageRequest.of(0, 2);
         List<Address> addressList = List.of(address);
         Page<Address> addressPage = new PageImpl<>(addressList);
@@ -90,15 +91,13 @@ public class AddressServiceTest {
 
         Page<AddressDTO> result = addressService.getAll(pageable);
 
-        // Assertions
+        //Assert
         assertThat(result).isNotNull();
 
     }
 
     @Test
-    void addressService_GetById_ReturnsAddressDto() throws AddressNotFoundException {
-
-        //Arrange
+    void addressService_getById_returnsAddressDto() throws AddressNotFoundException {
 
         //Act
         when(addressRepository.findById(addressId)).thenReturn(Optional.of(address));
@@ -110,7 +109,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    void addressService_Create_ReturnsAddressDto() throws CollaboratorNotFoundException {
+    void addressService_create_returnsAddressDto() throws CollaboratorNotFoundException {
 
         //Act
         when(addressMapper.toEntity(addressDTO)).thenReturn(address);
@@ -124,7 +123,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    void addressService_Update_ReturnsAddressDto() throws CollaboratorNotFoundException, AddressNotFoundException {
+    void addressService_update_returnsAddressDto() throws CollaboratorNotFoundException, AddressNotFoundException {
 
         //Act
         when(addressRepository.findById(address.getId())).thenReturn(Optional.of(address));
@@ -139,7 +138,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    void collaboratorService_DeleteCollaborator_ReturnsVoid() {
+    void addressService_delete_returnsNothing() {
 
         //Act
         when(addressRepository.findById(address.getId())).thenReturn(Optional.of(address));
