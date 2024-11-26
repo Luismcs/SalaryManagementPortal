@@ -71,7 +71,7 @@ public class CollaboratorControllerTest {
     }
 
     @Test
-    public void CollaboratorController_GetAll_ReturnCollaboratorDtoPage() throws Exception {
+    public void collaboratorController_getAll_returnsCollaboratorDtoPage() throws Exception {
 
         //Arrange
         Pageable pageable = PageRequest.of(0, 2);
@@ -93,7 +93,7 @@ public class CollaboratorControllerTest {
     }
 
     @Test
-    public void CollaboratorController_FindById_ReturnCollaboratorDto() throws Exception {
+    public void collaboratorController_findById_returnsOneCollaboratorDto() throws Exception {
 
         //Act
         when(collaboratorService.getById(collaboratorId)).thenReturn(collaboratorDTO);
@@ -108,7 +108,7 @@ public class CollaboratorControllerTest {
     }
 
     @Test
-    public void CollaboratorController_AddCollaborator_ReturnCollaboratorDto() throws Exception {
+    public void collaboratorController_addCollaborator_returnsOneCollaboratorDto() throws Exception {
 
         //Act
         given(collaboratorService.addCollaborator(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
@@ -123,7 +123,7 @@ public class CollaboratorControllerTest {
     }
 
     @Test
-    public void CollaboratorController_UpdateCollaborator_ReturnCollaboratorDto() throws Exception {
+    public void collaboratorController_updateCollaborator_returnsOneCollaboratorDto() throws Exception {
 
         //Act
         given(collaboratorService.updateCollaborator(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
@@ -138,7 +138,7 @@ public class CollaboratorControllerTest {
     }
 
     @Test
-    public void CollaboratorController_Delete_ReturnNothing() throws Exception {
+    public void collaboratorController_delete_returnsNothing() throws Exception {
 
         //Act
         doNothing().when(collaboratorService).deleteCollaborator(collaboratorId);

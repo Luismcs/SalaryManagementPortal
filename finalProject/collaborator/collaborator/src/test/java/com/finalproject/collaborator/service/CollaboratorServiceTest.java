@@ -101,7 +101,7 @@ public class CollaboratorServiceTest {
 
 
     @Test
-    void collaboratorService_getById_returnsCollaboratorDto() throws CollaboratorNotFoundException {
+    void collaboratorService_getById_returnsOneCollaboratorDto() throws CollaboratorNotFoundException {
 
         //Act
         when(collaboratorRepository.findById(collaboratorId)).thenReturn(Optional.of(collaborator1));
@@ -114,7 +114,7 @@ public class CollaboratorServiceTest {
     }
 
     @Test
-    void collaboratorService_create_returnsCollaboratorDto() {
+    void collaboratorService_create_returnsOneCollaboratorDto() {
 
         //Act
         when(collaboratorMapper.toEntity(collaboratorDTO1)).thenReturn(collaborator1);
@@ -127,7 +127,7 @@ public class CollaboratorServiceTest {
     }
 
     @Test
-    void collaboratorService_update_returnsCollaboratorDto() throws CollaboratorNotFoundException {
+    void collaboratorService_update_returnsOneCollaboratorDto() throws CollaboratorNotFoundException {
 
         //Act
         when(collaboratorRepository.findById(collaboratorId)).thenReturn(Optional.of(collaborator1));

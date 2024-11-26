@@ -42,7 +42,7 @@ public class RefreshTokenRepositoryTest {
     }
 
     @Test
-    void refreshTokenRepository_GetById_ReturnsOneRefreshToken() {
+    void refreshTokenRepository_getById_ReturnsOneRefreshToken() {
 
         RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken1);
         Optional<RefreshToken> foundRefreshToken = refreshTokenRepository.findById(savedRefreshToken.getId());

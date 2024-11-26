@@ -56,6 +56,9 @@ dependencies {
     //RabbitMQ
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
+    //H2
+    testImplementation 'com.h2database:h2'
+
 
 }
 

@@ -34,7 +34,7 @@ public class ReportController {
             }
     )
     @PostMapping("/export-salaries")
-    public ResponseEntity<Void> exportSalaryReport(@RequestBody @Valid ExportRequestDTO exportRequestDTO) throws IOException, InterruptedException {
+    public ResponseEntity<Void> exportSalaryReport(@RequestBody @Valid ExportRequestDTO exportRequestDTO) throws IOException {
         reportServiceImpl.generateExcel(exportRequestDTO.getEmails());
         return ResponseEntity.ok().build();
     }

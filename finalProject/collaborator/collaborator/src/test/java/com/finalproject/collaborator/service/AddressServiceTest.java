@@ -97,7 +97,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    void addressService_getById_returnsAddressDto() throws AddressNotFoundException {
+    void addressService_getById_returnsOneAddressDto() throws AddressNotFoundException {
 
         //Act
         when(addressRepository.findById(addressId)).thenReturn(Optional.of(address));
@@ -109,7 +109,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    void addressService_create_returnsAddressDto() throws CollaboratorNotFoundException {
+    void addressService_create_returnsOneAddressDto() throws CollaboratorNotFoundException {
 
         //Act
         when(addressMapper.toEntity(addressDTO)).thenReturn(address);
@@ -123,7 +123,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    void addressService_update_returnsAddressDto() throws CollaboratorNotFoundException, AddressNotFoundException {
+    void addressService_update_returnsOneAddressDto() throws CollaboratorNotFoundException, AddressNotFoundException {
 
         //Act
         when(addressRepository.findById(address.getId())).thenReturn(Optional.of(address));

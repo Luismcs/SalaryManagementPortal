@@ -53,7 +53,7 @@ public class AddressRepositoryTest {
     }
 
     @Test
-    void addressRepository_GetAll_ReturnsMoreThanOneCollaborator() {
+    void addressRepository_getAll_returnsMoreThanOneCollaborator() {
 
         //Arrange
         addressRepository.save(address1);
@@ -69,7 +69,7 @@ public class AddressRepositoryTest {
     }
 
     @Test
-    void collaboratorRepository_GetById_ReturnsOneCollaborator() {
+    void collaboratorRepository_getById_returnsOneCollaboratorDto() {
 
         //Arrange
         Address savedAddress = addressRepository.save(address1);
@@ -96,7 +96,7 @@ public class AddressRepositoryTest {
     }
 
     @Test
-    void collaboratorRepository_Update_ReturnsCollaboratorNotNull() {
+    void collaboratorRepository_update_returnsCollaboratorNotNull() {
 
         //Arrange
         Address savedAddress = addressRepository.save(address1);
@@ -111,7 +111,7 @@ public class AddressRepositoryTest {
     }
 
     @Test
-    void collaboratorRepository_Delete_ReturnsOneCollaborator() {
+    void collaboratorRepository_delete_returnsNothing() {
 
         //Arrange
         Address savedAddress = addressRepository.save(address1);

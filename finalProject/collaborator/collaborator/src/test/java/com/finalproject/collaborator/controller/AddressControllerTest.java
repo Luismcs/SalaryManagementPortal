@@ -80,7 +80,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void addressController_findById_returnsAddressDto() throws Exception {
+    public void addressController_findById_returnsOneAddressDto() throws Exception {
 
         //Act
         when(addressService.getById(addressId)).thenReturn(addressDTO);
@@ -95,7 +95,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void addressController_addCollaborator_ReturnAddressDto() throws Exception {
+    public void addressController_addCollaborator_returnsOneAddressDto() throws Exception {
 
         //Act
         given(addressService.addAddress(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
@@ -110,7 +110,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void addressController_updateAddress_ReturnAddressDto() throws Exception {
+    public void addressController_updateAddress_returnsOneAddressDto() throws Exception {
 
         //Act
         given(addressService.updateAddress(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
@@ -126,7 +126,7 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void addressController_delete_ReturnsNothing() throws Exception {
+    public void addressController_delete_returnsNothing() throws Exception {
 
         //Act
         doNothing().when(addressService).deleteAddress(addressId);

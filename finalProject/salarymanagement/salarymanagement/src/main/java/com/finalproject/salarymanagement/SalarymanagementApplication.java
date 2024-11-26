@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 public class SalarymanagementApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SalarymanagementApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SalarymanagementApplication.class, args);
+    }
 
 }
