@@ -19,7 +19,7 @@ public interface CollaboratorClient {
     ResponseEntity<CollaboratorDTO> getById(@PathVariable long id);
 
     @PostMapping()
-    ResponseEntity<CollaboratorDTO> create(@RequestBody UserGeneralInfoDTO userGeneralInfoDTO);
+    ResponseEntity<CollaboratorDTO> create(@RequestBody CollaboratorDTO collaboratorDTO);
 
     @PutMapping()
     ResponseEntity<CollaboratorDTO> update(@RequestBody CollaboratorDTO collaboratorDTO);

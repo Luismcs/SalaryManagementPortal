@@ -69,8 +69,8 @@ public class CollaboratorController {
             }
     )
     @PostMapping()
-    public ResponseEntity<CollaboratorDTO> create(@Valid @RequestBody UserGeneralInfoDTO userGeneralInfoDTO) {
-        return collaboratorServiceImpl.addCollaborator(userGeneralInfoDTO);
+    public ResponseEntity<CollaboratorDTO> create(@Valid @RequestBody CollaboratorDTO collaboratorDTO) {
+        return collaboratorServiceImpl.addCollaborator(collaboratorDTO);
     }
 
     @Operation(

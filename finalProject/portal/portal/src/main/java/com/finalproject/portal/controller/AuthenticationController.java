@@ -35,7 +35,7 @@ public class AuthenticationController {
             }
     )
     @PostMapping("/sign-up")
-    public UserGeneralInfoDTO signUp(@RequestBody UserGeneralInfoDTO userGeneralInfoDTO) {
+    public UserSignUpResponseDTO signUp(@RequestBody UserGeneralInfoDTO userGeneralInfoDTO) {
         return authenticationService.signUp(userGeneralInfoDTO);
     }
 

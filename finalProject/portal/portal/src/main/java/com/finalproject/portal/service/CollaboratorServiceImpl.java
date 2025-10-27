@@ -25,8 +25,8 @@ public class CollaboratorServiceImpl {
         return collaboratorClient.getById(id);
     }
 
-    public ResponseEntity<CollaboratorDTO> addCollaborator(UserGeneralInfoDTO userGeneralInfoDTO) {
-        return collaboratorClient.create(userGeneralInfoDTO);
+    public ResponseEntity<CollaboratorDTO> addCollaborator(CollaboratorDTO collaboratorDTO) {
+        return collaboratorClient.create(collaboratorDTO);
     }
 
     public ResponseEntity<CollaboratorDTO> update(CollaboratorDTO collaboratorDTO) {

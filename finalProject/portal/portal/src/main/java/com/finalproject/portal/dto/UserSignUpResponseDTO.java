@@ -1,18 +1,27 @@
 package com.finalproject.portal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class CollaboratorDTO {
+public class UserSignUpResponseDTO {
 
     @Schema(description = "The collaborator's id", example = "1", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
-    private Long id;
+    private Long collaboratorId;
+
+    @Schema(description = "The userCredentials's id", example = "1", requiredMode =
+            Schema.RequiredMode.NOT_REQUIRED)
+    private Long userCredentialsId;
+
+    @Schema(description = "The collaborator's username", example = "John Doe", requiredMode =
+            Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "The username cannot be empty")
+    private String username;
+
+    private List<RoleDTO> roles;
 
     @Schema(description = "The collaborator's full name", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
@@ -32,23 +41,45 @@ public class CollaboratorDTO {
     @Schema(description = "The collaborator's nif", example = "123123123",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The nif cannot be empty")
-    @Size(min = 9, max = 9, message = "The nif must contain exactly 9 digits")
     private String nif;
 
     @Schema(description = "The collaborator's email", example = "john_doe@email.com", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The email cannot be empty")
-    @Email(message = "The email must be valid")
     private String email;
 
     private List<AddressDTO> addresses;
 
-    public Long getId() {
-        return id;
+    public Long getCollaboratorId() {
+        return collaboratorId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCollaboratorId(Long collaboratorId) {
+        this.collaboratorId = collaboratorId;
+    }
+
+    public Long getUserCredentialsId() {
+        return userCredentialsId;
+    }
+
+    public void setUserCredentialsId(Long userCredentialsId) {
+        this.userCredentialsId = userCredentialsId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<RoleDTO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleDTO> roles) {
+        this.roles = roles;
     }
 
     public String getFullName() {
@@ -101,7 +132,11 @@ public class CollaboratorDTO {
 
     @Override
     public String toString() {
-        return "CollaboratorDTO{" +
+        return "UserSignUpResponseDTO{" +
+                ", collaboratorId=" + collaboratorId +
+                ", userCredentialsId=" + userCredentialsId +
+                ", username='" + username + '\'' +
+                ", roles=" + roles +
                 ", fullName='" + fullName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", birthDate=" + birthDate +
@@ -110,5 +145,4 @@ public class CollaboratorDTO {
                 ", addresses=" + addresses +
                 '}';
     }
-
 }
