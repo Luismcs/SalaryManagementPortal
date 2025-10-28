@@ -33,4 +33,8 @@ public class UserCredentialsServiceImpl {
         userCredentialsClient.delete(id);
     }
 
+    public ResponseEntity<Boolean> existsByUsername(String username) {
+        return userCredentialsClient.existsByUsername(username);
+    }
+
 }

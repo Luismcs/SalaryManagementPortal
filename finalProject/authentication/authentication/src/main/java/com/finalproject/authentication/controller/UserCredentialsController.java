@@ -97,4 +97,20 @@ public class UserCredentialsController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(
+            summary = "Verifies if username already exists in userCredentials data",
+            description = "Returns boolean",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Response returned successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
+    @GetMapping("/exists/username/{username}")
+    public ResponseEntity<Boolean> existsByUsername(@PathVariable String username) {
+        boolean exists = userCredentialsServiceImpl.existsByUsername(username);
+        return ResponseEntity.ok(exists);
+    }
+
 }

@@ -27,4 +27,7 @@ public interface UserCredentialsClient {
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable long id);
 
+    @GetMapping("/exists/username/{username}")
+    ResponseEntity<Boolean> existsByUsername(@PathVariable String username);
+
 }

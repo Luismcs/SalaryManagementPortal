@@ -86,4 +86,19 @@ public class UserCredentialsController {
         userCredentialsService.delete(id);
     }
 
+    @Operation(
+            summary = "Verifies if username already exists in userCredentials data",
+            description = "Returns boolean",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Response returned successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
+    @GetMapping("/exists/username/{username}")
+    public void existsByUsername(@PathVariable String username) {
+        userCredentialsService.existsByUsername(username);
+    }
+
 }

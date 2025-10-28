@@ -1,6 +1,7 @@
 package com.finalproject.portal.controller;
 
 import com.finalproject.portal.dto.*;
+import com.finalproject.portal.exception.UsernameAlreadyExistsException;
 import com.finalproject.portal.service.AuthenticationServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,7 +36,7 @@ public class AuthenticationController {
             }
     )
     @PostMapping("/sign-up")
-    public UserSignUpResponseDTO signUp(@RequestBody UserGeneralInfoDTO userGeneralInfoDTO) {
+    public UserSignUpResponseDTO signUp(@RequestBody UserGeneralInfoDTO userGeneralInfoDTO) throws UsernameAlreadyExistsException {
         return authenticationService.signUp(userGeneralInfoDTO);
     }
 

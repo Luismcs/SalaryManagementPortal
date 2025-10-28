@@ -4,6 +4,9 @@ import com.finalproject.portal.client.authenticationClients.AuthenticationClient
 import com.finalproject.portal.client.authenticationClients.UserCredentialsClient;
 import com.finalproject.portal.client.collaboratorClients.CollaboratorClient;
 import com.finalproject.portal.dto.*;
+import com.finalproject.portal.enums.ErrorResponseCode;
+import com.finalproject.portal.exception.ErrorMessage;
+import com.finalproject.portal.exception.UsernameAlreadyExistsException;
 import com.finalproject.portal.mapper.UserSignUpResponseDTOMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +30,13 @@ public class AuthenticationServiceImpl {
         this.userSignUpResponseDTOMapper = userSignUpResponseDTOMapper;
     }
 
-    public UserSignUpResponseDTO signUp(UserGeneralInfoDTO userGeneralInfoDTO) {
+    public UserSignUpResponseDTO signUp(UserGeneralInfoDTO userGeneralInfoDTO) throws UsernameAlreadyExistsException {
+        if(Boolean.TRUE.equals(userCredentialsClient.existsByUsername(userGeneralInfoDTO.getUsername()).getBody())){
+            throw new UsernameAlreadyExistsException(ErrorResponseCode.USERNAME_ALREADY_EXISTS, 409, ErrorMessage.USER_ALREADY_EXISTS, userGeneralInfoDTO.getUsername());
+        }
+
         CollaboratorDTO collaboratorDTO = userSignUpResponseDTOMapper.toCollaboratorDTO(userGeneralInfoDTO);
         ResponseEntity<CollaboratorDTO> savedCollaborator = collaboratorClient.create(collaboratorDTO);
-        UserCredentialsDTO userCredentialsDTOTeste =
-                userSignUpResponseDTOMapper.toUserCredentialsDTO(userGeneralInfoDTO, savedCollaborator.getBody());
-        log.info(userCredentialsDTOTeste.toString());
         UserCredentialsDTO userCredentialsDTO = new UserCredentialsDTO(userGeneralInfoDTO.getUsername(),
                 userGeneralInfoDTO.getPassword(),
                 savedCollaborator.getBody().getId().toString(), userGeneralInfoDTO.getRoles());

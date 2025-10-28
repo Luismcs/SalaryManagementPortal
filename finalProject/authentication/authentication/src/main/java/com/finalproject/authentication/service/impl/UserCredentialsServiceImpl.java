@@ -127,5 +127,9 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
     }
 
+    public boolean existsByUsername(String username) {
+        return userCredentialsRepository.existsByUsername(username);
+    }
+
 
 }

@@ -9,4 +9,6 @@ public interface UserCredentialsRepository extends JpaRepository<UserCredentials
 
     Optional<UserCredentials> findByUsername(String username);
 
+    Boolean existsByUsername(String username);
+
 }
