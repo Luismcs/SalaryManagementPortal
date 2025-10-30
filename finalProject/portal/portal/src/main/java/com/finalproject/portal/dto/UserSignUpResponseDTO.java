@@ -1,7 +1,10 @@
 package com.finalproject.portal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +21,7 @@ public class UserSignUpResponseDTO {
 
     @Schema(description = "The collaborator's username", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The username cannot be empty")
+    @NotBlank(message = "The username cannot be empty")
     private String username;
 
     private List<RoleDTO> roles;
@@ -36,6 +39,7 @@ public class UserSignUpResponseDTO {
     @Schema(description = "The collaborator's birth date", example = "2003-09-23", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The birth date cannot be empty")
+    @Past(message = "The birth date must be in the past")
     private LocalDate birthDate;
 
     @Schema(description = "The collaborator's nif", example = "123123123",

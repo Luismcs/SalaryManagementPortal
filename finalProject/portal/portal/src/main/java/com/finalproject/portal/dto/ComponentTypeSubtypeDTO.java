@@ -1,6 +1,7 @@
 package com.finalproject.portal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class ComponentTypeSubtypeDTO extends AbstractDTO {
@@ -12,7 +13,7 @@ public class ComponentTypeSubtypeDTO extends AbstractDTO {
 
     @Schema(description = "Component Type Subtype's name", example = "CoverFlex", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The Component Type Subtype's name cannot be null")
+    @NotBlank(message = "The Component Type Subtype's name cannot be blank")
     private String name;
 
     public Long getComponentTypeId() {

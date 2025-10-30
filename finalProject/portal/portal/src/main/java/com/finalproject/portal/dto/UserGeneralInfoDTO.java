@@ -1,7 +1,9 @@
 package com.finalproject.portal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,36 +16,38 @@ public class UserGeneralInfoDTO {
 
     @Schema(description = "The collaborator's username", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The username cannot be empty")
+    @NotBlank(message = "The username cannot be blank")
     private String username;
 
+    @NotBlank(message = "The password cannot be blank")
     private String password;
 
     private List<RoleDTO> roles;
 
     @Schema(description = "The collaborator's full name", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The full name cannot be empty")
+    @NotBlank(message = "The full name cannot be blank")
     private String fullName;
 
     @Schema(description = "The collaborator's gender", example = "M", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The gender cannot be empty")
+    @NotBlank(message = "The gender cannot be blank")
     private String gender;
 
     @Schema(description = "The collaborator's birth date", example = "2003-09-23", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The birth date cannot be empty")
+    @Past(message = "The birth date must be in the past")
     private LocalDate birthDate;
 
     @Schema(description = "The collaborator's nif", example = "123123123",
             requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The nif cannot be empty")
+    @NotBlank(message = "The nif cannot be blank")
     private String nif;
 
     @Schema(description = "The collaborator's email", example = "john_doe@email.com", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The email cannot be empty")
+    @NotBlank(message = "The email cannot be blank")
     private String email;
 
     private List<AddressDTO> addresses;

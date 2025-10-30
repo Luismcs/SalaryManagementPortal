@@ -19,7 +19,7 @@ public class SalaryDTO extends AbstractDTO {
 
     @Schema(description = "Salary's implementation Date", example = "2023-10-10", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    //@Future(message = "Salary's implementation Date must be after today")
+    @Future(message = "Salary's implementation Date must be after today")
     private LocalDate implementationDate;
 
     @Schema(description = "Salary's status", example = "ACTIVE", requiredMode =

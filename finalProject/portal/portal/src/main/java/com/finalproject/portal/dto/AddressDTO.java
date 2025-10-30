@@ -1,24 +1,25 @@
 package com.finalproject.portal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class AddressDTO extends AbstractDTO {
 
     @Schema(description = "The address's street", example = "123 Main St", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The street cannot be empty")
+    @NotBlank(message = "The street cannot be blank")
     private String street;
 
     @Schema(description = "The address's postalCode", example = "62701", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The postal-code cannot be empty")
+    @NotBlank(message = "The postal-code cannot be blank")
     private String postalCode;
 
     @Schema(description = "The address's city", example = "Springfield", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The city cannot be empty")
+    @NotBlank(message = "The city cannot be blank")
     private String city;
 
     @Schema(description = "The address's country", example = "USA", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The count cannot be empty")
+    @NotBlank(message = "The count cannot be blank")
     private String country;
 
     @Schema(description = "The address's collaborator ID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)

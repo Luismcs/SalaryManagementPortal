@@ -44,6 +44,10 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
         this.roleMapper = roleMapper;
     }
 
+    public boolean existsByUsername(String username) {
+        return userCredentialsRepository.existsByUsername(username);
+    }
+
     public Page<UserCredentialsDTO> getAll(Pageable pageable) {
         Page<UserCredentials> collaborators = userCredentialsRepository.findAll(pageable);
 
@@ -51,7 +55,6 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     }
 
     public UserCredentialsDTO getById(Long id) throws UserCredentialsNotFound {
-
         UserCredentials userCredentials =
                 userCredentialsRepository.findById(id).orElseThrow(() ->
                         new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
@@ -81,7 +84,6 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
         setUserCredentialsRoles(userCredentialsDTO, userCredentials);
         userCredentials.setPassword(passwordUtils.hash(userCredentials.getPassword()));
         UserCredentials savedUserCredentials = userCredentialsRepository.save(userCredentials);
-
         log.info("User credentials with id {} created successfully", savedUserCredentials.getId());
 
         return userCredentialsMapper.toDTO(savedUserCredentials);
@@ -102,22 +104,18 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     }
 
     public UserCredentialsDTO update(UserCredentialsDTO userCredentialsDTO) throws UserCredentialsNotFound {
-        UserCredentials userCredentialsFound =
-                userCredentialsRepository.findById(userCredentialsDTO.getId()).orElseThrow(() ->
-                        new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
-                                404, ErrorMessage.USER_CREDENTIALS_NOT_FOUND, userCredentialsDTO.getId()));
-        System.out.println(userCredentialsFound);
         UserCredentials receivedUserCredentials = userCredentialsMapper.toEntity(userCredentialsDTO);
 
+        userCredentialsRepository.findById(userCredentialsDTO.getId()).orElseThrow(() ->
+                new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
+                        404, ErrorMessage.USER_CREDENTIALS_NOT_FOUND, userCredentialsDTO.getId()));
         setUserCredentialsRoles(userCredentialsDTO, receivedUserCredentials);
-        System.out.println(receivedUserCredentials);
-        System.out.println(receivedUserCredentials.getId());
         userCredentialsRepository.save(receivedUserCredentials);
 
         return userCredentialsDTO;
     }
 
-    public void delete(long id) throws UserCredentialsNotFound {
+    public void delete(Long id) throws UserCredentialsNotFound {
         userCredentialsRepository.findById(id).orElseThrow(() ->
                 new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
                         404, ErrorMessage.USER_CREDENTIALS_NOT_FOUND, id));
@@ -126,10 +124,5 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
         log.info("User credentials with id {} deleted successfully", id);
 
     }
-
-    public boolean existsByUsername(String username) {
-        return userCredentialsRepository.existsByUsername(username);
-    }
-
 
 }

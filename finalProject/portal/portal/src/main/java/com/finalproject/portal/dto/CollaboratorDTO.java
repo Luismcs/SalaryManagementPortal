@@ -2,13 +2,14 @@ package com.finalproject.portal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class CollaboratorDTO {
+public class CollaboratorDTO extends AbstractDTO {
 
     @Schema(description = "The collaborator's id", example = "1", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
@@ -16,28 +17,28 @@ public class CollaboratorDTO {
 
     @Schema(description = "The collaborator's full name", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The full name cannot be empty")
+    @NotBlank(message = "The full name cannot be blank")
     private String fullName;
 
     @Schema(description = "The collaborator's gender", example = "M", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The gender cannot be empty")
+    @NotBlank(message = "The gender cannot be blank")
     private String gender;
 
     @Schema(description = "The collaborator's birth date", example = "2003-09-23", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The birth date cannot be empty")
+    @NotBlank(message = "The birth date cannot be blank")
     private LocalDate birthDate;
 
     @Schema(description = "The collaborator's nif", example = "123123123",
             requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The nif cannot be empty")
+    @NotBlank(message = "The nif cannot be blank")
     @Size(min = 9, max = 9, message = "The nif must contain exactly 9 digits")
     private String nif;
 
     @Schema(description = "The collaborator's email", example = "john_doe@email.com", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The email cannot be empty")
+    @NotBlank(message = "The email cannot be blank")
     @Email(message = "The email must be valid")
     private String email;
 
