@@ -3,7 +3,6 @@ package com.finalproject.authentication.service;
 import com.finalproject.authentication.config.ConfigProperties;
 import com.finalproject.authentication.dto.JWTResponseDTO;
 import com.finalproject.authentication.dto.RefreshTokenDTO;
-import com.finalproject.authentication.dto.SignInDTO;
 import com.finalproject.authentication.model.RefreshToken;
 import com.finalproject.authentication.model.UserCredentials;
 import com.finalproject.authentication.repository.UserCredentialsRepository;

@@ -1,19 +1,16 @@
 package com.finalproject.portal.mapper;
 
-import com.finalproject.portal.dto.CollaboratorDTO;
-import com.finalproject.portal.dto.UserCredentialsDTO;
-import com.finalproject.portal.dto.UserGeneralInfoDTO;
-import com.finalproject.portal.dto.UserSignUpResponseDTO;
+import com.finalproject.portal.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserSignUpResponseDTOMapper {
 
-    // Fields got from userGeneralInfoDTO
-    @Mapping(target = "username", source = "userGeneralInfoDTO.username")
-    @Mapping(target = "email", source = "userGeneralInfoDTO.email")
-    @Mapping(target = "roles", source = "userGeneralInfoDTO.roles")
+    // Fields got from SignUpRequestDTO
+    @Mapping(target = "username", source = "signUpRequestDTO.username")
+    @Mapping(target = "email", source = "signUpRequestDTO.email")
+    @Mapping(target = "roles", source = "signUpRequestDTO.roles")
 
     // Fields got from collaboratorDTO
     @Mapping(target = "fullName", source = "collaboratorDTO.fullName")
@@ -25,17 +22,17 @@ public interface UserSignUpResponseDTOMapper {
     // IDs específicos
     @Mapping(target = "collaboratorId", source = "collaboratorDTO.id")
     @Mapping(target = "userCredentialsId", source = "userCredentialsDTO.id")
-    UserSignUpResponseDTO toResponseDTO(UserGeneralInfoDTO userGeneralInfoDTO, CollaboratorDTO collaboratorDTO,
+    UserSignUpResponseDTO toResponseDTO(SignUpRequestDTO signUpRequestDTO, CollaboratorDTO collaboratorDTO,
                                         UserCredentialsDTO userCredentialsDTO);
 
-    // Fields got from userGeneralInfoDTO
-    @Mapping(target = "fullName", source = "userGeneralInfoDTO.fullName")
-    @Mapping(target = "gender", source = "userGeneralInfoDTO.gender")
-    @Mapping(target = "birthDate", source = "userGeneralInfoDTO.birthDate")
-    @Mapping(target = "nif", source = "userGeneralInfoDTO.nif")
-    @Mapping(target = "email", source = "userGeneralInfoDTO.email")
-    @Mapping(target = "addresses", source = "userGeneralInfoDTO.addresses")
-    CollaboratorDTO toCollaboratorDTO(UserGeneralInfoDTO userGeneralInfoDTO);
+    // Fields got from signUpRequestDTO
+    @Mapping(target = "fullName", source = "signUpRequestDTO.fullName")
+    @Mapping(target = "gender", source = "signUpRequestDTO.gender")
+    @Mapping(target = "birthDate", source = "signUpRequestDTO.birthDate")
+    @Mapping(target = "nif", source = "signUpRequestDTO.nif")
+    @Mapping(target = "email", source = "signUpRequestDTO.email")
+    @Mapping(target = "addresses", source = "signUpRequestDTO.addresses")
+    CollaboratorDTO toCollaboratorDTO(SignUpRequestDTO signUpRequestDTO);
 
     // Fields got from userGeneralInfoDTO and savedCollaboratorDTO
     @Mapping(target = "id", ignore = true)
@@ -44,11 +41,11 @@ public interface UserSignUpResponseDTOMapper {
     @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "lastModifiedDate", ignore = true)
     @Mapping(target = "version", ignore = true)
-    @Mapping(target = "username", source = "userGeneralInfoDTO.username")
-    @Mapping(target = "password", source = "userGeneralInfoDTO.password")
+    @Mapping(target = "username", source = "signUpRequestDTO.username")
+    @Mapping(target = "password", source = "signUpRequestDTO.password")
     @Mapping(target = "correlationId", source = "savedCollaboratorDTO.id")
-    @Mapping(target = "roles", source = "userGeneralInfoDTO.roles")
-    UserCredentialsDTO toUserCredentialsDTO(UserGeneralInfoDTO userGeneralInfoDTO,
+    @Mapping(target = "roles", source = "signUpRequestDTO.roles")
+    UserCredentialsDTO toUserCredentialsDTO(SignUpRequestDTO signUpRequestDTO,
                                             CollaboratorDTO savedCollaboratorDTO);
 
 }

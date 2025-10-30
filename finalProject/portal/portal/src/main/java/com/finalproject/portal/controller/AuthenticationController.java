@@ -36,8 +36,8 @@ public class AuthenticationController {
             }
     )
     @PostMapping("/sign-up")
-    public UserSignUpResponseDTO signUp(@RequestBody UserGeneralInfoDTO userGeneralInfoDTO) throws UsernameAlreadyExistsException {
-        return authenticationService.signUp(userGeneralInfoDTO);
+    public UserSignUpResponseDTO signUp(@RequestBody SignUpRequestDTO signUpRequestDTO) throws UsernameAlreadyExistsException {
+        return authenticationService.signUp(signUpRequestDTO);
     }
 
     @Operation(
@@ -52,8 +52,8 @@ public class AuthenticationController {
             }
     )
     @PostMapping("/sign-in")
-    public JWTResponseDTO signUp(@RequestBody SignInDTO signInDTO) {
-        return authenticationService.signIn(signInDTO);
+    public JWTResponseDTO signIn(@RequestBody SignInRequestDTO signInRequestDTO) {
+        return authenticationService.signIn(signInRequestDTO);
     }
 
     @Operation(

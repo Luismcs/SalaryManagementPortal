@@ -2,7 +2,7 @@ package com.finalproject.authentication.service.impl;
 
 import com.finalproject.authentication.dto.JWTResponseDTO;
 import com.finalproject.authentication.dto.RefreshTokenDTO;
-import com.finalproject.authentication.dto.SignInDTO;
+import com.finalproject.authentication.dto.SignInRequestDTO;
 import com.finalproject.authentication.enums.ErrorResponseCode;
 import com.finalproject.authentication.exception.BadCredentialsException;
 import com.finalproject.authentication.exception.ErrorMessage;
@@ -39,25 +39,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
-    public JWTResponseDTO signIn(SignInDTO signInDTO) throws BadCredentialsException {
-        Optional<UserCredentials> userCredentials = userCredentialsRepository.findByUsername(signInDTO.getUsername());
+    public JWTResponseDTO signIn(SignInRequestDTO signInRequestDTO) throws BadCredentialsException {
+        Optional<UserCredentials> userCredentials = userCredentialsRepository.findByUsername(signInRequestDTO.getUsername());
 
         if (userCredentials.isEmpty()) {
             throw new BadCredentialsException(ErrorResponseCode.BAD_CREDENTIALS, 409, ErrorMessage.BAD_CREDENTIALS,
-                    signInDTO.getUsername());
+                    signInRequestDTO.getUsername());
         }
-        if (!passwordUtils.matches(signInDTO.getPassword(), userCredentials.get().getPassword())) {
+        if (!passwordUtils.matches(signInRequestDTO.getPassword(), userCredentials.get().getPassword())) {
             throw new BadCredentialsException(ErrorResponseCode.BAD_CREDENTIALS, 409, ErrorMessage.BAD_CREDENTIALS,
-                    signInDTO.getPassword());
+                    signInRequestDTO.getPassword());
         }
 
-        String refreshToken = jwtServiceImpl.generateRefreshToken(signInDTO.getUsername(), getRoles(userCredentials.get()));
+        String refreshToken = jwtServiceImpl.generateRefreshToken(signInRequestDTO.getUsername(), getRoles(userCredentials.get()));
 
         saveRefreshToken(refreshToken, userCredentials.get());
 
         log.info("{} logged in successfully", userCredentials.get().getUsername());
 
-        return new JWTResponseDTO(jwtServiceImpl.generateToken(signInDTO.getUsername(), getRoles(userCredentials.get())),
+        return new JWTResponseDTO(jwtServiceImpl.generateToken(signInRequestDTO.getUsername(), getRoles(userCredentials.get())),
                 refreshToken);
     }
 

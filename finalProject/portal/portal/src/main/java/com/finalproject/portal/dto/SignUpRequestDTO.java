@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.List;
 
-public class UserGeneralInfoDTO {
+public class SignUpRequestDTO {
 
     @Schema(description = "The collaborator's id", example = "1", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
@@ -136,8 +136,11 @@ public class UserGeneralInfoDTO {
 
     @Override
     public String toString() {
-        return "CollaboratorDTO{" +
-                "username='" + username + '\'' +
+        return "SignUpRequestDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
                 ", fullName='" + fullName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", birthDate=" + birthDate +
@@ -146,5 +149,4 @@ public class UserGeneralInfoDTO {
                 ", addresses=" + addresses +
                 '}';
     }
-
 }

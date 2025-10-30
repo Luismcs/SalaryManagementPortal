@@ -30,23 +30,24 @@ public class AuthenticationServiceImpl {
         this.userSignUpResponseDTOMapper = userSignUpResponseDTOMapper;
     }
 
-    public UserSignUpResponseDTO signUp(UserGeneralInfoDTO userGeneralInfoDTO) throws UsernameAlreadyExistsException {
-        if(Boolean.TRUE.equals(userCredentialsClient.existsByUsername(userGeneralInfoDTO.getUsername()).getBody())){
-            throw new UsernameAlreadyExistsException(ErrorResponseCode.USERNAME_ALREADY_EXISTS, 409, ErrorMessage.USER_ALREADY_EXISTS, userGeneralInfoDTO.getUsername());
+    public UserSignUpResponseDTO signUp(SignUpRequestDTO signUpRequestDTO) throws UsernameAlreadyExistsException {
+        if (Boolean.TRUE.equals(userCredentialsClient.existsByUsername(signUpRequestDTO.getUsername()).getBody())) {
+            throw new UsernameAlreadyExistsException(ErrorResponseCode.USERNAME_ALREADY_EXISTS, 409,
+                    ErrorMessage.USER_ALREADY_EXISTS, signUpRequestDTO.getUsername());
         }
 
-        CollaboratorDTO collaboratorDTO = userSignUpResponseDTOMapper.toCollaboratorDTO(userGeneralInfoDTO);
+        CollaboratorDTO collaboratorDTO = userSignUpResponseDTOMapper.toCollaboratorDTO(signUpRequestDTO);
         ResponseEntity<CollaboratorDTO> savedCollaborator = collaboratorClient.create(collaboratorDTO);
-        UserCredentialsDTO userCredentialsDTO = new UserCredentialsDTO(userGeneralInfoDTO.getUsername(),
-                userGeneralInfoDTO.getPassword(),
-                savedCollaborator.getBody().getId().toString(), userGeneralInfoDTO.getRoles());
+        UserCredentialsDTO userCredentialsDTO = new UserCredentialsDTO(signUpRequestDTO.getUsername(),
+                signUpRequestDTO.getPassword(),
+                savedCollaborator.getBody().getId().toString(), signUpRequestDTO.getRoles());
         ResponseEntity<UserCredentialsDTO> savedUserCredentialsDTO = userCredentialsClient.create(userCredentialsDTO);
-        return userSignUpResponseDTOMapper.toResponseDTO(userGeneralInfoDTO,
+        return userSignUpResponseDTOMapper.toResponseDTO(signUpRequestDTO,
                 savedCollaborator.getBody(), savedUserCredentialsDTO.getBody());
     }
 
-    public JWTResponseDTO signIn(SignInDTO signInDTO) {
-        return authenticationClient.signIn(signInDTO).getBody();
+    public JWTResponseDTO signIn(SignInRequestDTO signInRequestDTO) {
+        return authenticationClient.signIn(signInRequestDTO).getBody();
     }
 
     public JWTResponseDTO refreshToken(RefreshTokenDTO refreshTokenDTO) {

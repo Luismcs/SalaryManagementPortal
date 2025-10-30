@@ -35,7 +35,7 @@ public class AuthenticationControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private SignInDTO signInDTO;
+    private SignInRequestDTO signInRequestDTO;
     private RefreshTokenDTO refreshTokenDTO;
     private JWTResponseDTO jwtResponseDTO;
 
@@ -46,9 +46,9 @@ public class AuthenticationControllerTest {
         jwtResponseDTO.setRefreshToken("987654321abcdefg");
         refreshTokenDTO = new RefreshTokenDTO();
         refreshTokenDTO.setRefreshToken("abcdefg123456789");
-        signInDTO = new SignInDTO();
-        signInDTO.setUsername("johndoe");
-        signInDTO.setPassword("abcdefg");
+        signInRequestDTO = new SignInRequestDTO();
+        signInRequestDTO.setUsername("johndoe");
+        signInRequestDTO.setPassword("abcdefg");
 
     }
 
@@ -56,10 +56,10 @@ public class AuthenticationControllerTest {
     public void authenticationController_signIn_returnsJwtResponseDTO() throws Exception {
 
         //Act
-        when(authenticationService.signIn(any(SignInDTO.class))).thenReturn(jwtResponseDTO);
+        when(authenticationService.signIn(any(SignInRequestDTO.class))).thenReturn(jwtResponseDTO);
         ResultActions response = mockMvc.perform(post("/authentication/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(signInDTO)));
+                .content(objectMapper.writeValueAsString(signInRequestDTO)));
 
         //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())

@@ -2,7 +2,7 @@ package com.finalproject.authentication.service;
 
 import com.finalproject.authentication.dto.JWTResponseDTO;
 import com.finalproject.authentication.dto.RefreshTokenDTO;
-import com.finalproject.authentication.dto.SignInDTO;
+import com.finalproject.authentication.dto.SignInRequestDTO;
 import com.finalproject.authentication.exception.BadCredentialsException;
 import com.finalproject.authentication.exception.RefreshTokenNotValid;
 import com.finalproject.authentication.exception.RefreshTokenStillValidException;
@@ -46,7 +46,7 @@ public class AuthenticationServiceTest {
     @InjectMocks
     private AuthenticationServiceImpl authenticationService;
 
-    private SignInDTO signInDTO;
+    private SignInRequestDTO signInRequestDTO;
     private UserCredentials userCredentials;
     private String[] roles;
     private String refreshToken;
@@ -58,9 +58,9 @@ public class AuthenticationServiceTest {
     @BeforeEach
     void init() {
 
-        signInDTO = new SignInDTO();
-        signInDTO.setUsername("johndoe");
-        signInDTO.setPassword("securePassword123");
+        signInRequestDTO = new SignInRequestDTO();
+        signInRequestDTO.setUsername("johndoe");
+        signInRequestDTO.setPassword("securePassword123");
         userCredentials = new UserCredentials();
         userCredentials.setUsername("johndoe");
         userCredentials.setPassword("$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.");
@@ -81,11 +81,11 @@ public class AuthenticationServiceTest {
     void authenticationService_signIn_returnsJWTResponseDTO() throws BadCredentialsException {
 
         //Act
-        when(userCredentialsRepository.findByUsername(signInDTO.getUsername())).thenReturn(Optional.ofNullable(userCredentials));
-        when(passwordUtils.matches(signInDTO.getPassword(), userCredentials.getPassword())).thenReturn(true);
-        when(jwtService.generateRefreshToken(signInDTO.getUsername(), roles)).thenReturn(refreshToken);
-        when(jwtService.generateToken(signInDTO.getUsername(), roles)).thenReturn(String.valueOf(responseDTO));
-        JWTResponseDTO jwtResponseDTO = authenticationService.signIn(signInDTO);
+        when(userCredentialsRepository.findByUsername(signInRequestDTO.getUsername())).thenReturn(Optional.ofNullable(userCredentials));
+        when(passwordUtils.matches(signInRequestDTO.getPassword(), userCredentials.getPassword())).thenReturn(true);
+        when(jwtService.generateRefreshToken(signInRequestDTO.getUsername(), roles)).thenReturn(refreshToken);
+        when(jwtService.generateToken(signInRequestDTO.getUsername(), roles)).thenReturn(String.valueOf(responseDTO));
+        JWTResponseDTO jwtResponseDTO = authenticationService.signIn(signInRequestDTO);
 
         //Assert
         assertThat(jwtResponseDTO).isNotNull();

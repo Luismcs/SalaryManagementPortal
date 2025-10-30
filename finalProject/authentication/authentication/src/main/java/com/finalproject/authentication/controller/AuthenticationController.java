@@ -2,7 +2,7 @@ package com.finalproject.authentication.controller;
 
 import com.finalproject.authentication.dto.JWTResponseDTO;
 import com.finalproject.authentication.dto.RefreshTokenDTO;
-import com.finalproject.authentication.dto.SignInDTO;
+import com.finalproject.authentication.dto.SignInRequestDTO;
 import com.finalproject.authentication.exception.BadCredentialsException;
 import com.finalproject.authentication.exception.RefreshTokenNotValid;
 import com.finalproject.authentication.exception.RefreshTokenStillValidException;
@@ -40,9 +40,9 @@ public class AuthenticationController {
             }
     )
     @PostMapping("/sign-in")
-    public ResponseEntity<JWTResponseDTO> signIn(@Valid @RequestBody SignInDTO signInDTO) throws
+    public ResponseEntity<JWTResponseDTO> signIn(@Valid @RequestBody SignInRequestDTO signInRequestDTO) throws
             BadCredentialsException {
-        JWTResponseDTO jwtResponseDTO = authenticationService.signIn(signInDTO);
+        JWTResponseDTO jwtResponseDTO = authenticationService.signIn(signInRequestDTO);
         return ResponseEntity.ok(jwtResponseDTO);
     }
 

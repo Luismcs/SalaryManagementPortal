@@ -17,29 +17,29 @@ public class CollaboratorDTO extends AbstractDTO {
 
     @Schema(description = "The collaborator's full name", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The full name cannot be blank")
+    @NotBlank(message = "The collaborator's fullName cannot be blank")
     private String fullName;
 
     @Schema(description = "The collaborator's gender", example = "M", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The gender cannot be blank")
+    @NotBlank(message = "The collaborator's gender cannot be blank")
     private String gender;
 
     @Schema(description = "The collaborator's birth date", example = "2003-09-23", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The birth date cannot be blank")
+    @NotBlank(message = "The collaborator's birth date cannot be blank")
     private LocalDate birthDate;
 
     @Schema(description = "The collaborator's nif", example = "123123123",
             requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The nif cannot be blank")
+    @NotBlank(message = "The collaborator's nif cannot be blank")
     @Size(min = 9, max = 9, message = "The nif must contain exactly 9 digits")
     private String nif;
 
     @Schema(description = "The collaborator's email", example = "john_doe@email.com", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The email cannot be blank")
-    @Email(message = "The email must be valid")
+    @NotBlank(message = "The collaborator's email cannot be blank")
+    @Email(message = "The collaborator's email must be valid")
     private String email;
 
     private List<AddressDTO> addresses;

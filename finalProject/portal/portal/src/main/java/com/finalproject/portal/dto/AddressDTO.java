@@ -7,23 +7,23 @@ import jakarta.validation.constraints.NotNull;
 public class AddressDTO extends AbstractDTO {
 
     @Schema(description = "The address's street", example = "123 Main St", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The street cannot be blank")
+    @NotBlank(message = "The address's street cannot be blank")
     private String street;
 
     @Schema(description = "The address's postalCode", example = "62701", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The postal-code cannot be blank")
+    @NotBlank(message = "The address's postal-code cannot be blank")
     private String postalCode;
 
     @Schema(description = "The address's city", example = "Springfield", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The city cannot be blank")
+    @NotBlank(message = "The address's city cannot be blank")
     private String city;
 
     @Schema(description = "The address's country", example = "USA", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The count cannot be blank")
+    @NotBlank(message = "The address's country cannot be blank")
     private String country;
 
     @Schema(description = "The address's collaborator ID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The userAccountId cannot be empty")
+    @NotNull(message = "The address's collaboratorId cannot be empty")
     private Long collaboratorId;
 
     public String getStreet() {
