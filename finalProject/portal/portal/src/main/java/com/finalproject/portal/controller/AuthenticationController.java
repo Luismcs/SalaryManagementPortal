@@ -36,7 +36,7 @@ public class AuthenticationController {
             }
     )
     @PostMapping("/sign-up")
-    public UserSignUpResponseDTO signUp(@RequestBody SignUpRequestDTO signUpRequestDTO) throws UsernameAlreadyExistsException {
+    public SignUpResponseDTO signUp(@RequestBody SignUpRequestDTO signUpRequestDTO) throws UsernameAlreadyExistsException {
         return authenticationService.signUp(signUpRequestDTO);
     }
 

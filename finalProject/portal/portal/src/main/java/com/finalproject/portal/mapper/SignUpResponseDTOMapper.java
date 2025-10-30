@@ -1,11 +1,14 @@
 package com.finalproject.portal.mapper;
 
-import com.finalproject.portal.dto.*;
+import com.finalproject.portal.dto.CollaboratorDTO;
+import com.finalproject.portal.dto.SignUpRequestDTO;
+import com.finalproject.portal.dto.SignUpResponseDTO;
+import com.finalproject.portal.dto.UserCredentialsDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface UserSignUpResponseDTOMapper {
+public interface SignUpResponseDTOMapper {
 
     // Fields got from SignUpRequestDTO
     @Mapping(target = "username", source = "signUpRequestDTO.username")
@@ -22,8 +25,8 @@ public interface UserSignUpResponseDTOMapper {
     // IDs específicos
     @Mapping(target = "collaboratorId", source = "collaboratorDTO.id")
     @Mapping(target = "userCredentialsId", source = "userCredentialsDTO.id")
-    UserSignUpResponseDTO toResponseDTO(SignUpRequestDTO signUpRequestDTO, CollaboratorDTO collaboratorDTO,
-                                        UserCredentialsDTO userCredentialsDTO);
+    SignUpResponseDTO toSignUpResponseDTO(SignUpRequestDTO signUpRequestDTO, CollaboratorDTO collaboratorDTO,
+                                          UserCredentialsDTO userCredentialsDTO);
 
     // Fields got from signUpRequestDTO
     @Mapping(target = "fullName", source = "signUpRequestDTO.fullName")

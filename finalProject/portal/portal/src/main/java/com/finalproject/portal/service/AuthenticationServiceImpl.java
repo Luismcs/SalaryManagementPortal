@@ -7,7 +7,7 @@ import com.finalproject.portal.dto.*;
 import com.finalproject.portal.enums.ErrorResponseCode;
 import com.finalproject.portal.exception.ErrorMessage;
 import com.finalproject.portal.exception.UsernameAlreadyExistsException;
-import com.finalproject.portal.mapper.UserSignUpResponseDTOMapper;
+import com.finalproject.portal.mapper.SignUpResponseDTOMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,30 +19,30 @@ public class AuthenticationServiceImpl {
     private final CollaboratorClient collaboratorClient;
     private final UserCredentialsClient userCredentialsClient;
     private final AuthenticationClient authenticationClient;
-    private final UserSignUpResponseDTOMapper userSignUpResponseDTOMapper;
+    private final SignUpResponseDTOMapper signUpResponseDTOMapper;
 
     public AuthenticationServiceImpl(CollaboratorClient collaboratorClient
             , UserCredentialsClient userCredentialsClient, AuthenticationClient authenticationClient,
-                                     UserSignUpResponseDTOMapper userSignUpResponseDTOMapper) {
+                                     SignUpResponseDTOMapper signUpResponseDTOMapper) {
         this.collaboratorClient = collaboratorClient;
         this.userCredentialsClient = userCredentialsClient;
         this.authenticationClient = authenticationClient;
-        this.userSignUpResponseDTOMapper = userSignUpResponseDTOMapper;
+        this.signUpResponseDTOMapper = signUpResponseDTOMapper;
     }
 
-    public UserSignUpResponseDTO signUp(SignUpRequestDTO signUpRequestDTO) throws UsernameAlreadyExistsException {
+    public SignUpResponseDTO signUp(SignUpRequestDTO signUpRequestDTO) throws UsernameAlreadyExistsException {
         if (Boolean.TRUE.equals(userCredentialsClient.existsByUsername(signUpRequestDTO.getUsername()).getBody())) {
             throw new UsernameAlreadyExistsException(ErrorResponseCode.USERNAME_ALREADY_EXISTS, 409,
                     ErrorMessage.USER_ALREADY_EXISTS, signUpRequestDTO.getUsername());
         }
 
-        CollaboratorDTO collaboratorDTO = userSignUpResponseDTOMapper.toCollaboratorDTO(signUpRequestDTO);
+        CollaboratorDTO collaboratorDTO = signUpResponseDTOMapper.toCollaboratorDTO(signUpRequestDTO);
         ResponseEntity<CollaboratorDTO> savedCollaborator = collaboratorClient.create(collaboratorDTO);
         UserCredentialsDTO userCredentialsDTO = new UserCredentialsDTO(signUpRequestDTO.getUsername(),
                 signUpRequestDTO.getPassword(),
                 savedCollaborator.getBody().getId().toString(), signUpRequestDTO.getRoles());
         ResponseEntity<UserCredentialsDTO> savedUserCredentialsDTO = userCredentialsClient.create(userCredentialsDTO);
-        return userSignUpResponseDTOMapper.toResponseDTO(signUpRequestDTO,
+        return signUpResponseDTOMapper.toSignUpResponseDTO(signUpRequestDTO,
                 savedCollaborator.getBody(), savedUserCredentialsDTO.getBody());
     }
 
