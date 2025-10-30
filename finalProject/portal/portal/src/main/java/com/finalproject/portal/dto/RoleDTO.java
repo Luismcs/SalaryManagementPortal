@@ -7,7 +7,7 @@ public class RoleDTO extends AbstractDTO{
 
     @Schema(description = "The roles's name", example = "ADMIN", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The role name cannot be empty")
+    @NotNull(message = "The role's name cannot be empty")
     private String name;
 
     public String getName() {

@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotNull;
 
 public class JWTResponseDTO {
 
-    @Schema(description = "The JWTResponse's accessToken", example = "eyJhbGciOiJIUzI1...", requiredMode =
+    @Schema(description = "The JWTResponse's access-token", example = "eyJhbGciOiJIUzI1...", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The JWTResponse accessToken cannot be empty")
     private String accessToken;
 
-    @Schema(description = "The JWTResponse's refreshToken", example = "eyJhbGciOiJIUzI1...", requiredMode =
+    @Schema(description = "The JWTResponse's refresh-token", example = "eyJhbGciOiJIUzI1...", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The JWTResponse refreshToken cannot be empty")
     private String refreshToken;

@@ -8,26 +8,26 @@ import java.time.LocalDate;
 
 public class FilteredExportRequestDTO {
 
-    @Schema(description = "FilteredExportRequest's starting Date", example = "2023-10-10", requiredMode =
+    @Schema(description = "Filtered Export Request's start date", example = "2023-10-10", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The FilteredExportRequest's starting Date cannot be null")
     private LocalDate startDate;
 
-    @Schema(description = "FilteredExportRequest's ending Date", example = "2023-10-12", requiredMode =
+    @Schema(description = "Filtered Export Request's ending date", example = "2023-10-12", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The FilteredExportRequest's ending Date cannot be null")
     private LocalDate endDate;
 
-    @Schema(description = "FilteredExportRequest's salary State", example = "ACTIVE", requiredMode =
+    @Schema(description = "Filtered Export Request's salary state", example = "ACTIVE", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The FilteredExportRequest's salary State cannot be null")
     private SalaryState salaryState;
 
-    @Schema(description = "FilteredExportRequest's correlationId", example = "1", requiredMode =
+    @Schema(description = "Filtered Export Request's correlation id", example = "1", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
     private String correlationId;
 
-    @Schema(description = "FilteredExportRequest's email", example = "johndoe@email.com", requiredMode =
+    @Schema(description = "Filtered Export Request's email", example = "johndoe@email.com", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
     private String email;
 

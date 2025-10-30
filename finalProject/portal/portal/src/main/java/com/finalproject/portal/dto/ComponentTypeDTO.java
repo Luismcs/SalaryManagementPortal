@@ -13,7 +13,7 @@ public class ComponentTypeDTO extends AbstractDTO {
     @NotBlank(message = "The Component Type's name cannot be blank")
     private String name;
 
-    @Schema(description = "Component Type's component Type Subtype list", requiredMode =
+    @Schema(description = "Component Type's component Type Subtypes list", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
     private List<ComponentTypeSubtypeDTO> componentTypeSubtypes;
 
