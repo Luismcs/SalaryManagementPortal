@@ -42,6 +42,8 @@ public class CollaboratorDTO extends AbstractDTO {
     @Email(message = "The collaborator's email must be valid")
     private String email;
 
+    @Schema(description = "The Collaborator's addresses", example = "john_doe@email.com", requiredMode =
+            Schema.RequiredMode.REQUIRED)
     private List<AddressDTO> addresses;
 
     public Long getId() {
