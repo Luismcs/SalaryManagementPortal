@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class RoleDTO extends AbstractDTO{
 
-    @Schema(description = "The roles's name", example = "ADMIN", requiredMode =
+    @Schema(description = "The Roles's name", example = "ADMIN", requiredMode =
             Schema.RequiredMode.REQUIRED)
     @NotNull(message = "The role's name cannot be empty")
     private String name;

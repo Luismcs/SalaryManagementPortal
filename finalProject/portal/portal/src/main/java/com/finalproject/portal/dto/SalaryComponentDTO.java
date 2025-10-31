@@ -4,32 +4,32 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
-public class SalaryComponentDTO extends AbstractDTO{
+public class SalaryComponentDTO extends AbstractDTO {
 
-    @Schema(description = "Salary Component's component type id", example = "1", requiredMode =
+    @Schema(description = "The Salary Component's Component Type id", example = "1", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The Salary component's component type id cannot be null")
+    @NotNull(message = "The salary component's component type id cannot be null")
     private Long componentTypeId;
 
-    @Schema(description = "Salary component's component type subtype id", example = "2", requiredMode =
+    @Schema(description = "The Salary Component's Component type Subtype id", example = "2", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The Salary component's component type subtype id cannot be null")
+    @NotNull(message = "The salary component's component type subtype id cannot be null")
     private Long componentTypeSubtypeId;
 
-    @Schema(description = "Salary component's salary id", example = "2", requiredMode =
+    @Schema(description = "The Salary Component's Salary id", example = "2", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The Salary component's salary id cannot be null")
+    @NotNull(message = "The salary component's salary id cannot be null")
     private Long salaryId;
 
-    @Schema(description = "Salary component's value", example = "123", requiredMode =
+    @Schema(description = "The Salary Component's value", example = "123", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The Salary component's value cannot be null")
-    @DecimalMin(value = "0.01", inclusive = true, message = "The Salary Component's value must be at least 0.01")
+    @NotNull(message = "The salary component's value cannot be null")
+    @DecimalMin(value = "0.01", inclusive = true, message = "The salary component's value must be at least 0.01")
     private Double value;
 
-    @Schema(description = "Salary component's present on receipt", example = "true", requiredMode =
+    @Schema(description = "The Salary Component's present on receipt", example = "true", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The Salary component's present on receipt cannot be null")
+    @NotNull(message = "The salary component's present on receipt cannot be null")
     private Boolean presentOnReceipt;
 
     public Long getComponentTypeId() {

@@ -6,14 +6,14 @@ import jakarta.validation.constraints.NotNull;
 
 public class ComponentTypeSubtypeDTO extends AbstractDTO {
 
-    @Schema(description = "ComponentTypeSubtype's ComponentType Id", example = "1", requiredMode =
+    @Schema(description = "The Component Type Subtype's Component Type Id", example = "1", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The Component Type Subtype's ComponentType Id cannot be null")
+    @NotNull(message = "The component type subtype's component type id cannot be null")
     private Long componentTypeId;
 
-    @Schema(description = "Component Type Subtype's name", example = "CoverFlex", requiredMode =
+    @Schema(description = "The Component Type Subtype's name", example = "CoverFlex", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The Component Type Subtype's name cannot be blank")
+    @NotBlank(message = "The component type subtype's name cannot be blank")
     private String name;
 
     public Long getComponentTypeId() {

@@ -6,19 +6,19 @@ import java.util.List;
 
 public class UserCredentialsDTO extends AbstractDTO {
 
-    @Schema(description = "The User credentials username", example = "john_doe", requiredMode =
+    @Schema(description = "The User Credentials username", example = "john_doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
     private String username;
 
-    @Schema(description = "The User credentials password", example = "abcpa55w0rd", requiredMode =
+    @Schema(description = "The User Credentials password", example = "abcpa55w0rd", requiredMode =
             Schema.RequiredMode.REQUIRED)
     private String password;
 
-    @Schema(description = "The User credentials correlation id", example = "1", requiredMode =
+    @Schema(description = "The User Credentials correlation id", example = "1", requiredMode =
             Schema.RequiredMode.REQUIRED)
     private String correlationId;
 
-    @Schema(description = "The UserCredentials roles", example = "ADMIN", requiredMode =
+    @Schema(description = "The User Credentials roles", example = "ADMIN", requiredMode =
             Schema.RequiredMode.REQUIRED)
     private List<RoleDTO> roles;
 

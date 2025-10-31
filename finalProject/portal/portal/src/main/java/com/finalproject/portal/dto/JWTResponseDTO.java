@@ -7,12 +7,12 @@ public class JWTResponseDTO {
 
     @Schema(description = "The JWTResponse's access-token", example = "eyJhbGciOiJIUzI1...", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The JWTResponse accessToken cannot be empty")
+    @NotNull(message = "The JWTResponse access-token cannot be empty")
     private String accessToken;
 
     @Schema(description = "The JWTResponse's refresh-token", example = "eyJhbGciOiJIUzI1...", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The JWTResponse refreshToken cannot be empty")
+    @NotNull(message = "The JWTResponse refresh-token cannot be empty")
     private String refreshToken;
 
     public JWTResponseDTO(String accessToken, String refreshToken) {

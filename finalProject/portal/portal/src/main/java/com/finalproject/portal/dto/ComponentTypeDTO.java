@@ -8,12 +8,12 @@ import java.util.List;
 
 public class ComponentTypeDTO extends AbstractDTO {
 
-    @Schema(description = "Component Type's name", example = "CoverFlex", requiredMode =
+    @Schema(description = "The Component Type's name", example = "CoverFlex", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The Component Type's name cannot be blank")
+    @NotBlank(message = "The component type's name cannot be blank")
     private String name;
 
-    @Schema(description = "Component Type's component Type Subtypes list", requiredMode =
+    @Schema(description = "The Component Type's Component Type Subtype list", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
     private List<ComponentTypeSubtypeDTO> componentTypeSubtypes;
 
