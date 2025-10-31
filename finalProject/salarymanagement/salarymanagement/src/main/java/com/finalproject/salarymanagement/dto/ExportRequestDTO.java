@@ -9,7 +9,7 @@ public class ExportRequestDTO {
 
     @Schema(description = "ExportRequest's emails", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "The ExportRequest's emails cannot be null")
+    @NotNull(message = "The export request's emails cannot be null")
     List<String> emails;
 
     public List<String> getEmails() {

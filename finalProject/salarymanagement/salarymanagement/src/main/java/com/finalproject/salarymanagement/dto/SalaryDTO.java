@@ -8,25 +8,25 @@ import java.util.List;
 
 public class SalaryDTO extends AbstractDTO {
 
-    @Schema(description = "Salary's correlationId", example = "1", requiredMode =
+    @Schema(description = "The Salary's correlation id", example = "1", requiredMode =
             Schema.RequiredMode.REQUIRED)
     private String correlationId;
 
-    @Schema(description = "Salary's acceptance Date", example = "2023-10-10", requiredMode =
+    @Schema(description = "The Salary's acceptance date", example = "2023-10-10", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
-    @Future(message = "Salary's acceptance Date must be after today")
+    @Future(message = "The salary's acceptance date must be after today")
     private LocalDate acceptanceDate;
 
-    @Schema(description = "Salary's implementation Date", example = "2023-10-10", requiredMode =
+    @Schema(description = "The Salary's implementation date", example = "2023-10-10", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    //@Future(message = "Salary's implementation Date must be after today")
+    @Future(message = "The salary's implementation date must be after today")
     private LocalDate implementationDate;
 
-    @Schema(description = "Salary's status", example = "ACTIVE", requiredMode =
+    @Schema(description = "The Salary's status", example = "ACTIVE", requiredMode =
             Schema.RequiredMode.NOT_REQUIRED)
     private String salaryState;
 
-    @Schema(description = "Salary's salary Components", example = "CoverFlex", requiredMode =
+    @Schema(description = "The Salary's salary components", example = "CoverFlex", requiredMode =
             Schema.RequiredMode.REQUIRED)
     private List<SalaryComponentDTO> salaryComponents;
 
