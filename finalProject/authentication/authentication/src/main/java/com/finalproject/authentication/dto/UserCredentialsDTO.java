@@ -1,5 +1,6 @@
 package com.finalproject.authentication.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class UserCredentialsDTO extends AbstractDTO {
 
     @Schema(description = "The User Credentials's password", example = "abcpa55w0rd", requiredMode =
             Schema.RequiredMode.REQUIRED)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Schema(description = "The User Credentials's correlation id", example = "1", requiredMode =
