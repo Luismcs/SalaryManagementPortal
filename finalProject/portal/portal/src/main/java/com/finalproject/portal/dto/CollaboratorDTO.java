@@ -1,10 +1,7 @@
 package com.finalproject.portal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +24,8 @@ public class CollaboratorDTO extends AbstractDTO {
 
     @Schema(description = "The Collaborator's birth date", example = "2003-09-23", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "The collaborator's birth date cannot be blank")
+    @NotNull(message = "The collaborator's birth date cannot be empty")
+    @Past
     private LocalDate birthDate;
 
     @Schema(description = "The Collaborator's nif", example = "123123123",

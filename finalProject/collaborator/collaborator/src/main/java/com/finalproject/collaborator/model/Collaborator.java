@@ -4,11 +4,13 @@ import com.finalproject.collaborator.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Builder;
 import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "collaborators")
+@EntityListeners(AuditingEntityListener.class)
 @Audited
 public class Collaborator extends AbstractEntity {
 

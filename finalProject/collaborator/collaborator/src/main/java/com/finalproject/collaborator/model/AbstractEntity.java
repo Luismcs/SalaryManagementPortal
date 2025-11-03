@@ -40,9 +40,7 @@ public class AbstractEntity {
 
     @PrePersist
     public void onPrePersist() {
-        this.setCreatedBy("SYSTEM");
         this.setCreatedDate(new Date());
-        this.setLastModifiedBy("SYSTEM");
         this.setLastModifiedDate(new Date());
     }
 
