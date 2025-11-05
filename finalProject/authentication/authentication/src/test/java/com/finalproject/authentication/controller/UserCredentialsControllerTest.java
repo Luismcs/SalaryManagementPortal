@@ -2,6 +2,7 @@ package com.finalproject.authentication.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.authentication.dto.UserCredentialsDTO;
+import com.finalproject.authentication.dto.UserCredentialsRequestDTO;
 import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.service.impl.UserCredentialsServiceImpl;
 import org.hamcrest.CoreMatchers;
@@ -40,6 +41,7 @@ public class UserCredentialsControllerTest {
     private ObjectMapper objectMapper;
 
     private UserCredentialsResponseDTO userCredentialsResponseDTO;
+    private UserCredentialsRequestDTO userCredentialsRequestDTO;
     private Long userCredentialsId;
 
 
@@ -69,7 +71,7 @@ public class UserCredentialsControllerTest {
     }
 
     @Test
-    public void userCredentialsController_create_returnsUserCredentialsDto() throws Exception {
+    public void userCredentialsController_create_returnsUserCredentialsRequestDTO() throws Exception {
 
         //Act
         given(userCredentialsService.create(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));

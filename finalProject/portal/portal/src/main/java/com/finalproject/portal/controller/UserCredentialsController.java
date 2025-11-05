@@ -1,6 +1,7 @@
 package com.finalproject.portal.controller;
 
 import com.finalproject.portal.dto.UserCredentialsDTO;
+import com.finalproject.portal.dto.UserCredentialsRequestDTO;
 import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import com.finalproject.portal.service.UserCredentialsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,6 +59,22 @@ public class UserCredentialsController {
     }
 
     @Operation(
+            summary = "Creates user credentials",
+            description = "Returns the collaborator created",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User Credentials created successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
+    @PostMapping()
+    public ResponseEntity<UserCredentialsResponseDTO> create(@RequestBody
+                                                             UserCredentialsRequestDTO userCredentialsRequestDTO) {
+        return userCredentialsService.update(userCredentialsRequestDTO);
+    }
+
+    @Operation(
             summary = "Creates a user Credentials",
             description = "Returns the created user Credentials",
             responses = {
@@ -68,8 +85,9 @@ public class UserCredentialsController {
             }
     )
     @PutMapping()
-    public ResponseEntity<UserCredentialsDTO> update(@RequestBody UserCredentialsDTO userCredentialsDTO) {
-        return userCredentialsService.update(userCredentialsDTO);
+    public ResponseEntity<UserCredentialsResponseDTO> update(@RequestBody
+                                                                 UserCredentialsRequestDTO userCredentialsRequestDTO) {
+        return userCredentialsService.update(userCredentialsRequestDTO);
     }
 
     @Operation(

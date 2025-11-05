@@ -1,9 +1,6 @@
 package com.finalproject.authentication.service;
 
-import com.finalproject.authentication.dto.JWTResponseDTO;
-import com.finalproject.authentication.dto.RoleDTO;
-import com.finalproject.authentication.dto.UserCredentialsDTO;
-import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
+import com.finalproject.authentication.dto.*;
 import com.finalproject.authentication.exception.BadCredentialsException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
 import com.finalproject.authentication.mapper.RoleMapper;
@@ -56,6 +53,7 @@ public class UserCredentialsServiceTest {
     private UserCredentialsServiceImpl userCredentialsService;
 
     private UserCredentials userCredentials;
+    private UserCredentialsRequestDTO userCredentialsRequestDTO;
     private UserCredentialsDTO userCredentialsDTO;
     private String password;
     private RoleDTO roleDTO = new RoleDTO();
@@ -78,6 +76,11 @@ public class UserCredentialsServiceTest {
         roleDTO.setName("ADMIN");
         role.setName("ADMIN");
         userCredentialsDTO.setRoles(List.of(roleDTO));
+        userCredentialsRequestDTO = new UserCredentialsRequestDTO();
+        userCredentialsRequestDTO.setUsername("johndoe");
+        userCredentialsRequestDTO.setPassword("$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.");
+        userCredentialsRequestDTO.setCorrelationId("1");
+
         UserCredentialsRole userCredentialsRole = new UserCredentialsRole();
         userCredentialsRole.setRole(role);
         userCredentialsRole.setUserCredentials(userCredentials);
@@ -125,7 +128,7 @@ public class UserCredentialsServiceTest {
         when(passwordUtils.hash(userCredentials.getPassword())).thenReturn(password);
         when(userCredentialsRepository.save(userCredentials)).thenReturn(userCredentials);
         when(userCredentialsMapper.toDTO(userCredentials)).thenReturn(userCredentialsDTO);
-        UserCredentialsDTO userCredentialsDTO1 = userCredentialsService.create(userCredentialsDTO);
+        UserCredentialsResponseDTO userCredentialsDTO1 = userCredentialsService.create(userCredentialsRequestDTO);
 
         //Assert
         assertThat(userCredentialsDTO1).isNotNull();

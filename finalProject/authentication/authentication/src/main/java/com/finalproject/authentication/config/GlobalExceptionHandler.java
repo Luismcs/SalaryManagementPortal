@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({RefreshTokenNotValid.class})
-    public ResponseEntity<ErrorResponse> handleRefreshTokenNotValid(RefreshTokenNotValid ex) {
+    public ResponseEntity<ErrorResponse> handleRefreshTokenNotValidException(RefreshTokenNotValid ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 ex.getErrorResponseCode(),
                 ex.getStatus(),
@@ -49,12 +49,24 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({UserCredentialsNotFound.class})
-    public ResponseEntity<ErrorResponse> handleUserCredentialsNotFound(UserCredentialsNotFound ex) {
+    public ResponseEntity<ErrorResponse> handleUserCredentialsNotFoundException(UserCredentialsNotFound ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 ex.getErrorResponseCode(),
                 ex.getStatus(),
                 ex.getMessage(),
                 ex.getUserCredentialsId().toString(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(ex.getStatus()));
+    }
+
+    @ExceptionHandler({RoleNotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleRoleNotFoundExceptionException(RoleNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                ex.getErrorResponseCode(),
+                ex.getStatus(),
+                ex.getMessage(),
+                ex.getRoleId().toString(),
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(ex.getStatus()));

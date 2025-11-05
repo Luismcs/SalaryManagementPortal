@@ -1,7 +1,9 @@
 package com.finalproject.authentication.controller;
 
 import com.finalproject.authentication.dto.UserCredentialsDTO;
+import com.finalproject.authentication.dto.UserCredentialsRequestDTO;
 import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
+import com.finalproject.authentication.exception.RoleNotFoundException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
 import com.finalproject.authentication.service.impl.UserCredentialsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,16 +72,17 @@ public class UserCredentialsController {
             }
     )
     @PostMapping()
-    public ResponseEntity<UserCredentialsDTO> create(@Valid @RequestBody UserCredentialsDTO userCredentialsDTO) {
-        UserCredentialsDTO savedCollaboratorDTO = userCredentialsServiceImpl.create(userCredentialsDTO);
+    public ResponseEntity<UserCredentialsResponseDTO> create(@Valid @RequestBody
+                                                             UserCredentialsRequestDTO userCredentialsResponseDTO) throws RoleNotFoundException {
+        UserCredentialsResponseDTO savedCollaboratorDTO = userCredentialsServiceImpl.create(userCredentialsResponseDTO);
         return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
     @PutMapping()
-    public ResponseEntity<UserCredentialsDTO> update(@Valid @RequestBody UserCredentialsDTO userCredentialsDTO)
-            throws UserCredentialsNotFound {
-        System.out.println("Eu cheguei aquiiiiiiiiiiiiii");
-        UserCredentialsDTO updatedCollaboratorDTO = userCredentialsServiceImpl.update(userCredentialsDTO);
+    public ResponseEntity<UserCredentialsResponseDTO> update(@Valid @RequestBody
+                                                                 UserCredentialsRequestDTO userCredentialsRequestDTO)
+            throws UserCredentialsNotFound, RoleNotFoundException {
+        UserCredentialsResponseDTO updatedCollaboratorDTO = userCredentialsServiceImpl.update(userCredentialsRequestDTO);
         return ResponseEntity.ok(updatedCollaboratorDTO);
     }
 

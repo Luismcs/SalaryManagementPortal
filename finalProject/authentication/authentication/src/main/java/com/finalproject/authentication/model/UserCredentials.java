@@ -21,8 +21,7 @@ public class UserCredentials extends AbstractEntity {
     @Column
     private String correlationId;
 
-    @OneToMany(mappedBy = "userCredentials", cascade = {CascadeType.PERSIST,
-            CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "userCredentials", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserCredentialsRole> userCredentialsRoles = new HashSet<>();
 
     @NotAudited

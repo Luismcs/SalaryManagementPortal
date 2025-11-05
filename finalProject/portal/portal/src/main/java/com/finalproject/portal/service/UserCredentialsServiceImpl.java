@@ -3,6 +3,7 @@ package com.finalproject.portal.service;
 import com.finalproject.portal.client.authenticationClients.UserCredentialsClient;
 import com.finalproject.portal.dto.CollaboratorDTO;
 import com.finalproject.portal.dto.UserCredentialsDTO;
+import com.finalproject.portal.dto.UserCredentialsRequestDTO;
 import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +27,12 @@ public class UserCredentialsServiceImpl {
         return userCredentialsClient.getById(id);
     }
 
-    public ResponseEntity<UserCredentialsDTO> update(UserCredentialsDTO userCredentialsDTO) {
-        return userCredentialsClient.update(userCredentialsDTO);
+    public ResponseEntity<UserCredentialsResponseDTO> create(UserCredentialsRequestDTO userCredentialsRequestDTO) {
+        return userCredentialsClient.create(userCredentialsRequestDTO);
+    }
+
+    public ResponseEntity<UserCredentialsResponseDTO> update(UserCredentialsRequestDTO userCredentialsRequestDTO) {
+        return userCredentialsClient.update(userCredentialsRequestDTO);
     }
 
     public void delete(long id) {
