@@ -1,7 +1,6 @@
 package com.finalproject.portal.controller;
 
 import com.finalproject.portal.dto.CollaboratorDTO;
-import com.finalproject.portal.dto.UserGeneralInfoDTO;
 import com.finalproject.portal.service.CollaboratorServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

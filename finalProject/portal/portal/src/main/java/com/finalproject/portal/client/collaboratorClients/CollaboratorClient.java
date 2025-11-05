@@ -2,7 +2,6 @@ package com.finalproject.portal.client.collaboratorClients;
 
 import com.finalproject.portal.client.errorDecorders.CollaboratorClientErrorDecoder;
 import com.finalproject.portal.dto.CollaboratorDTO;
-import com.finalproject.portal.dto.UserGeneralInfoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

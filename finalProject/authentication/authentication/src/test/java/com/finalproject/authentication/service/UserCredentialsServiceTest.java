@@ -3,6 +3,7 @@ package com.finalproject.authentication.service;
 import com.finalproject.authentication.dto.JWTResponseDTO;
 import com.finalproject.authentication.dto.RoleDTO;
 import com.finalproject.authentication.dto.UserCredentialsDTO;
+import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.exception.BadCredentialsException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
 import com.finalproject.authentication.mapper.RoleMapper;
@@ -86,7 +87,7 @@ public class UserCredentialsServiceTest {
     }
 
     @Test
-    void userCredentialsService_getAll_returnsUserCredentialsDtoPage() {
+    void userCredentialsService_getAll_returnsUserCredentialsResponseDTOPage() {
 
         Pageable pageable = PageRequest.of(0, 2);
         List<UserCredentials> userCredentialsList = List.of(userCredentials);
@@ -95,7 +96,7 @@ public class UserCredentialsServiceTest {
         //Act
         when(userCredentialsRepository.findAll(Mockito.any(Pageable.class))).thenReturn(userCredentialsPage);
         when(userCredentialsMapper.toDTO(userCredentials)).thenReturn(userCredentialsDTO);
-        Page<UserCredentialsDTO> result = userCredentialsService.getAll(pageable);
+        Page<UserCredentialsResponseDTO> result = userCredentialsService.getAll(pageable);
 
         //Assert
         assertThat(result).isNotNull();
@@ -108,11 +109,11 @@ public class UserCredentialsServiceTest {
         //Act
         when(userCredentialsRepository.findById(userCredentials.getId())).thenReturn(Optional.ofNullable(userCredentials));
         when(userCredentialsMapper.toDTO(userCredentials)).thenReturn(userCredentialsDTO);
-        UserCredentialsDTO userCredentialsDTO1 = userCredentialsService.getById(userCredentials.getId());
+        UserCredentialsResponseDTO userCredentialsResponseDTO1 = userCredentialsService.getById(userCredentials.getId());
 
         //Assert
-        assertThat(userCredentialsDTO1).isNotNull();
-        assertThat(userCredentialsDTO1.getUsername()).isEqualTo(userCredentials.getUsername());
+        assertThat(userCredentialsResponseDTO1).isNotNull();
+        assertThat(userCredentialsResponseDTO1.getUsername()).isEqualTo(userCredentials.getUsername());
 
     }
 

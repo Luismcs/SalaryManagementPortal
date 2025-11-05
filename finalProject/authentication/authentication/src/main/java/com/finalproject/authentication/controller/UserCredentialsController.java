@@ -1,6 +1,7 @@
 package com.finalproject.authentication.controller;
 
 import com.finalproject.authentication.dto.UserCredentialsDTO;
+import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
 import com.finalproject.authentication.service.impl.UserCredentialsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,9 +37,9 @@ public class UserCredentialsController {
             }
     )
     @GetMapping()
-    public ResponseEntity<Page<UserCredentialsDTO>> getAll(@ParameterObject
+    public ResponseEntity<Page<UserCredentialsResponseDTO>> getAll(@ParameterObject
                                                            @PageableDefault(size = 20) Pageable pageable) {
-        Page<UserCredentialsDTO> page = userCredentialsServiceImpl.getAll(pageable);
+        Page<UserCredentialsResponseDTO> page = userCredentialsServiceImpl.getAll(pageable);
         return ResponseEntity.ok(page);
     }
 
@@ -54,7 +55,7 @@ public class UserCredentialsController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<UserCredentialsDTO> getById(@PathVariable long id) throws UserCredentialsNotFound {
+    public ResponseEntity<UserCredentialsResponseDTO> getById(@PathVariable long id) throws UserCredentialsNotFound {
         return ResponseEntity.ok(userCredentialsServiceImpl.getById(id));
     }
 

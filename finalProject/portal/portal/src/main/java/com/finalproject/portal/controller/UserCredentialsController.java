@@ -1,6 +1,7 @@
 package com.finalproject.portal.controller;
 
 import com.finalproject.portal.dto.UserCredentialsDTO;
+import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import com.finalproject.portal.service.UserCredentialsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,7 +37,7 @@ public class UserCredentialsController {
             }
     )
     @GetMapping()
-    public ResponseEntity<Page<UserCredentialsDTO>> getAll(Pageable pageable) {
+    public ResponseEntity<Page<UserCredentialsResponseDTO>> getAll(Pageable pageable) {
         return userCredentialsService.getAll(pageable);
     }
 
@@ -52,7 +53,7 @@ public class UserCredentialsController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<UserCredentialsDTO> getById(@PathVariable long id) {
+    public ResponseEntity<UserCredentialsResponseDTO> getById(@PathVariable long id) {
         return userCredentialsService.getById(id);
     }
 

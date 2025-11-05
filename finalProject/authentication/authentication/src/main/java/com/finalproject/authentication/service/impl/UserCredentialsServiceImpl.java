@@ -2,6 +2,7 @@ package com.finalproject.authentication.service.impl;
 
 import com.finalproject.authentication.dto.RoleDTO;
 import com.finalproject.authentication.dto.UserCredentialsDTO;
+import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.enums.ErrorResponseCode;
 import com.finalproject.authentication.exception.ErrorMessage;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
@@ -48,24 +49,19 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
         return userCredentialsRepository.existsByUsername(username);
     }
 
-    public Page<UserCredentialsDTO> getAll(Pageable pageable) {
+    public Page<UserCredentialsResponseDTO> getAll(Pageable pageable) {
         Page<UserCredentials> collaborators = userCredentialsRepository.findAll(pageable);
 
-        return collaborators.map(userCredentialsMapper::toDTO);
+        return collaborators.map(userCredentialsMapper::toUserCredentialsResponseDTO);
     }
 
-    public UserCredentialsDTO getById(Long id) throws UserCredentialsNotFound {
+    public UserCredentialsResponseDTO getById(Long id) throws UserCredentialsNotFound {
         UserCredentials userCredentials =
                 userCredentialsRepository.findById(id).orElseThrow(() ->
                         new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
                                 404, ErrorMessage.USER_CREDENTIALS_NOT_FOUND, id));
-        UserCredentialsDTO userCredentialsDTO = userCredentialsMapper.toDTO(userCredentials);
 
-        setUserCredentialsDTORoles(userCredentials, userCredentialsDTO);
-
-        log.info("UserCredentials {} returned successfully", id);
-
-        return userCredentialsDTO;
+        return userCredentialsMapper.toUserCredentialsResponseDTO(userCredentials);
     }
 
     public void setUserCredentialsDTORoles(UserCredentials userCredentials, UserCredentialsDTO userCredentialsDTO) {

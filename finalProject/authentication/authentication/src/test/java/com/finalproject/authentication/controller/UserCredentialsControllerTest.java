@@ -2,6 +2,7 @@ package com.finalproject.authentication.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.authentication.dto.UserCredentialsDTO;
+import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.service.impl.UserCredentialsServiceImpl;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,33 +39,33 @@ public class UserCredentialsControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private UserCredentialsDTO userCredentialsDTO;
+    private UserCredentialsResponseDTO userCredentialsResponseDTO;
     private Long userCredentialsId;
 
 
     @BeforeEach
     public void init() {
         userCredentialsId = 1L;
-        userCredentialsDTO = new UserCredentialsDTO();
-        userCredentialsDTO.setUsername("johndoe");
-        userCredentialsDTO.setPassword("$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.");
-        userCredentialsDTO.setCorrelationId("1");
+        userCredentialsResponseDTO = new UserCredentialsResponseDTO();
+        userCredentialsResponseDTO.setUsername("johndoe");
+        userCredentialsResponseDTO.setPassword("$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.");
+        userCredentialsResponseDTO.setCorrelationId("1");
     }
 
     @Test
     public void userCredentialsController_findById_returnsAddressDto() throws Exception {
 
         //Act
-        when(userCredentialsService.getById(userCredentialsId)).thenReturn(userCredentialsDTO);
+        when(userCredentialsService.getById(userCredentialsId)).thenReturn(userCredentialsResponseDTO);
         ResultActions response = mockMvc.perform(get("/user-credentials/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userCredentialsDTO)));
+                .content(objectMapper.writeValueAsString(userCredentialsResponseDTO)));
 
         //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(userCredentialsDTO.getUsername())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(userCredentialsResponseDTO.getUsername())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",
-                        CoreMatchers.is(userCredentialsDTO.getPassword())));
+                        CoreMatchers.is(userCredentialsResponseDTO.getPassword())));
     }
 
     @Test
@@ -74,12 +75,12 @@ public class UserCredentialsControllerTest {
         given(userCredentialsService.create(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
         ResultActions response = mockMvc.perform(post("/user-credentials")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userCredentialsDTO)));
+                .content(objectMapper.writeValueAsString(userCredentialsResponseDTO)));
 
         //Assert
         response.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(userCredentialsDTO.getUsername())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(userCredentialsDTO.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(userCredentialsResponseDTO.getUsername())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(userCredentialsResponseDTO.getPassword())));
     }
 
     @Test

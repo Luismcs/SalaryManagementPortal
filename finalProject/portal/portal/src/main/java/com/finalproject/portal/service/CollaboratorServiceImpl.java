@@ -2,7 +2,6 @@ package com.finalproject.portal.service;
 
 import com.finalproject.portal.client.collaboratorClients.CollaboratorClient;
 import com.finalproject.portal.dto.CollaboratorDTO;
-import com.finalproject.portal.dto.UserGeneralInfoDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

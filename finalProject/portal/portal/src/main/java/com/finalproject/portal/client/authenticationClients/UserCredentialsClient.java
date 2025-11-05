@@ -2,6 +2,7 @@ package com.finalproject.portal.client.authenticationClients;
 
 import com.finalproject.portal.client.errorDecorders.UserCredentialsClientErrorDecoder;
 import com.finalproject.portal.dto.UserCredentialsDTO;
+import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public interface UserCredentialsClient {
 
     @GetMapping
-    ResponseEntity<Page<UserCredentialsDTO>> getAll(Pageable pageable);
+    ResponseEntity<Page<UserCredentialsResponseDTO>> getAll(Pageable pageable);
 
     @GetMapping("/{id}")
-    ResponseEntity<UserCredentialsDTO> getById(@PathVariable long id);
+    ResponseEntity<UserCredentialsResponseDTO> getById(@PathVariable long id);
 
     @PostMapping()
     ResponseEntity<UserCredentialsDTO> create(@RequestBody UserCredentialsDTO userCredentialsDTO);

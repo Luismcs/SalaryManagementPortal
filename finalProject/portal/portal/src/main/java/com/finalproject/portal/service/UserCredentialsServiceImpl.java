@@ -3,6 +3,7 @@ package com.finalproject.portal.service;
 import com.finalproject.portal.client.authenticationClients.UserCredentialsClient;
 import com.finalproject.portal.dto.CollaboratorDTO;
 import com.finalproject.portal.dto.UserCredentialsDTO;
+import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,11 @@ public class UserCredentialsServiceImpl {
         this.userCredentialsClient = userCredentialsClient;
     }
 
-    public ResponseEntity<Page<UserCredentialsDTO>> getAll(Pageable pageable) {
+    public ResponseEntity<Page<UserCredentialsResponseDTO>> getAll(Pageable pageable) {
         return userCredentialsClient.getAll(pageable);
     }
 
-    public ResponseEntity<UserCredentialsDTO> getById(long id) {
+    public ResponseEntity<UserCredentialsResponseDTO> getById(long id) {
         return userCredentialsClient.getById(id);
     }
 
