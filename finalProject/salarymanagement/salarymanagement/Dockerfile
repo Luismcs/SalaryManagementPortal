@@ -10,7 +10,7 @@ COPY --chown=gradle:gradle src $APP_HOME/src
 
 RUN gradle --no-daemon build -x test
 
-FROM openjdk:21-jdk-oracle
+FROM eclipse-temurin:21-jdk
 
 ARG BUILD_HOME
 ENV APP_HOME=$BUILD_HOME

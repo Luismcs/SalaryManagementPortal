@@ -77,6 +77,7 @@ public class UserCredentialsController {
     @PutMapping()
     public ResponseEntity<UserCredentialsDTO> update(@Valid @RequestBody UserCredentialsDTO userCredentialsDTO)
             throws UserCredentialsNotFound {
+        System.out.println("Eu cheguei aquiiiiiiiiiiiiii");
         UserCredentialsDTO updatedCollaboratorDTO = userCredentialsServiceImpl.update(userCredentialsDTO);
         return ResponseEntity.ok(updatedCollaboratorDTO);
     }

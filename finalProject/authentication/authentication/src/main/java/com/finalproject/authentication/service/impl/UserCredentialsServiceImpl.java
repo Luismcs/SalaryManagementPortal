@@ -105,7 +105,6 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
     public UserCredentialsDTO update(UserCredentialsDTO userCredentialsDTO) throws UserCredentialsNotFound {
         UserCredentials receivedUserCredentials = userCredentialsMapper.toEntity(userCredentialsDTO);
-
         userCredentialsRepository.findById(userCredentialsDTO.getId()).orElseThrow(() ->
                 new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
                         404, ErrorMessage.USER_CREDENTIALS_NOT_FOUND, userCredentialsDTO.getId()));
