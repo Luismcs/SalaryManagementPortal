@@ -13,7 +13,6 @@ public class UserCredentialsRequestDTO extends AbstractDTO{
 
     @Schema(description = "The User Credentials's password", example = "abcpa55w0rd", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Schema(description = "The User Credentials's correlation id", example = "1", requiredMode =

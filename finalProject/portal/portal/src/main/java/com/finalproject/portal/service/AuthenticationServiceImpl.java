@@ -38,10 +38,11 @@ public class AuthenticationServiceImpl {
 
         CollaboratorDTO collaboratorDTO = signUpResponseDTOMapper.toCollaboratorDTO(signUpRequestDTO);
         ResponseEntity<CollaboratorDTO> savedCollaborator = collaboratorClient.create(collaboratorDTO);
-        UserCredentialsDTO userCredentialsDTO = new UserCredentialsDTO(signUpRequestDTO.getUsername(),
-                signUpRequestDTO.getPassword(),
-                savedCollaborator.getBody().getId().toString(), signUpRequestDTO.getRoles());
-        ResponseEntity<UserCredentialsDTO> savedUserCredentialsDTO = userCredentialsClient.create(userCredentialsDTO);
+
+        UserCredentialsRequestDTO userCredentialsRequestDTO =
+                signUpResponseDTOMapper.toUserCredentialsRequestDTO(signUpRequestDTO);
+        ResponseEntity<UserCredentialsResponseDTO> savedUserCredentialsDTO = userCredentialsClient.create(userCredentialsRequestDTO);
+
         return signUpResponseDTOMapper.toSignUpResponseDTO(signUpRequestDTO,
                 savedCollaborator.getBody(), savedUserCredentialsDTO.getBody());
     }

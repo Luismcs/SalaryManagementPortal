@@ -32,6 +32,13 @@ public class AuthenticationClientErrorDecoder implements ErrorDecoder {
             ErrorResponse errorResponse = objectMapper.readValue(responseBody, ErrorResponse.class);
 
             switch (response.status()) {
+                case 404:
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.ROLE_NOT_FOUND) {
+                        throw new RoleNotFoundException(errorResponse.getErrorResponseCode(),
+                                errorResponse.getStatus(), errorResponse.getMessage(),
+                                Long.parseLong(errorResponse.getParams()));
+                    }
+
                 case 409:
                     if (errorResponse.getErrorResponseCode() == ErrorResponseCode.BAD_CREDENTIALS) {
                         throw new BadCredentialsException(errorResponse.getErrorResponseCode(),

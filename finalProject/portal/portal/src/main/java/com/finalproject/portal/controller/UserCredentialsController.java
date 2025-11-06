@@ -71,7 +71,7 @@ public class UserCredentialsController {
     @PostMapping()
     public ResponseEntity<UserCredentialsResponseDTO> create(@RequestBody
                                                              UserCredentialsRequestDTO userCredentialsRequestDTO) {
-        return userCredentialsService.update(userCredentialsRequestDTO);
+        return userCredentialsService.create(userCredentialsRequestDTO);
     }
 
     @Operation(

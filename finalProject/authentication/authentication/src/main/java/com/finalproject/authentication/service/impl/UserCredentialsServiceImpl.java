@@ -85,6 +85,8 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     }
 
     public UserCredentialsResponseDTO create(UserCredentialsRequestDTO userCredentialsRequestDTO) throws RoleNotFoundException {
+        log.info("PASSWORD RECEBIDA: " + userCredentialsRequestDTO.getPassword());
+        log.info("USERNAME: " + userCredentialsRequestDTO.getUsername());
         UserCredentials userCredentials = userCredentialsRequestDTOMapper.toEntity(userCredentialsRequestDTO);
         setUserCredentialsRolesFromUserCredentialsRequestDTO(userCredentials, userCredentialsRequestDTO);
         userCredentials.setPassword(passwordUtils.hash(userCredentials.getPassword()));

@@ -230,12 +230,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({RoleNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleRoleNotFoundException(
-            DuplicateSalaryForImplementationDateException customException) {
+            RoleNotFoundException customException) {
         ErrorResponse errorResponse = new ErrorResponse(
                 customException.getErrorResponseCode(),
                 customException.getStatus(),
                 customException.getMessage(),
-                customException.getImplementationDate().toString(),
+                customException.getRoleId().toString(),
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(customException.getStatus()));

@@ -23,7 +23,7 @@ public class SignUpResponseDTO {
     @NotBlank(message = "The username cannot be empty")
     private String username;
 
-    private List<RoleDTO> roles;
+    private List<String> roles;
 
     @Schema(description = "The collaborator's full name", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
@@ -77,11 +77,11 @@ public class SignUpResponseDTO {
         this.username = username;
     }
 
-    public List<RoleDTO> getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleDTO> roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.finalproject.portal.enums.ErrorResponseCode;
 import com.finalproject.portal.exception.CollaboratorNotFoundException;
 import com.finalproject.portal.exception.ErrorResponse;
+import com.finalproject.portal.exception.RoleNotFoundException;
 import com.finalproject.portal.exception.UserCredentialsNotFound;
 import feign.Response;
 import feign.Util;
@@ -37,6 +38,11 @@ public class UserCredentialsClientErrorDecoder implements ErrorDecoder {
                 case 404:
                     if (errorResponse.getErrorResponseCode() == ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND) {
                         throw new UserCredentialsNotFound(errorResponse.getErrorResponseCode(),
+                                errorResponse.getStatus(), errorResponse.getMessage(),
+                                Long.parseLong(errorResponse.getParams()));
+                    }
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.ROLE_NOT_FOUND) {
+                        throw new RoleNotFoundException(errorResponse.getErrorResponseCode(),
                                 errorResponse.getStatus(), errorResponse.getMessage(),
                                 Long.parseLong(errorResponse.getParams()));
                     }

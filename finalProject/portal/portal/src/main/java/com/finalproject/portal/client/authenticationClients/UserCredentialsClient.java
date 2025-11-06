@@ -23,7 +23,7 @@ public interface UserCredentialsClient {
     @PostMapping()
     ResponseEntity<UserCredentialsResponseDTO> create(@RequestBody UserCredentialsRequestDTO userCredentialsRequestDTO);
 
-    @PutMapping("/{id}")
+    @PutMapping()
     ResponseEntity<UserCredentialsResponseDTO> update(@RequestBody UserCredentialsRequestDTO userCredentialsRequestDTO);
 
     @DeleteMapping("/{id}")
