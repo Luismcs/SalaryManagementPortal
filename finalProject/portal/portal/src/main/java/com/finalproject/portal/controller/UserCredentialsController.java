@@ -1,6 +1,5 @@
 package com.finalproject.portal.controller;
 
-import com.finalproject.portal.dto.UserCredentialsDTO;
 import com.finalproject.portal.dto.UserCredentialsRequestDTO;
 import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import com.finalproject.portal.service.UserCredentialsServiceImpl;
@@ -48,7 +47,7 @@ public class UserCredentialsController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "User Credentials returned successfully",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                                    schema = @Schema(implementation = UserCredentialsResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "User Credentials not found"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
@@ -64,7 +63,7 @@ public class UserCredentialsController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "User Credentials created successfully",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                                    schema = @Schema(implementation = UserCredentialsResponseDTO.class))),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
@@ -75,18 +74,19 @@ public class UserCredentialsController {
     }
 
     @Operation(
-            summary = "Creates a user Credentials",
-            description = "Returns the created user Credentials",
+            summary = "Updates a user Credentials",
+            description = "Returns the updated user Credentials",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "User Credentials created successfully",
+                    @ApiResponse(responseCode = "200", description = "User Credentials updated successfully",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                                    schema = @Schema(implementation = UserCredentialsResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "Role Not Found"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
     @PutMapping()
     public ResponseEntity<UserCredentialsResponseDTO> update(@RequestBody
-                                                                 UserCredentialsRequestDTO userCredentialsRequestDTO) {
+                                                             UserCredentialsRequestDTO userCredentialsRequestDTO) {
         return userCredentialsService.update(userCredentialsRequestDTO);
     }
 

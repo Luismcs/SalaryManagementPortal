@@ -2,6 +2,7 @@ package com.finalproject.authentication.service;
 
 import com.finalproject.authentication.dto.*;
 import com.finalproject.authentication.exception.BadCredentialsException;
+import com.finalproject.authentication.exception.RoleNotFoundException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
 import com.finalproject.authentication.mapper.RoleMapper;
 import com.finalproject.authentication.mapper.UserCredentialsMapper;
@@ -121,7 +122,7 @@ public class UserCredentialsServiceTest {
     }
 
     @Test
-    void userCredentialsService_create_returnsOneUserCredentialsDto() {
+    void userCredentialsService_create_returnsOneUserCredentialsDto() throws RoleNotFoundException {
 
         //Act
         when(userCredentialsMapper.toEntity(userCredentialsDTO)).thenReturn(userCredentials);

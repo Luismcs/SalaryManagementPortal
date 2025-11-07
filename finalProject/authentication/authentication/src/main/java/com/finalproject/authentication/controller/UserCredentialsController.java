@@ -5,6 +5,7 @@ import com.finalproject.authentication.dto.UserCredentialsRequestDTO;
 import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.exception.RoleNotFoundException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
+import com.finalproject.authentication.exception.UsernameAlreadyExistsException;
 import com.finalproject.authentication.service.impl.UserCredentialsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,7 +41,7 @@ public class UserCredentialsController {
     )
     @GetMapping()
     public ResponseEntity<Page<UserCredentialsResponseDTO>> getAll(@ParameterObject
-                                                           @PageableDefault(size = 20) Pageable pageable) {
+                                                                   @PageableDefault(size = 20) Pageable pageable) {
         Page<UserCredentialsResponseDTO> page = userCredentialsServiceImpl.getAll(pageable);
         return ResponseEntity.ok(page);
     }
@@ -51,7 +52,7 @@ public class UserCredentialsController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "User Credentials returned successfully",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                                    schema = @Schema(implementation = UserCredentialsResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "User Credentials not found"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
@@ -67,32 +68,45 @@ public class UserCredentialsController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "User Credentials created successfully",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                                    schema = @Schema(implementation = UserCredentialsResponseDTO.class))),
+                    @ApiResponse(responseCode = "409", description = "User already exists"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
     @PostMapping()
     public ResponseEntity<UserCredentialsResponseDTO> create(@Valid @RequestBody
-                                                             UserCredentialsRequestDTO userCredentialsResponseDTO) throws RoleNotFoundException {
+                                                             UserCredentialsRequestDTO userCredentialsResponseDTO)
+            throws RoleNotFoundException, UsernameAlreadyExistsException {
         UserCredentialsResponseDTO savedCollaboratorDTO = userCredentialsServiceImpl.create(userCredentialsResponseDTO);
         return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
+    @Operation(
+            summary = "Updates a user Credentials",
+            description = "Returns the updated user Credentials",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User Credentials updated successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = UserCredentialsResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "Role Not Found"),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
     @PutMapping()
     public ResponseEntity<UserCredentialsResponseDTO> update(@Valid @RequestBody
-                                                                 UserCredentialsRequestDTO userCredentialsRequestDTO)
+                                                             UserCredentialsRequestDTO userCredentialsRequestDTO)
             throws UserCredentialsNotFound, RoleNotFoundException {
         UserCredentialsResponseDTO updatedCollaboratorDTO = userCredentialsServiceImpl.update(userCredentialsRequestDTO);
         return ResponseEntity.ok(updatedCollaboratorDTO);
     }
 
     @Operation(
-            summary = "Deletes user credentials",
+            summary = "Deletes a user Credentials",
             description = "Returns nothing",
             responses = {
                     @ApiResponse(responseCode = "200", description = "User Credentials deleted successfully",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UserCredentialsDTO.class))),
+                            content = @Content(mediaType = "application/json")),
+                    @ApiResponse(responseCode = "404", description = "User Credentials not found"),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )

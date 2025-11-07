@@ -1,11 +1,10 @@
 package com.finalproject.portal.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-public class UserCredentialsRequestDTO extends AbstractDTO{
+public class UserCredentialsRequestDTO extends AbstractDTO {
 
     @Schema(description = "The User Credentials username", example = "john_doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
@@ -19,9 +18,9 @@ public class UserCredentialsRequestDTO extends AbstractDTO{
             Schema.RequiredMode.NOT_REQUIRED)
     private String correlationId;
 
-    @Schema(description = "The User Credentials's roles", example = "ADMIN", requiredMode =
+    @Schema(description = "The User Credentials's roleIds", example = "1", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    private List<Long> roles;
+    private List<Long> roleIds;
 
     @Schema(description = "Object's current version", example = "1")
     private Long version;
@@ -50,12 +49,12 @@ public class UserCredentialsRequestDTO extends AbstractDTO{
         this.correlationId = correlationId;
     }
 
-    public List<Long> getRoles() {
-        return roles;
+    public List<Long> getRoleIds() {
+        return roleIds;
     }
 
-    public void setRoles(List<Long> roles) {
-        this.roles = roles;
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 
     public Long getVersion() {

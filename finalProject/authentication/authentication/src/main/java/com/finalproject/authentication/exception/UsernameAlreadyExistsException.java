@@ -1,6 +1,6 @@
-package com.finalproject.portal.exception;
+package com.finalproject.authentication.exception;
 
-import com.finalproject.portal.enums.ErrorResponseCode;
+import com.finalproject.authentication.enums.ErrorResponseCode;
 
 public class UsernameAlreadyExistsException extends CustomException {
     private String username;

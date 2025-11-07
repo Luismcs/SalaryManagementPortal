@@ -32,7 +32,7 @@ public class AuthenticationServiceImpl {
 
     public SignUpResponseDTO signUp(SignUpRequestDTO signUpRequestDTO) throws UsernameAlreadyExistsException {
         if (Boolean.TRUE.equals(userCredentialsClient.existsByUsername(signUpRequestDTO.getUsername()).getBody())) {
-            throw new UsernameAlreadyExistsException(ErrorResponseCode.USERNAME_ALREADY_EXISTS, 409,
+            throw new UsernameAlreadyExistsException(ErrorResponseCode.USER_ALREADY_EXISTS, 409,
                     ErrorMessage.USER_ALREADY_EXISTS, signUpRequestDTO.getUsername());
         }
 

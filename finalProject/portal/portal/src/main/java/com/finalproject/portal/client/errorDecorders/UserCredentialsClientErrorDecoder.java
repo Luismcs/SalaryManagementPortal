@@ -3,10 +3,7 @@ package com.finalproject.portal.client.errorDecorders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.finalproject.portal.enums.ErrorResponseCode;
-import com.finalproject.portal.exception.CollaboratorNotFoundException;
-import com.finalproject.portal.exception.ErrorResponse;
-import com.finalproject.portal.exception.RoleNotFoundException;
-import com.finalproject.portal.exception.UserCredentialsNotFound;
+import com.finalproject.portal.exception.*;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
@@ -30,8 +27,6 @@ public class UserCredentialsClientErrorDecoder implements ErrorDecoder {
         if (response.body() != null) {
 
             String responseBody = getErrorResponseToString(response);
-            System.out.println(responseBody);
-
             ErrorResponse errorResponse = objectMapper.readValue(responseBody, ErrorResponse.class);
 
             switch (response.status()) {
@@ -45,6 +40,13 @@ public class UserCredentialsClientErrorDecoder implements ErrorDecoder {
                         throw new RoleNotFoundException(errorResponse.getErrorResponseCode(),
                                 errorResponse.getStatus(), errorResponse.getMessage(),
                                 Long.parseLong(errorResponse.getParams()));
+                    }
+                    
+                case 409:
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.USER_ALREADY_EXISTS) {
+                        throw new UsernameAlreadyExistsException(errorResponse.getErrorResponseCode(),
+                                errorResponse.getStatus(), errorResponse.getMessage(),
+                                errorResponse.getParams());
                     }
             }
         }

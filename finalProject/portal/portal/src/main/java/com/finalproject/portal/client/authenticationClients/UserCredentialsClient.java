@@ -1,7 +1,6 @@
 package com.finalproject.portal.client.authenticationClients;
 
 import com.finalproject.portal.client.errorDecorders.UserCredentialsClientErrorDecoder;
-import com.finalproject.portal.dto.UserCredentialsDTO;
 import com.finalproject.portal.dto.UserCredentialsRequestDTO;
 import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;

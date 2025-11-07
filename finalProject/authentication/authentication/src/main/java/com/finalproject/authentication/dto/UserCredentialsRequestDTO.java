@@ -20,9 +20,9 @@ public class UserCredentialsRequestDTO extends AbstractDTO{
             Schema.RequiredMode.NOT_REQUIRED)
     private String correlationId;
 
-    @Schema(description = "The User Credentials's roles", example = "ADMIN", requiredMode =
+    @Schema(description = "The User Credentials's roleIds", example = "ADMIN", requiredMode =
             Schema.RequiredMode.REQUIRED)
-    private List<Long> roles;
+    private List<Long> roleIds;
 
     @Schema(description = "Object's current version", example = "1")
     private Long version;
@@ -51,12 +51,12 @@ public class UserCredentialsRequestDTO extends AbstractDTO{
         this.correlationId = correlationId;
     }
 
-    public List<Long> getRoles() {
-        return roles;
+    public List<Long> getRoleIds() {
+        return roleIds;
     }
 
-    public void setRoles(List<Long> roles) {
-        this.roles = roles;
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 
     public Long getVersion() {

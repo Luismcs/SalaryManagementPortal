@@ -6,5 +6,7 @@ public enum ErrorResponseCode {
     TOKEN_STILL_VALID,
     REFRESH_TOKEN_INVALID,
     USER_CREDENTIALS_NOT_FOUND,
-    ROLE_NOT_FOUND
-    }
+    ROLE_NOT_FOUND,
+    USER_ALREADY_EXISTS;
+
+}

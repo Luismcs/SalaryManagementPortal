@@ -1,8 +1,6 @@
 package com.finalproject.portal.service;
 
 import com.finalproject.portal.client.authenticationClients.UserCredentialsClient;
-import com.finalproject.portal.dto.CollaboratorDTO;
-import com.finalproject.portal.dto.UserCredentialsDTO;
 import com.finalproject.portal.dto.UserCredentialsRequestDTO;
 import com.finalproject.portal.dto.UserCredentialsResponseDTO;
 import org.springframework.data.domain.Page;

@@ -1,14 +1,12 @@
 package com.finalproject.authentication.service.impl;
 
-import com.finalproject.authentication.dto.RoleDTO;
-import com.finalproject.authentication.dto.UserCredentialsDTO;
 import com.finalproject.authentication.dto.UserCredentialsRequestDTO;
 import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.enums.ErrorResponseCode;
 import com.finalproject.authentication.exception.ErrorMessage;
 import com.finalproject.authentication.exception.RoleNotFoundException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
-import com.finalproject.authentication.mapper.RoleMapper;
+import com.finalproject.authentication.exception.UsernameAlreadyExistsException;
 import com.finalproject.authentication.mapper.UserCredentialsMapper;
 import com.finalproject.authentication.mapper.UserCredentialsRequestDTOMapper;
 import com.finalproject.authentication.model.Role;
@@ -18,14 +16,13 @@ import com.finalproject.authentication.repository.RoleRepository;
 import com.finalproject.authentication.repository.UserCredentialsRepository;
 import com.finalproject.authentication.service.UserCredentialsService;
 import com.finalproject.authentication.utils.PasswordUtils;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -73,7 +70,7 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
                                                                               userCredentialsRequestDTO)
             throws RoleNotFoundException {
 
-        for (Long roleId : userCredentialsRequestDTO.getRoles()) {
+        for (Long roleId : userCredentialsRequestDTO.getRoleIds()) {
             Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new RoleNotFoundException(ErrorResponseCode.ROLE_NOT_FOUND, 404,
                             ErrorMessage.ROLE_NOT_FOUND, roleId));
@@ -84,9 +81,11 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
         }
     }
 
-    public UserCredentialsResponseDTO create(UserCredentialsRequestDTO userCredentialsRequestDTO) throws RoleNotFoundException {
-        log.info("PASSWORD RECEBIDA: " + userCredentialsRequestDTO.getPassword());
-        log.info("USERNAME: " + userCredentialsRequestDTO.getUsername());
+    public UserCredentialsResponseDTO create(UserCredentialsRequestDTO userCredentialsRequestDTO) throws RoleNotFoundException, UsernameAlreadyExistsException {
+        if (userCredentialsRepository.findByUsername(userCredentialsRequestDTO.getUsername()).isPresent())
+            throw new UsernameAlreadyExistsException(ErrorResponseCode.USER_ALREADY_EXISTS,
+                    409, ErrorMessage.USER_ALREADY_EXISTS, userCredentialsRequestDTO.getUsername());
+
         UserCredentials userCredentials = userCredentialsRequestDTOMapper.toEntity(userCredentialsRequestDTO);
         setUserCredentialsRolesFromUserCredentialsRequestDTO(userCredentials, userCredentialsRequestDTO);
         userCredentials.setPassword(passwordUtils.hash(userCredentials.getPassword()));
@@ -96,7 +95,7 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
     public void attachRolesToExistingUser(UserCredentials existingUserCredentials, UserCredentialsRequestDTO userCredentialsRequestDTO) throws RoleNotFoundException {
 
-        for (Long roleId : userCredentialsRequestDTO.getRoles()) {
+        for (Long roleId : userCredentialsRequestDTO.getRoleIds()) {
             roleRepository.findById(roleId)
                     .orElseThrow(() -> new RoleNotFoundException(ErrorResponseCode.ROLE_NOT_FOUND,
                             404, ErrorMessage.ROLE_NOT_FOUND, roleId));
@@ -104,7 +103,7 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
         existingUserCredentials.getUserCredentialsRoles().clear();
 
-        List<Role> roles = roleRepository.findAllById(userCredentialsRequestDTO.getRoles());
+        List<Role> roles = roleRepository.findAllById(userCredentialsRequestDTO.getRoleIds());
 
         for (Role role : roles) {
             UserCredentialsRole link = new UserCredentialsRole();
@@ -129,48 +128,11 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
         return userCredentialsMapper.toUserCredentialsResponseDTO(userCredentialsRepository.save(existing));
     }
 
-    /*@Transactional
-    public UserCredentialsResponseDTO update(UserCredentialsRequestDTO dto)
-            throws UserCredentialsNotFound {
-
-        UserCredentials existing = userCredentialsRepository.findById(dto.getId())
-                .orElseThrow(() -> new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
-                        404, ErrorMessage.ROLE_NOT_FOUND, dto.getId()));
-
-        // --- Basic fields ---
-        existing.setUsername(dto.getUsername());
-        existing.setPassword(dto.getPassword());
-        existing.setCorrelationId(dto.getCorrelationId());
-
-        // --- Roles update ---
-        if (dto.getRoles() != null) {
-            // Remove existing roles
-            existing.getUserCredentialsRoles().clear();
-
-            // Fetch new roles
-            List<Role> roles = roleRepository.findAllById(dto.getRoles());
-
-            // Create and attach new UserCredentialsRole entries
-            for (Role role : roles) {
-                UserCredentialsRole link = new UserCredentialsRole();
-                link.setUserCredentials(existing);
-                link.setRole(role);
-                existing.getUserCredentialsRoles().add(link);
-            }
-        }
-
-        UserCredentials savedUserCredentials = userCredentialsRepository.save(existing);
-        return userCredentialsMapper.toUserCredentialsResponseDTO(savedUserCredentials);
-    }*/
-
     public void delete(Long id) throws UserCredentialsNotFound {
         userCredentialsRepository.findById(id).orElseThrow(() ->
                 new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
                         404, ErrorMessage.USER_CREDENTIALS_NOT_FOUND, id));
         userCredentialsRepository.deleteById(id);
-
-        log.info("User credentials with id {} deleted successfully", id);
-
     }
 
 }

@@ -24,7 +24,9 @@ public class SignUpRequestDTO {
     @NotBlank(message = "The collaborator's password cannot be blank")
     private String password;
 
-    private List<Long> roles;
+    @Schema(description = "The collaborator's roleIds", example = "1", requiredMode =
+            Schema.RequiredMode.REQUIRED)
+    private List<Long> roleIds;
 
     @Schema(description = "The collaborator's full name", example = "John Doe", requiredMode =
             Schema.RequiredMode.REQUIRED)
@@ -78,12 +80,12 @@ public class SignUpRequestDTO {
         this.password = password;
     }
 
-    public List<Long> getRoles() {
-        return roles;
+    public List<Long> getRoleIds() {
+        return roleIds;
     }
 
-    public void setRoles(List<Long> roles) {
-        this.roles = roles;
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 
     public String getFullName() {
@@ -140,7 +142,7 @@ public class SignUpRequestDTO {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles +
+                ", rolesIds=" + roleIds +
                 ", fullName='" + fullName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", birthDate=" + birthDate +
