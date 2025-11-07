@@ -22,9 +22,6 @@ public class UserCredentialsRequestDTO extends AbstractDTO {
             Schema.RequiredMode.REQUIRED)
     private List<Long> roleIds;
 
-    @Schema(description = "Object's current version", example = "1")
-    private Long version;
-
     public String getUsername() {
         return username;
     }
@@ -57,11 +54,4 @@ public class UserCredentialsRequestDTO extends AbstractDTO {
         this.roleIds = roleIds;
     }
 
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
 }

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -85,7 +86,7 @@ public class UserCredentialsController {
             }
     )
     @PutMapping()
-    public ResponseEntity<UserCredentialsResponseDTO> update(@RequestBody
+    public ResponseEntity<UserCredentialsResponseDTO> update(@Valid @RequestBody
                                                              UserCredentialsRequestDTO userCredentialsRequestDTO) {
         return userCredentialsService.update(userCredentialsRequestDTO);
     }

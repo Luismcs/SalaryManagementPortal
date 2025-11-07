@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -120,8 +121,12 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
                 .orElseThrow(() -> new UserCredentialsNotFound(ErrorResponseCode.USER_CREDENTIALS_NOT_FOUND,
                         404, ErrorMessage.ROLE_NOT_FOUND, userCredentialsRequestDTO.getId()));
 
+        if (!existing.getVersion().equals(userCredentialsRequestDTO.getVersion())) {
+            throw new ObjectOptimisticLockingFailureException(UserCredentials.class, userCredentialsRequestDTO.getId());
+        }
+
         existing.setUsername(userCredentialsRequestDTO.getUsername());
-        existing.setPassword(userCredentialsRequestDTO.getPassword());
+        existing.setPassword(passwordUtils.hash(userCredentialsRequestDTO.getPassword()));
         existing.setCorrelationId(userCredentialsRequestDTO.getCorrelationId());
         attachRolesToExistingUser(existing, userCredentialsRequestDTO);
 

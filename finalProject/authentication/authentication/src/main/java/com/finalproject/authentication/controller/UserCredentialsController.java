@@ -1,6 +1,5 @@
 package com.finalproject.authentication.controller;
 
-import com.finalproject.authentication.dto.UserCredentialsDTO;
 import com.finalproject.authentication.dto.UserCredentialsRequestDTO;
 import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.exception.RoleNotFoundException;

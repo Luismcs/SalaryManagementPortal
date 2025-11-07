@@ -4,6 +4,7 @@ import com.finalproject.authentication.dto.*;
 import com.finalproject.authentication.exception.BadCredentialsException;
 import com.finalproject.authentication.exception.RoleNotFoundException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
+import com.finalproject.authentication.exception.UsernameAlreadyExistsException;
 import com.finalproject.authentication.mapper.RoleMapper;
 import com.finalproject.authentication.mapper.UserCredentialsMapper;
 import com.finalproject.authentication.model.Role;
@@ -122,7 +123,7 @@ public class UserCredentialsServiceTest {
     }
 
     @Test
-    void userCredentialsService_create_returnsOneUserCredentialsDto() throws RoleNotFoundException {
+    void userCredentialsService_create_returnsOneUserCredentialsDto() throws RoleNotFoundException, UsernameAlreadyExistsException {
 
         //Act
         when(userCredentialsMapper.toEntity(userCredentialsDTO)).thenReturn(userCredentials);
