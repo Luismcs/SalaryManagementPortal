@@ -28,7 +28,6 @@ public class SalaryClientErrorDecoder implements ErrorDecoder {
         if (response.body() != null) {
 
             String responseBody = getErrorResponseToString(response);
-            System.out.println(responseBody);
 
             ErrorResponse errorResponse = objectMapper.readValue(responseBody, ErrorResponse.class);
 

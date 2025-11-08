@@ -3,14 +3,26 @@ package com.finalproject.authentication.model;
 import jakarta.persistence.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity(name = "user_credentials")
+@EntityListeners(AuditingEntityListener.class)
 @Audited
-public class UserCredentials extends AbstractEntity {
+public class UserCredentials {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private Long id;
 
     @Column
     private String username;
@@ -21,6 +33,26 @@ public class UserCredentials extends AbstractEntity {
     @Column
     private String correlationId;
 
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private Date createdDate;
+
+    @LastModifiedBy
+    @Column
+    private String lastModifiedBy;
+
+    @LastModifiedDate
+    @Column
+    private Date lastModifiedDate;
+
+    @Version
+    @Column()
+    private Long version;
+
     @OneToMany(mappedBy = "userCredentials", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserCredentialsRole> userCredentialsRoles = new HashSet<>();
 
@@ -29,9 +61,13 @@ public class UserCredentials extends AbstractEntity {
             CascadeType.REMOVE}, orphanRemoval = true)
     private List<RefreshToken> refreshTokens;
 
-    @Version
-    @Column()
-    private Long version;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -57,6 +93,46 @@ public class UserCredentials extends AbstractEntity {
         this.correlationId = correlationId;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     public Set<UserCredentialsRole> getUserCredentialsRoles() {
         return userCredentialsRoles;
     }
@@ -71,14 +147,6 @@ public class UserCredentials extends AbstractEntity {
 
     public void setRefreshTokens(List<RefreshToken> refreshTokens) {
         this.refreshTokens = refreshTokens;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     @Override
