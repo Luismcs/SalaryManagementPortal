@@ -2,6 +2,7 @@ package com.finalproject.portal.controller;
 
 import com.finalproject.portal.dto.UserCredentialsRequestDTO;
 import com.finalproject.portal.dto.UserCredentialsResponseDTO;
+import com.finalproject.portal.exception.CollaboratorNotFoundException;
 import com.finalproject.portal.service.UserCredentialsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -70,7 +71,8 @@ public class UserCredentialsController {
     )
     @PostMapping()
     public ResponseEntity<UserCredentialsResponseDTO> create(@RequestBody
-                                                             UserCredentialsRequestDTO userCredentialsRequestDTO) {
+                                                             UserCredentialsRequestDTO userCredentialsRequestDTO)
+            throws CollaboratorNotFoundException {
         return userCredentialsService.create(userCredentialsRequestDTO);
     }
 
@@ -87,7 +89,8 @@ public class UserCredentialsController {
     )
     @PutMapping()
     public ResponseEntity<UserCredentialsResponseDTO> update(@Valid @RequestBody
-                                                             UserCredentialsRequestDTO userCredentialsRequestDTO) {
+                                                             UserCredentialsRequestDTO userCredentialsRequestDTO)
+            throws CollaboratorNotFoundException {
         return userCredentialsService.update(userCredentialsRequestDTO);
     }
 
