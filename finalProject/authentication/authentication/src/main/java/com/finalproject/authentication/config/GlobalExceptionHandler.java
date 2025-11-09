@@ -1,9 +1,11 @@
 package com.finalproject.authentication.config;
 
+import com.finalproject.authentication.enums.ErrorResponseCode;
 import com.finalproject.authentication.exception.ErrorResponse;
 import com.finalproject.authentication.exception.*;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -82,6 +84,18 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(ex.getStatus()));
+    }
+
+    @ExceptionHandler({ObjectOptimisticLockingFailureException.class})
+    public ResponseEntity<ErrorResponse> handleObjectOptimisticLockingFailureException(ObjectOptimisticLockingFailureException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE,
+                409,
+                ErrorMessage.OPTIMISTIC_LOCKING_FAILURE,
+                ex.getIdentifier().toString(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(409));
     }
 
 

@@ -1,8 +1,11 @@
 package com.finalproject.portal.config;
 
+import com.finalproject.portal.enums.ErrorResponseCode;
 import com.finalproject.portal.exception.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -239,6 +242,18 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(customException.getStatus()));
+    }
+
+    @ExceptionHandler({ObjectOptimisticLockingFailureException.class})
+    public ResponseEntity<ErrorResponse> handleObjectOptimisticLockingFailureException(ObjectOptimisticLockingFailureException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE,
+                409,
+                ErrorMessage.OPTIMISTIC_LOCKING_FAILURE,
+                (String) ex.getIdentifier(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
 }

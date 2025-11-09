@@ -8,6 +8,8 @@ import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
 import lombok.SneakyThrows;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -47,6 +49,9 @@ public class UserCredentialsClientErrorDecoder implements ErrorDecoder {
                         throw new UsernameAlreadyExistsException(errorResponse.getErrorResponseCode(),
                                 errorResponse.getStatus(), errorResponse.getMessage(),
                                 errorResponse.getParams());
+                    }
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE) {
+                        throw new ObjectOptimisticLockingFailureException("UserCredentials", errorResponse.getParams());
                     }
             }
         }

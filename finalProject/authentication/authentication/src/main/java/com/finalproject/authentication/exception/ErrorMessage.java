@@ -9,5 +9,6 @@ public class ErrorMessage {
     public static final String USER_CREDENTIALS_NOT_FOUND = "User Credentials not found";
     public static final String ROLE_NOT_FOUND = "Role not found";
     public static final String USER_ALREADY_EXISTS = "User already exists";
+    public static final String OPTIMISTIC_LOCKING_FAILURE = "This entity has been updated by other operation";
 
 }
