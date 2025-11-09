@@ -1,12 +1,11 @@
 package com.finalproject.authentication.service;
 
 import com.finalproject.authentication.dto.*;
-import com.finalproject.authentication.exception.BadCredentialsException;
 import com.finalproject.authentication.exception.RoleNotFoundException;
 import com.finalproject.authentication.exception.UserCredentialsNotFound;
 import com.finalproject.authentication.exception.UsernameAlreadyExistsException;
-import com.finalproject.authentication.mapper.RoleMapper;
 import com.finalproject.authentication.mapper.UserCredentialsMapper;
+import com.finalproject.authentication.mapper.UserCredentialsRequestDTOMapper;
 import com.finalproject.authentication.model.Role;
 import com.finalproject.authentication.model.UserCredentials;
 import com.finalproject.authentication.model.UserCredentialsRole;
@@ -49,18 +48,21 @@ public class UserCredentialsServiceTest {
     private UserCredentialsMapper userCredentialsMapper;
 
     @Mock
-    private RoleMapper roleMapper;
+    private UserCredentialsRequestDTOMapper userCredentialsRequestDTOMapper;
+
+    @Mock
+    private RoleRepository roleRepository;
 
     @InjectMocks
     private UserCredentialsServiceImpl userCredentialsService;
 
     private UserCredentials userCredentials;
     private UserCredentialsRequestDTO userCredentialsRequestDTO;
-    private UserCredentialsDTO userCredentialsDTO;
+    private UserCredentialsResponseDTO userCredentialsResponseDTO;
     private String password;
-    private RoleDTO roleDTO = new RoleDTO();
     private Role role = new Role();
     private Long userCredentialsId;
+    private Long roleId;
 
     @BeforeEach
     void init() {
@@ -71,24 +73,25 @@ public class UserCredentialsServiceTest {
         userCredentials.setUsername("johndoe");
         userCredentials.setPassword("$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.");
         userCredentials.setCorrelationId("1");
-        userCredentialsDTO = new UserCredentialsDTO();
-        userCredentialsDTO.setUsername("johndoe");
-        userCredentialsDTO.setPassword("$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.");
-        userCredentialsDTO.setCorrelationId("1");
-        roleDTO.setName("ADMIN");
         role.setName("ADMIN");
-        userCredentialsDTO.setRoles(List.of(roleDTO));
         userCredentialsRequestDTO = new UserCredentialsRequestDTO();
         userCredentialsRequestDTO.setUsername("johndoe");
         userCredentialsRequestDTO.setPassword("$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.");
         userCredentialsRequestDTO.setCorrelationId("1");
-
+        userCredentialsRequestDTO.setRoleIds(List.of(1L));
+        userCredentialsResponseDTO = new UserCredentialsResponseDTO();
+        userCredentialsResponseDTO.setCorrelationId("1");
+        userCredentialsResponseDTO.setPassword("\"$2a$10$TSwblC5u/WXhazgbTgNO/uUAsKKlDfecvupV41KvQ8vEwlyvEBe1.\"");
+        userCredentialsResponseDTO.setRoles(List.of("ADMIN"));
+        userCredentialsResponseDTO.setUsername("johndoe");
+        userCredentialsResponseDTO.setId(1L);
         UserCredentialsRole userCredentialsRole = new UserCredentialsRole();
         userCredentialsRole.setRole(role);
         userCredentialsRole.setUserCredentials(userCredentials);
         Set<UserCredentialsRole> credentialsRoleSet = new HashSet<>();
         credentialsRoleSet.add(userCredentialsRole);
         userCredentials.setUserCredentialsRoles(credentialsRoleSet);
+        roleId = 1L;
     }
 
     @Test
@@ -100,7 +103,7 @@ public class UserCredentialsServiceTest {
 
         //Act
         when(userCredentialsRepository.findAll(Mockito.any(Pageable.class))).thenReturn(userCredentialsPage);
-        when(userCredentialsMapper.toDTO(userCredentials)).thenReturn(userCredentialsDTO);
+        when(userCredentialsMapper.toUserCredentialsResponseDTO(userCredentials)).thenReturn(userCredentialsResponseDTO);
         Page<UserCredentialsResponseDTO> result = userCredentialsService.getAll(pageable);
 
         //Assert
@@ -112,9 +115,12 @@ public class UserCredentialsServiceTest {
     void userCredentialsService_getById_returnsOneUserCredentialsDto() throws UserCredentialsNotFound {
 
         //Act
-        when(userCredentialsRepository.findById(userCredentials.getId())).thenReturn(Optional.ofNullable(userCredentials));
-        when(userCredentialsMapper.toDTO(userCredentials)).thenReturn(userCredentialsDTO);
-        UserCredentialsResponseDTO userCredentialsResponseDTO1 = userCredentialsService.getById(userCredentials.getId());
+        when(userCredentialsRepository
+                .findById(userCredentials.getId())).thenReturn(Optional.ofNullable(userCredentials));
+        when(userCredentialsMapper
+                .toUserCredentialsResponseDTO(userCredentials)).thenReturn(userCredentialsResponseDTO);
+        UserCredentialsResponseDTO userCredentialsResponseDTO1 = userCredentialsService
+                .getById(userCredentials.getId());
 
         //Assert
         assertThat(userCredentialsResponseDTO1).isNotNull();
@@ -123,13 +129,19 @@ public class UserCredentialsServiceTest {
     }
 
     @Test
-    void userCredentialsService_create_returnsOneUserCredentialsDto() throws RoleNotFoundException, UsernameAlreadyExistsException {
+    void userCredentialsService_create_returnsOneUserCredentialsDto() throws
+            RoleNotFoundException, UsernameAlreadyExistsException {
 
         //Act
-        when(userCredentialsMapper.toEntity(userCredentialsDTO)).thenReturn(userCredentials);
+        when(userCredentialsRepository.findByUsername(userCredentialsRequestDTO.getUsername()))
+                .thenReturn(Optional.empty());
+        when(userCredentialsRequestDTOMapper.toEntity(userCredentialsRequestDTO)).thenReturn(userCredentials);
+
+        when(roleRepository.findById(roleId)).thenReturn(Optional.of(role));
         when(passwordUtils.hash(userCredentials.getPassword())).thenReturn(password);
         when(userCredentialsRepository.save(userCredentials)).thenReturn(userCredentials);
-        when(userCredentialsMapper.toDTO(userCredentials)).thenReturn(userCredentialsDTO);
+        when(userCredentialsMapper.toUserCredentialsResponseDTO(userCredentials))
+                .thenReturn(userCredentialsResponseDTO);
         UserCredentialsResponseDTO userCredentialsDTO1 = userCredentialsService.create(userCredentialsRequestDTO);
 
         //Assert

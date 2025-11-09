@@ -1,7 +1,6 @@
 package com.finalproject.authentication.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finalproject.authentication.dto.UserCredentialsDTO;
 import com.finalproject.authentication.dto.UserCredentialsRequestDTO;
 import com.finalproject.authentication.dto.UserCredentialsResponseDTO;
 import com.finalproject.authentication.service.impl.UserCredentialsServiceImpl;

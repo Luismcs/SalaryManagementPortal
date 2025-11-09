@@ -41,6 +41,8 @@ public class AuthenticationServiceImpl {
 
         UserCredentialsRequestDTO userCredentialsRequestDTO =
                 signUpResponseDTOMapper.toUserCredentialsRequestDTO(signUpRequestDTO);
+        assert savedCollaborator.getBody() != null;
+        userCredentialsRequestDTO.setCorrelationId(savedCollaborator.getBody().getId().toString());
         ResponseEntity<UserCredentialsResponseDTO> savedUserCredentialsDTO = userCredentialsClient.create(userCredentialsRequestDTO);
 
         return signUpResponseDTOMapper.toSignUpResponseDTO(signUpRequestDTO,

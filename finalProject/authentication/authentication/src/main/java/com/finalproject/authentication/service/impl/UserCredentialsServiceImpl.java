@@ -52,9 +52,9 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     }
 
     public Page<UserCredentialsResponseDTO> getAll(Pageable pageable) {
-        Page<UserCredentials> collaborators = userCredentialsRepository.findAll(pageable);
+        Page<UserCredentials> userCredentials = userCredentialsRepository.findAll(pageable);
 
-        return collaborators.map(userCredentialsMapper::toUserCredentialsResponseDTO);
+        return userCredentials.map(userCredentialsMapper::toUserCredentialsResponseDTO);
     }
 
     public UserCredentialsResponseDTO getById(Long id) throws UserCredentialsNotFound {
