@@ -9,12 +9,12 @@ public interface CollaboratorService {
 
     Page<CollaboratorDTO> getAll(Pageable pageable);
 
-    CollaboratorDTO addCollaborator(CollaboratorDTO collaboratorDTO);
+    CollaboratorDTO add(CollaboratorDTO collaboratorDTO);
 
     CollaboratorDTO getById(Long id) throws CollaboratorNotFoundException;
 
-    CollaboratorDTO updateCollaborator(CollaboratorDTO collaboratorDTO) throws CollaboratorNotFoundException;
+    CollaboratorDTO update(CollaboratorDTO collaboratorDTO) throws CollaboratorNotFoundException;
 
-    void deleteCollaborator(Long id) throws CollaboratorNotFoundException;
+    void delete(Long id) throws CollaboratorNotFoundException;
 
 }

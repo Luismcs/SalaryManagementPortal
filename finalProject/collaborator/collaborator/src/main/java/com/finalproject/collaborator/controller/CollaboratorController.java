@@ -72,8 +72,8 @@ public class CollaboratorController {
             }
     )
     @PostMapping()
-    public ResponseEntity<CollaboratorDTO> create(@Valid @RequestBody CollaboratorDTO collaboratorDTO){
-        CollaboratorDTO savedCollaboratorDTO = collaboratorService.addCollaborator(collaboratorDTO);
+    public ResponseEntity<CollaboratorDTO> create(@Valid @RequestBody CollaboratorDTO collaboratorDTO) {
+        CollaboratorDTO savedCollaboratorDTO = collaboratorService.add(collaboratorDTO);
         return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
@@ -91,7 +91,7 @@ public class CollaboratorController {
     )
     @PutMapping()
     public ResponseEntity<CollaboratorDTO> update(@Valid @RequestBody CollaboratorDTO collaboratorDTO) throws CollaboratorNotFoundException {
-        CollaboratorDTO savedCollaboratorDTO = collaboratorService.updateCollaborator(collaboratorDTO);
+        CollaboratorDTO savedCollaboratorDTO = collaboratorService.update(collaboratorDTO);
         return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
@@ -108,7 +108,7 @@ public class CollaboratorController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<CollaboratorDTO> delete(@PathVariable long id) throws CollaboratorNotFoundException {
-        collaboratorService.deleteCollaborator(id);
+        collaboratorService.delete(id);
         return ResponseEntity.ok().build();
     }
 

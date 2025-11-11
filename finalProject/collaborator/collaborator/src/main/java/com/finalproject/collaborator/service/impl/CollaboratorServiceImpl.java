@@ -43,14 +43,14 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         return collaboratorMapper.toDTO(collaborator);
     }
 
-    public CollaboratorDTO addCollaborator(CollaboratorDTO collaboratorDTO) {
+    public CollaboratorDTO add(CollaboratorDTO collaboratorDTO) {
         Collaborator collaborator = collaboratorMapper.toEntity(collaboratorDTO);
         Collaborator savedCollaborator = collaboratorRepository.save(collaborator);
 
         return collaboratorMapper.toDTO(savedCollaborator);
     }
 
-    public CollaboratorDTO updateCollaborator(CollaboratorDTO collaboratorDTO) throws
+    public CollaboratorDTO update(CollaboratorDTO collaboratorDTO) throws
             CollaboratorNotFoundException {
         collaboratorRepository.findById(collaboratorDTO.getId()).orElseThrow(() ->
                 new CollaboratorNotFoundException(ErrorResponseCode.COLLABORATOR_NOT_FOUND
@@ -62,7 +62,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         return collaboratorMapper.toDTO(updatedCollaborator);
     }
 
-    public void deleteCollaborator(Long id) throws CollaboratorNotFoundException {
+    public void delete(Long id) throws CollaboratorNotFoundException {
         collaboratorRepository.findById(id).orElseThrow(() -> new
                 CollaboratorNotFoundException(ErrorResponseCode.COLLABORATOR_NOT_FOUND,
                 404, ErrorMessage.COLLABORATOR_NOT_FOUND, id));

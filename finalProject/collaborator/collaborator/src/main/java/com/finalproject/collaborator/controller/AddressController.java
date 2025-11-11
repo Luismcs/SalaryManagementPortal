@@ -46,22 +46,6 @@ public class AddressController {
     }
 
     @Operation(
-            summary = "Creates a address",
-            description = "Returns the created address",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Address created successfully",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = AddressDTO.class))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            }
-    )
-    @PostMapping()
-    public ResponseEntity<AddressDTO> create(@Valid @RequestBody AddressDTO addressDTO) throws CollaboratorNotFoundException {
-        AddressDTO savedCollaboratorDTO = addressService.addAddress(addressDTO);
-        return ResponseEntity.ok(savedCollaboratorDTO);
-    }
-
-    @Operation(
             summary = "Gets a address by id",
             description = "Returns a address ",
             responses = {
@@ -76,6 +60,22 @@ public class AddressController {
     public ResponseEntity<AddressDTO> getById(@PathVariable long id) throws AddressNotFoundException {
         AddressDTO foundCollaboratorDTO = addressService.getById(id);
         return ResponseEntity.ok(foundCollaboratorDTO);
+    }
+
+    @Operation(
+            summary = "Creates a address",
+            description = "Returns the created address",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Address created successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = AddressDTO.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
+    @PostMapping()
+    public ResponseEntity<AddressDTO> create(@Valid @RequestBody AddressDTO addressDTO) throws CollaboratorNotFoundException {
+        AddressDTO savedCollaboratorDTO = addressService.addAddress(addressDTO);
+        return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
     @Operation(

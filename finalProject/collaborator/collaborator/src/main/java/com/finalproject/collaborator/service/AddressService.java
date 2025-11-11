@@ -16,10 +16,10 @@ public interface AddressService {
 
     AddressDTO getById(Long id) throws AddressNotFoundException;
 
-    AddressDTO addAddress(AddressDTO addressDto) throws CollaboratorNotFoundException;
+    AddressDTO add(AddressDTO addressDto) throws CollaboratorNotFoundException;
 
-    AddressDTO updateAddress(AddressDTO addressDto) throws AddressNotFoundException, CollaboratorNotFoundException;
+    AddressDTO update(AddressDTO addressDto) throws AddressNotFoundException, CollaboratorNotFoundException;
 
-    void deleteAddress(Long id) throws AddressNotFoundException;
+    void delete(Long id) throws AddressNotFoundException;
 
 }

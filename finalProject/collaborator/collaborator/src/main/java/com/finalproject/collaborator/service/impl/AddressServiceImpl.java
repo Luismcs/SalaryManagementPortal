@@ -49,7 +49,7 @@ public class AddressServiceImpl implements AddressService {
         return addressMapper.toDTO(address);
     }
 
-    public AddressDTO addAddress(AddressDTO addressDto) throws CollaboratorNotFoundException {
+    public AddressDTO add(AddressDTO addressDto) throws CollaboratorNotFoundException {
         Address address = addressMapper.toEntity(addressDto);
         Collaborator collaborator =
                 collaboratorRepository.findById(addressDto.getCollaboratorId()).orElseThrow(() ->
@@ -61,7 +61,7 @@ public class AddressServiceImpl implements AddressService {
         return addressMapper.toDTO(addressRepository.save(address));
     }
 
-    public AddressDTO updateAddress(AddressDTO addressDto) throws AddressNotFoundException,
+    public AddressDTO update(AddressDTO addressDto) throws AddressNotFoundException,
             CollaboratorNotFoundException {
         Address existingAddress = addressRepository.findById(addressDto.getId()).orElseThrow(() ->
                 new AddressNotFoundException(ErrorResponseCode.ADDRESS_NOT_FOUND,
@@ -78,7 +78,7 @@ public class AddressServiceImpl implements AddressService {
         return addressMapper.toDTO(updatedAddress);
     }
 
-    public void deleteAddress(Long id) throws AddressNotFoundException {
+    public void delete(Long id) throws AddressNotFoundException {
         addressRepository.findById(id).orElseThrow(() ->
                 new AddressNotFoundException(ErrorResponseCode.ADDRESS_NOT_FOUND,
                         404, ErrorMessage.ADDRESS_NOT_FOUND, id));
