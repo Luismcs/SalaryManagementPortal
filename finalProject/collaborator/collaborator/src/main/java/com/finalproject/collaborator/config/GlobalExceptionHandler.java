@@ -1,8 +1,10 @@
 package com.finalproject.collaborator.config;
 
+import com.finalproject.collaborator.enums.ErrorResponseCode;
 import com.finalproject.collaborator.exception.*;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -45,6 +47,18 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(customException.getStatus()));
+    }
+
+    @ExceptionHandler({ObjectOptimisticLockingFailureException.class})
+    public ResponseEntity<ErrorResponse> handleObjectOptimisticLockingFailureException(ObjectOptimisticLockingFailureException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE,
+                409,
+                ErrorMessage.OPTIMISTIC_LOCKING_FAILURE,
+                ex.getIdentifier().toString(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(409));
     }
 
 

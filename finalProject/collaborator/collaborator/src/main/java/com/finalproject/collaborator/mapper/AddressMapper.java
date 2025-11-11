@@ -4,6 +4,7 @@ import com.finalproject.collaborator.dto.AddressDTO;
 import com.finalproject.collaborator.model.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -18,5 +19,8 @@ public interface AddressMapper {
 
     List<AddressDTO> toDTOList(List<Address> addresses);
 
+    @Mapping(target = "collaborator", ignore = true)
+    @Mapping(target = "version", ignore = true)
+    void updateEntityFromDTO(AddressDTO dto, @MappingTarget Address entity);
 
 }
