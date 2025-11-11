@@ -63,19 +63,19 @@ public class AddressServiceImpl implements AddressService {
 
     public AddressDTO updateAddress(AddressDTO addressDto) throws AddressNotFoundException,
             CollaboratorNotFoundException {
-        addressRepository.findById(addressDto.getId()).orElseThrow(() ->
+        Address existingAddress = addressRepository.findById(addressDto.getId()).orElseThrow(() ->
                 new AddressNotFoundException(ErrorResponseCode.ADDRESS_NOT_FOUND,
                         404, ErrorMessage.ADDRESS_NOT_FOUND, addressDto.getId()));
+        Collaborator collaborator = collaboratorRepository.findById(addressDto.getCollaboratorId()).orElseThrow(() -> new
+                CollaboratorNotFoundException(ErrorResponseCode.COLLABORATOR_NOT_FOUND,
+                404, ErrorMessage.COLLABORATOR_NOT_FOUND, addressDto.getCollaboratorId()));
 
-        Collaborator collaborator =
-                collaboratorRepository.findById(addressDto.getCollaboratorId()).orElseThrow(() -> new
-                        CollaboratorNotFoundException(ErrorResponseCode.COLLABORATOR_NOT_FOUND,
-                        404, ErrorMessage.COLLABORATOR_NOT_FOUND, addressDto.getCollaboratorId()));
-
-        Address updatedAddress = addressMapper.toEntity(addressDto);
-        updatedAddress.setCollaborator(collaborator);
-
-        return addressMapper.toDTO(addressRepository.save(updatedAddress));
+        addressMapper.updateEntityFromDTO(addressDto, existingAddress);
+        existingAddress.setCollaborator(collaborator);
+        System.out.println(addressDto.getVersion());
+        System.out.println(existingAddress.getVersion());
+        Address updatedAddress = addressRepository.save(existingAddress);
+        return addressMapper.toDTO(updatedAddress);
     }
 
     public void deleteAddress(Long id) throws AddressNotFoundException {
