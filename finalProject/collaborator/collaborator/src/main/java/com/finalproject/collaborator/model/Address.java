@@ -5,7 +5,6 @@ import lombok.Builder;
 import org.hibernate.envers.Audited;
 
 @Entity(name = "addresses")
-@Builder
 @Audited
 public class Address extends AbstractEntity {
 

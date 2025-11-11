@@ -9,6 +9,7 @@ import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
 import lombok.SneakyThrows;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -37,6 +38,10 @@ public class CollaboratorClientErrorDecoder implements ErrorDecoder {
                         throw new CollaboratorNotFoundException(errorResponse.getErrorResponseCode(),
                                 errorResponse.getStatus(), errorResponse.getMessage(),
                                 errorResponse.getParams());
+                    }
+                case 409:
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE) {
+                        throw new ObjectOptimisticLockingFailureException(errorResponse.getClass(), errorResponse.getParams());
                     }
             }
         }
