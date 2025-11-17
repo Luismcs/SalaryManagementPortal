@@ -12,5 +12,6 @@ public class ErrorMessage {
     public static String SALARY_CANNOT_BE_UPDATED_ANYMORE = "Salary cannot be updated anymore";
     public static String DUPLICATED_SALARY_FOR_IMPLEMENTATION_DATE = "There is already a salary for this user on this " +
             "implementation date";
+    public static final String OPTIMISTIC_LOCKING_FAILURE = "This entity has been updated by other operation";
 
 }

@@ -74,7 +74,7 @@ public class AddressController {
     )
     @PostMapping()
     public ResponseEntity<AddressDTO> create(@Valid @RequestBody AddressDTO addressDTO) throws CollaboratorNotFoundException {
-        AddressDTO savedCollaboratorDTO = addressService.addAddress(addressDTO);
+        AddressDTO savedCollaboratorDTO = addressService.add(addressDTO);
         return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
@@ -92,7 +92,7 @@ public class AddressController {
     )
     @PutMapping()
     public ResponseEntity<AddressDTO> update(@Valid @RequestBody AddressDTO addressDTO) throws CollaboratorNotFoundException, AddressNotFoundException {
-        AddressDTO savedCollaboratorDTO = addressService.updateAddress(addressDTO);
+        AddressDTO savedCollaboratorDTO = addressService.update(addressDTO);
         return ResponseEntity.ok(savedCollaboratorDTO);
     }
 
@@ -109,7 +109,7 @@ public class AddressController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<AddressDTO> delete(@PathVariable long id) throws AddressNotFoundException {
-        addressService.deleteAddress(id);
+        addressService.delete(id);
         return ResponseEntity.ok().build();
     }
 

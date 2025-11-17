@@ -8,6 +8,7 @@ import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
 import lombok.SneakyThrows;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -69,6 +70,9 @@ public class SalaryClientErrorDecoder implements ErrorDecoder {
                     if (errorResponse.getErrorResponseCode() == ErrorResponseCode.DUPLICATED_SALARY_FOR_IMPLEMENTATION_DATE) {
                         throw new DuplicateSalaryForImplementationDateException(ErrorResponseCode.DUPLICATED_SALARY_FOR_IMPLEMENTATION_DATE, 409,
                                 errorResponse.getMessage(), LocalDate.parse(errorResponse.getParams()));
+                    }
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE) {
+                        throw new ObjectOptimisticLockingFailureException(errorResponse.getClass(), errorResponse.getParams());
                     }
 
             }
