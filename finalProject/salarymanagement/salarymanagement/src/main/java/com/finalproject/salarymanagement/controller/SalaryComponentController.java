@@ -4,6 +4,7 @@ import com.finalproject.salarymanagement.dto.SalaryComponentDTO;
 import com.finalproject.salarymanagement.exception.ComponentTypeNotFoundException;
 import com.finalproject.salarymanagement.exception.ComponentTypeSubtypeNotFoundException;
 import com.finalproject.salarymanagement.exception.SalaryComponentNotFoundException;
+import com.finalproject.salarymanagement.exception.SalaryNotFoundException;
 import com.finalproject.salarymanagement.service.impl.SalaryComponentServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -64,22 +65,6 @@ public class SalaryComponentController {
     }
 
     @Operation(
-            summary = "Updates a Salary Component",
-            description = "Returns the updated Salary Component",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Salary Component updated successfully",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = SalaryComponentDTO.class))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-            }
-    )
-    @PutMapping()
-    public ResponseEntity<SalaryComponentDTO> update(@Valid @RequestBody SalaryComponentDTO salaryComponentDTO) throws ComponentTypeSubtypeNotFoundException, ComponentTypeNotFoundException {
-        SalaryComponentDTO createdSalaryComponentDTO = salaryComponentService.update(salaryComponentDTO);
-        return ResponseEntity.ok(createdSalaryComponentDTO);
-    }
-
-    @Operation(
             summary = "Creates a Salary Component",
             description = "Returns the created Salary Component",
             responses = {
@@ -94,6 +79,22 @@ public class SalaryComponentController {
     @PostMapping()
     public ResponseEntity<SalaryComponentDTO> create(@Valid @RequestBody SalaryComponentDTO salaryComponentDTO) throws ComponentTypeSubtypeNotFoundException, ComponentTypeNotFoundException {
         SalaryComponentDTO createdSalaryComponentDTO = salaryComponentService.create(salaryComponentDTO);
+        return ResponseEntity.ok(createdSalaryComponentDTO);
+    }
+
+    @Operation(
+            summary = "Updates a Salary Component",
+            description = "Returns the updated Salary Component",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Salary Component updated successfully",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = SalaryComponentDTO.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            }
+    )
+    @PutMapping()
+    public ResponseEntity<SalaryComponentDTO> update(@Valid @RequestBody SalaryComponentDTO salaryComponentDTO) throws ComponentTypeSubtypeNotFoundException, ComponentTypeNotFoundException, SalaryNotFoundException {
+        SalaryComponentDTO createdSalaryComponentDTO = salaryComponentService.update(salaryComponentDTO);
         return ResponseEntity.ok(createdSalaryComponentDTO);
     }
 

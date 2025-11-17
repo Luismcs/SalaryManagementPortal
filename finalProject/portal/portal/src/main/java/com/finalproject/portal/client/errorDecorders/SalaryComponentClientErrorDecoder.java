@@ -10,6 +10,7 @@ import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
 import lombok.SneakyThrows;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -39,14 +40,20 @@ public class SalaryComponentClientErrorDecoder implements ErrorDecoder {
                                 errorResponse.getMessage(), Long.parseLong(errorResponse.getParams()));
                     }
                     if (errorResponse.getErrorResponseCode() == ErrorResponseCode.COMPONENT_TYPE_SUBTYPE_NOT_FOUND) {
-                        throw new ComponentTypeSubtypeNotFoundException(ErrorResponseCode.COMPONENT_TYPE_SUBTYPE_NOT_FOUND, 404,
+                        throw new ComponentTypeSubtypeNotFoundException(ErrorResponseCode
+                                .COMPONENT_TYPE_SUBTYPE_NOT_FOUND, 404,
                                 errorResponse.getMessage(), Long.parseLong(errorResponse.getParams()));
                     }
                     if (errorResponse.getErrorResponseCode() == ErrorResponseCode.SALARY_COMPONENT_NOT_FOUND) {
-                        throw new ComponentTypeSubtypeNotFoundException(ErrorResponseCode.SALARY_COMPONENT_NOT_FOUND, 404,
-                                errorResponse.getMessage(), Long.parseLong(errorResponse.getParams()));
+                        throw new ComponentTypeSubtypeNotFoundException(ErrorResponseCode.
+                                SALARY_COMPONENT_NOT_FOUND, 404, errorResponse.getMessage()
+                                , Long.parseLong(errorResponse.getParams()));
                     }
-
+                case 409:
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE) {
+                        throw new ObjectOptimisticLockingFailureException(errorResponse
+                                .getClass(), errorResponse.getParams());
+                    }
             }
         }
 

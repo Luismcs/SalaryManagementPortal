@@ -2,10 +2,7 @@ package com.finalproject.salarymanagement.service.impl;
 
 import com.finalproject.salarymanagement.dto.SalaryComponentDTO;
 import com.finalproject.salarymanagement.enums.ErrorResponseCode;
-import com.finalproject.salarymanagement.exception.ComponentTypeNotFoundException;
-import com.finalproject.salarymanagement.exception.ComponentTypeSubtypeNotFoundException;
-import com.finalproject.salarymanagement.exception.ErrorMessage;
-import com.finalproject.salarymanagement.exception.SalaryComponentNotFoundException;
+import com.finalproject.salarymanagement.exception.*;
 import com.finalproject.salarymanagement.mapper.SalaryComponentMapper;
 import com.finalproject.salarymanagement.model.ComponentType;
 import com.finalproject.salarymanagement.model.ComponentTypeSubtype;
@@ -104,7 +101,7 @@ public class SalaryComponentServiceImpl implements SalaryComponentService {
     }
 
     public SalaryComponentDTO update(SalaryComponentDTO salaryComponentDTO) throws ComponentTypeNotFoundException,
-            ComponentTypeSubtypeNotFoundException {
+            ComponentTypeSubtypeNotFoundException, SalaryNotFoundException {
 
         SalaryComponent salaryComponent = salaryComponentMapper.toEntity(salaryComponentDTO, componentTypeRepository,
                 componentTypeSubtypeRepository);
@@ -131,7 +128,7 @@ public class SalaryComponentServiceImpl implements SalaryComponentService {
                 salaryRepository.findById(salaryComponentDTO.getSalaryId());
 
         if (salary.isEmpty()) {
-            throw new ComponentTypeSubtypeNotFoundException(ErrorResponseCode.SALARY_NOT_FOUND, 404,
+            throw new SalaryNotFoundException(ErrorResponseCode.SALARY_NOT_FOUND, 404,
                     ErrorMessage.SALARY_NOT_FOUND,
                     salaryComponentDTO.getSalaryId());
         }
