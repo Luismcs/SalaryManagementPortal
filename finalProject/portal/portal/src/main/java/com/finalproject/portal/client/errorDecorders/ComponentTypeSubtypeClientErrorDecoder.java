@@ -10,6 +10,7 @@ import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
 import lombok.SneakyThrows;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -35,14 +36,22 @@ public class ComponentTypeSubtypeClientErrorDecoder implements ErrorDecoder {
             switch (response.status()) {
                 case 404:
                     if (errorResponse.getErrorResponseCode() == ErrorResponseCode.COMPONENT_TYPE_NOT_FOUND) {
-                        throw new ComponentTypeNotFoundException(ErrorResponseCode.COMPONENT_TYPE_NOT_FOUND, 404,
-                                errorResponse.getMessage(), Long.parseLong(errorResponse.getParams()));
+                        throw new ComponentTypeNotFoundException(ErrorResponseCode.COMPONENT_TYPE_NOT_FOUND,
+                                404,
+                                errorResponse.getMessage(),
+                                Long.parseLong(errorResponse.getParams()));
                     }
                     if (errorResponse.getErrorResponseCode() == ErrorResponseCode.COMPONENT_TYPE_SUBTYPE_NOT_FOUND) {
-                        throw new ComponentTypeSubtypeNotFoundException(ErrorResponseCode.COMPONENT_TYPE_SUBTYPE_NOT_FOUND, 404,
-                                errorResponse.getMessage(), Long.parseLong(errorResponse.getParams()));
+                        throw new ComponentTypeSubtypeNotFoundException(
+                                ErrorResponseCode.COMPONENT_TYPE_SUBTYPE_NOT_FOUND, 404,
+                                errorResponse.getMessage(),
+                                Long.parseLong(errorResponse.getParams()));
                     }
-
+                case 409:
+                    if (errorResponse.getErrorResponseCode() == ErrorResponseCode.OPTIMISTIC_LOCKING_FAILURE) {
+                        throw new ObjectOptimisticLockingFailureException(errorResponse.getClass(),
+                                errorResponse.getParams());
+                    }
             }
         }
 
