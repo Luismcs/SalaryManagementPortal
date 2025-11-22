@@ -3,10 +3,12 @@ package com.finalproject.salarymanagement.model;
 import jakarta.persistence.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
 
 @Entity(name = "component_types")
+@EntityListeners(AuditingEntityListener.class)
 @Audited
 public class ComponentType extends AbstractEntity {
 

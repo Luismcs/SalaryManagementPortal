@@ -34,14 +34,6 @@ public class AbstractEntity {
     @Column
     private Date lastModifiedDate;
 
-    @PrePersist
-    public void onPrePersist() {
-        this.setCreatedBy("SYSTEM");
-        this.setCreatedDate(new Date());
-        this.setLastModifiedBy("SYSTEM");
-        this.setLastModifiedDate(new Date());
-    }
-
     public Long getId() {
         return id;
     }

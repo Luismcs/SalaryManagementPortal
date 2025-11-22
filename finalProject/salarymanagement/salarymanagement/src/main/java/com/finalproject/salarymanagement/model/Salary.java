@@ -4,11 +4,13 @@ import com.finalproject.salarymanagement.enums.SalaryState;
 import jakarta.persistence.*;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Audited
 public class Salary extends AbstractEntity {
 

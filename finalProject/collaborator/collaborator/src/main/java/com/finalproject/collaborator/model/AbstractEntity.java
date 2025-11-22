@@ -38,12 +38,6 @@ public class AbstractEntity {
     @Column(name = "version")
     private Long version;
 
-    @PrePersist
-    public void onPrePersist() {
-        this.setCreatedDate(new Date());
-        this.setLastModifiedDate(new Date());
-    }
-
     public Long getId() {
         return id;
     }
