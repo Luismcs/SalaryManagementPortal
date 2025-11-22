@@ -70,11 +70,9 @@ public class AddressServiceImpl implements AddressService {
                 CollaboratorNotFoundException(ErrorResponseCode.COLLABORATOR_NOT_FOUND,
                 404, ErrorMessage.COLLABORATOR_NOT_FOUND, addressDto.getCollaboratorId()));
 
-        addressMapper.updateEntityFromDTO(addressDto, existingAddress);
-        existingAddress.setCollaborator(collaborator);
-        System.out.println(addressDto.getVersion());
-        System.out.println(existingAddress.getVersion());
+        addressMapper.updateAddressFromDTO(addressDto, existingAddress, collaborator);
         Address updatedAddress = addressRepository.save(existingAddress);
+
         return addressMapper.toDTO(updatedAddress);
     }
 

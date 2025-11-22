@@ -2,11 +2,11 @@ package com.finalproject.collaborator.mapper;
 
 import com.finalproject.collaborator.dto.AddressDTO;
 import com.finalproject.collaborator.model.Address;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import com.finalproject.collaborator.model.Collaborator;
+import org.mapstruct.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
@@ -19,8 +19,15 @@ public interface AddressMapper {
 
     List<AddressDTO> toDTOList(List<Address> addresses);
 
+    //Update Address methods
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "collaborator", ignore = true)
     @Mapping(target = "version", ignore = true)
-    void updateEntityFromDTO(AddressDTO dto, @MappingTarget Address entity);
+    void updateAddressFromDTO(AddressDTO dto, @MappingTarget Address existingAddress, @Context Collaborator collaborator);
 
+    @AfterMapping
+    default void setCollaborator(@MappingTarget Address existingAddress, @Context Collaborator collaborator) {
+        existingAddress.setCollaborator(collaborator);
+    }
 }
